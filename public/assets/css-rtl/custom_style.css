@@ -1,0 +1,59 @@
+body{
+    font-family: 'Tajawal', sans-serif !important;
+}
+/********************************************** Start  message request   ***************************/
+.error,.success{
+    padding: 20px;
+    color: white;
+    opacity: 0.97;
+}
+.alert-error {
+    background-color: #f44336;
+    box-shadow: 1px 1px 9px #f44336;
+}
+.alert-success {
+    background-color: #6BBD6E;
+    box-shadow: 1px 1px 9px  #6BBD6E;
+}
+/********************************************** End  message request   ***************************/
+
+/********************************************** Start scroll bar for sidebar **********************/
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+    width: 10px !important;
+    background-color: #464242 !important;
+    height: 200px !important;
+    transition: none;
+}
+/********************************************** Start scroll bar for sidebar **********************/
+
+/********************************************** Start  sidebar menu  **********************/
+.custom_style_icon{
+    padding-right: 4px !important;
+    padding-left:18px !important;
+    color: #222 !important;
+}
+.side-menu .slide.active .side-menu__label, .side-menu .slide.active .side-menu__icon {
+    color: #2e3033;
+}
+
+.side-menu__item.active, .side-menu__item:hover, .side-menu__item:focus{ color: #2e3033;}
+.side-menu .slide .side-menu__item:hover{
+    background-color: #dfecdf;
+    transition: .3s;
+}
+.app-sidebar .slide.active .side-menu__icon {
+    fill: #222 !important;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #292929;
+    border-color: #292929;
+    transition:all .3s ease;
+}
+.btn-primary:hover,
+.btn-primary:focus{
+    background-color: #292929;
+    border-color: #292929;
+}
+
+/********************************************** End  sidebar menu  **********************/
