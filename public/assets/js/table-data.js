@@ -2,7 +2,7 @@ $(function(e) {
 	//file export datatable
 	var table = $('#example').DataTable({
 		lengthChange: false,
-		buttons: ['excel', 'pdf' ],// + visible columns
+		buttons: ['excel', 'pdf', 'colvis'],
 		responsive: false,
 		language: {
 			searchPlaceholder: 'Search...',
@@ -13,7 +13,10 @@ $(function(e) {
         fixedColumns: true
 	});
 	table.buttons().container()
-	.appendTo( '#example_wrapper .col-md-6:eq(0)' );		
+	.appendTo( '#example_wrapper .col-md-6:eq(0)' );	
+	
+	
+	
 	
 	$('#example1').DataTable({
 		responsive: true,
@@ -55,7 +58,7 @@ $(function(e) {
 	
 	//Details display datatable
 	$('#example-1').DataTable( {
-		responsive: true,
+		responsive: false,
 		language: {
 			searchPlaceholder: 'Search...',
 			sSearch: '',

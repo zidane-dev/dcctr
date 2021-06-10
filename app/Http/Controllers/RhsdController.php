@@ -15,7 +15,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
@@ -27,8 +26,8 @@ class RhsdController extends Controller
         $this->middleware(['permission:create-rhsds'])->only(['create', 'store']);
         $this->middleware(['permission:edit-rhsds'])->only(['edit', 'update']);
         $this->middleware(['permission:delete-rhsds'])->only('destroy');
-
     }
+
     public function index($year = null){
         $userRole = $this->getUserRole();
         if(Auth::user()->hasPermissionTo('dcsasd')) {
@@ -43,8 +42,8 @@ class RhsdController extends Controller
                 $rows_count = $this->get_count($userRole, 2);
             }
             else{
-                $rh_v = $this->getRH_byRole($userRole, 'public', null, $year);
                 $backfirst = 1;
+                $rh_v = $this->getRH_byRole($userRole, 'public', null, $year);  
                 $rows_count = $this->get_count($userRole, 2, null, $year);
             }
             $rh_sum = $rh_v->groupBy('ANNEESD');
@@ -102,11 +101,11 @@ class RhsdController extends Controller
     public function get_validation(Request $request){
         $this->getBadgeRefresh($request);
         $userRole = $this->getUserRole();
-        $rhsds = $this->getRH_byRole($userRole);
+        $datas = $this->getRH_byRole($userRole);
         //////////////////////////////////////////////////////////////////////////////// COUNTS
         $rows_count = $this->get_count($userRole);
         
-        return view('parametres.3.rhsds.validation', compact('rhsds','rows_count'));
+        return view('validations.rhs', compact('datas','rows_count'));
     }
     public function getRH_byRole($userRole, $public = null, $choice = null, $year = null){
         // 1 - Get RH with corresponding ETATSD and REJETSD
@@ -125,7 +124,7 @@ class RhsdController extends Controller
                     break;
                 case 'point focal':
                     $rh =  Rhsd::select('id','OBJECTIFSD','REALISATIONSD','ANNEESD', 'ECARTSD','ETATSD','REJETSD','id_qualite','id_domaine','id_axe','id_user','Description','Motif', 'updated_at as date')
-                                        ->where('ETATSD', '=',0)
+                                        ->where('ETATSD', '=', 0)
                                         ->WhereIn('REJETSD',[0,1]);
                     break;
                 case 'cs': 
@@ -135,28 +134,28 @@ class RhsdController extends Controller
                     break;
                 case 'd-p':
                     $rh =  Rhsd::select('id','OBJECTIFSD','REALISATIONSD','ANNEESD', 'ECARTSD','ETATSD','REJETSD','id_qualite','id_domaine','id_axe','id_user','Description','Motif', 'updated_at as date')
-                                        ->where('ETATSD', '=',2)
-                                        ->Where('REJETSD', '=',0);
+                                        ->where('ETATSD', '=', 2)
+                                        ->Where('REJETSD', '=', 0);
                     break;
                 case 'd-r':
                     $rh =  Rhsd::select('id','OBJECTIFSD','REALISATIONSD','ANNEESD', 'ECARTSD','ETATSD','REJETSD','id_qualite','id_domaine','id_axe','id_user','Description','Motif', 'updated_at as date')
-                                        ->where('ETATSD', '=',3)
-                                        ->Where('REJETSD', '=',0);
+                                        ->where('ETATSD', '=', 3)
+                                        ->Where('REJETSD', '=', 0);
                     break;
                 case 'dcs':
                     $rh =  Rhsd::select('id','OBJECTIFSD','REALISATIONSD','ANNEESD', 'ECARTSD','ETATSD','REJETSD','id_qualite','id_domaine','id_axe','id_user','Description','Motif', 'updated_at as date')
-                                        ->where('ETATSD', '=',4)
-                                        ->Where('REJETSD', '=',0);
+                                        ->where('ETATSD', '=', 4)
+                                        ->Where('REJETSD', '=', 0);
                     break;
                 case 'dcd':
                     $rh =  Rhsd::select('id','OBJECTIFSD','REALISATIONSD','ANNEESD', 'ECARTSD','ETATSD','REJETSD','id_qualite','id_domaine','id_axe','id_user','Description','Motif', 'updated_at as date')
-                                        ->where('ETATSD', '=',5)
-                                        ->Where('REJETSD', '=',0);
+                                        ->where('ETATSD', '=', 5)
+                                        ->Where('REJETSD', '=', 0);
                     break;
                 case 'dd':
                     $rh =  Rhsd::select('id','OBJECTIFSD','REALISATIONSD','ANNEESD', 'ECARTSD','ETATSD','REJETSD','id_qualite','id_domaine','id_axe','id_user','Description','Motif', 'updated_at as date')
-                                        ->where('ETATSD', '=',5)
-                                        ->Where('REJETSD', '=',0);
+                                        ->where('ETATSD', '=', 5)
+                                        ->Where('REJETSD', '=', 0);
                     break;
                 default:
                     //fix
@@ -282,7 +281,7 @@ class RhsdController extends Controller
             if($validated_rhs->count() > 0){
                 $validated_rh = $validated_rhs->first();
                 if($validated_rh->OBJECTIFSD != $request->objectif){
-                    Session::flash('error',__('rhsd.obj exists and different')."<br/>".__('rhsd.supprimez cette ligne'));
+                    Session::flash('error',__('rhsd.obj exists and different')." ".__('rhsd.supprimez cette ligne'));
                     return redirect()->back();
                 }
             }
@@ -304,7 +303,7 @@ class RhsdController extends Controller
             Session::flash('success',__('rhsd.rhsd success in add'));
             $this->getBadgeRefresh($request);
 
-            return back();
+            return redirect()->back();
         }
     }
     public function nouvelle_realisation($id){
@@ -326,7 +325,9 @@ class RhsdController extends Controller
         $uss = User::where('id', Auth::id())->first();
         $userRole = $uss->roles->pluck('name')->first();
         
-        $rh = $rh->where('id_domaine', '=', $rh_selected->id_domaine)->where('id_qualite', '=', $rh_selected->id_qualite);
+        $rh = $rh->where('id_domaine', '=', $rh_selected->id_domaine)
+                ->where('ANNEESD', '=', $rh_selected->ANNEESD)
+                ->where('id_qualite', '=', $rh_selected->id_qualite);
 
         $rhsds = $rh->with(
             ['qualite' => function($q){
@@ -402,7 +403,6 @@ class RhsdController extends Controller
         return $this->get_validation($request);
     }
     public function update_goal(Request $request){
-        // dd($request);
         $rh = Rhsd::where('id', '=', $request->id)->first();
         
         Rhsd::where('id_domaine', '=', $rh->id_domaine)
@@ -420,20 +420,21 @@ class RhsdController extends Controller
         //the role of user authentifié
         switch ($userRole) {
             case 's-a':         echo ('Task unavailable');                   break;
-            case 'point focal': $newState = 1;  $supposedState = [0];        break;
+            case 'point focal': $newState = 1;  $supposedState = [0];        break; // pf
             case 'cs':          
                 if($uss->domaine->type === "Direction Régionale"){
                     $newState = 3;  $supposedState = [0, 1];     }                  // cs r
                 else{
                     $newState = 2;  $supposedState = [0, 1];     }                  // cs p
-                break; // sd
+                                                                             break; 
             case 'd-p':         $newState = 3;  $supposedState = [2];        break; // sd p
             case 'd-r':         $newState = 4;  $supposedState = [3];        break; // sd r
             case 'dcs':         $newState = 5;  $supposedState = [4];        break; // dc cs
             case 'dcd':         $newState = 6;  $supposedState = [5];        break; // dc cd
-            case 'dcsasd':      $newState = 5;  $supposedState = [6];        break; // dc d
+            case 'dd':          $newState = 6;  $supposedState = [5];        break; // dc d
             default:            echo ('Unauthorized guest');                 //fix        
         }
+
         if($newState == 6){
             foreach($update_state_ids as $selected_id){
                 $selected_rh = Rhsd::where('id', '=', $selected_id)->first();
@@ -444,8 +445,8 @@ class RhsdController extends Controller
                 if($validated_rhs->count() > 0){
                     $validated_rh = $validated_rhs->first();
                     if($validated_rh->OBJECTIFSD != $selected_rh->OBJECTIFSD){
-                        Session::flash('error',__('rhsd.obj exists and different').' '.__('rhsd.supprimez cette ligne'));
-                        return redirect()->back();
+                        Session::flash('error',__('rhsd.obj exists and different').' '.__('rhsd.supprimez cette ligne').' '.__('rhsd.corriger objectif'));
+                        return redirect()->route('rhs.validation');
                     }else{
                         $sum = $validated_rh->REALISATIONSD + $selected_rh->REALISATIONSD;
                         $ecart = $sum - $validated_rh->OBJECTIFSD;
@@ -473,7 +474,22 @@ class RhsdController extends Controller
         session(['rh_count' => $rhsds]);
 
         $this->getBadgeRefresh($request);
-        return redirect()->back();
+        if(count($update_state_ids) > 1){
+            if($newState == 6){
+                Session::flash('success',__('parametre.lignes publiees'));
+            }else{
+                Session::flash('success',__('parametre.lignes validees'));
+            }
+        }else{
+            if($newState == 6){
+                Session::flash('success',__('parametre.ligne publiee'));
+            }else{
+                Session::flash('success',__('parametre.ligne validee'));
+            }
+        }
+        
+
+        return redirect()->route('rhs.validation');
     }
     public function update_all_ecarts(){ //just a helper function
         $rhsds = Rhsd::all();
@@ -493,9 +509,9 @@ class RhsdController extends Controller
             case 'cs':          $supposedState = [0, 1];        break;
             case 'd-p':         $supposedState = [2];           break;
             case 'd-r':         $supposedState = [3];           break;
-            case 'ss':          $supposedState = [4];           break;
-            case 'dcsasd':      $supposedState = [4,5,6];       break;
-            case 'mlm':         $supposedState = [5];           break;
+            case 'dcs':         $supposedState = [4];           break;
+            case 'dcd':         $supposedState = [5];           break;
+            case 'dd':          $supposedState = [6];           break;
             case 'management':  $supposedState = [6];           break;
             default:            echo('ERROR RH SELECT');     //fix the def
         }
@@ -516,34 +532,34 @@ class RhsdController extends Controller
         Session::flash('success', __('rhsd.rhsd success in supprimer'));
         return redirect()->route('rhs.index');
     }
-    public function get_county($rh){
-
-    }
     public function get_count($userRole, $state = 0, $choice = null, $year = null){
         // stateless : all data
         // state 1 : badges (how many rows to validate per role)
         // state 2 : objectifs atteints / total d'objectifs 
+        // choice : choice of domaine (dcsasd)
+        // year : filtered by year
+
         if($choice == null){
             if(Auth::user()->hasPermissionTo('view-province')) { 
-                $perDomaine =   DB::table('rhsds')->where('id_domaine', '=', Auth::user()->domaine->id)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                $perDomaine =   Rhsd::where('id_domaine', '=', Auth::user()->domaine->id)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
             } // Region et ses provinces
             elseif(Auth::user()->hasPermissionTo('view-region')){ 
                 if(Auth::user()->hasPermissionTo('dcsasd')){
-                    $perDomaine =   DB::table('rhsds')->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                    $perDomaine =   Rhsd::where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
                 }else{
                     $domaine_group = $this->get_domaineGroup();
-                    $perDomaine = DB::table('rhsds')->whereIn('id_domaine', $domaine_group)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                    $perDomaine = Rhsd::whereIn('id_domaine', $domaine_group)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
                 }
             } 
         }// CHOICE not null
         else{
             if($choice[1] == 1){
-                $perDomaine =   DB::table('rhsds')->where('id_domaine', '=', $choice[0])->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
-                $rows =         DB::table('rhsds')->where('id_domaine', '=', $choice[0])->count();      
+                $perDomaine =   Rhsd::where('id_domaine', '=', $choice[0])->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                $rows =         Rhsd::where('id_domaine', '=', $choice[0])->count();      
             }elseif($choice[1] == 2){
                 $domaine_group = $this->get_domaineGroup($choice[0]);
-                $perDomaine = DB::table('rhsds')->whereIn('id_domaine', $domaine_group)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
-                $rows =       DB::table('rhsds')->whereIn('id_domaine', $domaine_group)->count();
+                $perDomaine = Rhsd::whereIn('id_domaine', $domaine_group)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                $rows =       Rhsd::whereIn('id_domaine', $domaine_group)->count();
             }
         }
         if($year != null){
@@ -551,7 +567,7 @@ class RhsdController extends Controller
             $rows = $perDomaine->count();
         }
         if(isset($perDomaine)){
-            $rows =       $perDomaine->count();
+            $rows =         $perDomaine->count();
             $state_o =      $perDomaine->where('ETATSD', '=', 0)->count();
             $state_one =    $perDomaine->where('ETATSD', '=', 1)->count();
             $state_two =    $perDomaine->where('ETATSD', '=', 2)->count();
@@ -635,7 +651,7 @@ class RhsdController extends Controller
         $userRole = $uss->roles->pluck('name')->first();
         return $userRole;
     }
-    public function getSums($rh_sum){
+    public function getSums($rh_sum){ // calcul de la partie sommes de la vue graphique
         $sumR = [];
         $sumO = [];
         
@@ -655,7 +671,7 @@ class RhsdController extends Controller
     }
     public function getBadgeRefresh(Request $request){
         $userRole = Auth::user()->roles->pluck('name')->first();
-        $rhsds = (new RhsdController)->get_count($userRole, 1);
+        $rhsds = $this->get_count($userRole, 1);
         $request->session()->put('rh_count', $rhsds);
     }
     public function getEstimate(){

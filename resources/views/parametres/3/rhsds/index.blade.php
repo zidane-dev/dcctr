@@ -19,8 +19,8 @@
                 <h4 class="content-title mb-0 my-auto">
                     @can('dcsasd')
                         {{$query[4]}} - {{$query[3]}}
-                    @else
-                        @lang('sidebar.rhsds') de la {{Auth::user()->domaine->type}} {{Auth::user()->domaine->domaine}}
+                    @elsecan('sd')
+                        @lang('sidebar.rhsds') / {{Auth::user()->domaine->type.' / '.$rh_v->first()->domaine->domaine}}
                     @endcan
                 </h4>
                 <span class="text-muted mt-1 tx-13 mr-2 mb-0">
@@ -47,23 +47,15 @@
                         @endif
                     </h3>
                     <div>
-                        {{-- @can('supervise') --}}
                         <a href="{{url()->previous()}}" class="btn btn-primary" style="color: whitesmoke">
                             <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
                         </a>
-                        {{-- @endcan --}}
-                        @can('create-rhsds')
-                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-plus"></i> @lang('rhsd.add') 
-                        </a>
-                        @endcan
                     </div>
                     @can('dcsasd')
                         @if(!isset($backfirst))
                         <div class="m-4 float-right">
                             <form class="form-inline" method="GET" action="{{route('indexByQuery')}}">
                                 @csrf
-                                
                                 <div id="regDiv">
                                     <label for="region" class="sr-only">@lang('drs.nom')</label>
                                     <select id="region" name="region" class="form-control SlectBox mr-sm-2">
@@ -98,9 +90,9 @@
                                     </select>
                                 </div>
                                 <div id ="dateDiv">
-                                    <label for="dateFilter" class="sr-only">@lang('rhsd.annee')</label>
+                                    <label for="dateFilter" class="sr-only">@lang('parametre.filtrer par')</label>
                                     <select id="dateFilter" name="year" class="form-control SlectBox2 mx-2" >
-                                        <option value="null" selected disabled> @lang('rhsd.annee')</option> {{-- this year by default --}}
+                                        <option value="null" selected disabled> @lang('parametre.annee')</option> {{-- this year by default --}}
                                         @if(isset($rh_sum) && $rh_sum->count() > 0)
                                             @foreach($rh_sum as $rh_year)
                                                 <option value="{{$rh_year->first()->ANNEESD}}" {{ (collect(old('dateFilter'))->contains($rh_year->first()->ANNEESD)) ? 'selected':'' }}>
@@ -124,14 +116,14 @@
                         <form>
                             @csrf
                             <div class="form-inline row m-4 float-right">
-                                <label for="dateFilter" class="control-label form-label mx-2">@lang('rhsd.annee')</label>
+                                <label for="dateFilter" class="control-label form-label mx-2">@lang('parametre.filtrer par')</label>
                                 <select id="dateFilter" name="dateFilter" class="form-control SlectBox  mx-2" >
-                                    <option value="" selected disabled> @lang('rhsd.annee')</option> {{-- this year by default --}}
+                                    <option value="" selected disabled> @lang('parametre.annee')</option> {{-- this year by default --}}
                                     @if(isset($rh_sum) && $rh_sum->count() > 0)
                                         @foreach($rh_sum as $rh_year)
                                             <option value="{{$rh_year->first()->ANNEESD}}" {{ (collect(old('dateFilter'))->contains($rh_year->first()->ANNEESD)) ? 'selected':'' }}>
                                                 {{$rh_year->first()->ANNEESD}}
-                                            </option>
+                                            </option>   
                                         @endforeach
                                     @endif
                                 </select>
@@ -152,12 +144,12 @@
                                             <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                         @endcan
                                         <th class="border-bottom-0">@lang('rhsd.nom_qualite')</th>
-                                        <th class="border-bottom-0">@lang('rhsd.nom_objectif')</th>
-                                        <th class="border-bottom-0">@lang('rhsd.annee')</th>
-                                        <th class="border-bottom-0">@lang('rhsd.nom_realisation')</th>
-                                        <th class="border-bottom-0">@lang('rhsd.etat')</th>
-                                        <th class="border-bottom-0">@lang('rhsd.last_update')</th>
-                                        <th class="border-bottom-0">@lang('rhsd.action')</th>
+                                        <th class="border-bottom-0">@lang('parametre.annee')</th>
+                                        <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
+                                        <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
+                                        <th class="border-bottom-0">@lang('parametre.etat')</th>
+                                        <th class="border-bottom-0">@lang('parametre.last_update')</th>
+                                        <th class="border-bottom-0">@lang('parametre.actions')</th>
                                     </tr>
                                     </thead>
 
@@ -172,37 +164,40 @@
                                             {{-- <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y h:m')}}</td> --}}
                                             {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($rhsd->updated_at)}}</td> --}}
                                             <td>{{$rhsd->qualite->qualite}}</td>
-                                            <td>{{$rhsd->OBJECTIFSD}}</td>
                                             <td>{{$rhsd->ANNEESD}}</td>
+                                            <td>{{$rhsd->OBJECTIFSD}}</td>
                                             <td>{{$rhsd->REALISATIONSD}}</td>
-                                            <td><span class="badge badge-success" >@lang('rhsd.validated')</span></td>
-                                            <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} @lang('rhsd.at') 
+                                            <td><span class="badge badge-success" >@lang('parametre.validated')</span></td>
+                                            <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} @lang('parametre.at') 
                                                 {{\Carbon\Carbon::parse($rhsd->date)->format('H:i')}} </td>
-                                            <td>
-                                                @can('insert-real')
-                                                    <a class="" href="{{route('rhs.storereal',$rhsd->id)}}" title="@lang('rhsd.ajoutSur')">
-                                                        <i class="fas fa-plus-circle"></i>
-                                                    </a>
-                                                @endcan
-                                                {{-- @can('edit-global-goal') --}}
-                                                    <a class="" href="{{route('edit.rhsgoal',$rhsd->id)}}" title="@lang('rhsd.changeObjectif')">
-                                                        <i class="fas fa-vote-yea"></i>
-                                                    </a>
-                                                {{-- @endcan --}}
-                                                {{-- @can('follow-info') --}}
-                                                    <a class="" href="{{route('rhs.show',$rhsd->id)}}" title="@lang('rhsd.viewRh')">
-                                                        <i class="fas fa-info"></i>
-                                                    </a>
-                                                {{-- @endcan --}}
-                                                @hasanyrole('s-a')
-                                                @can('delete-rhsds')
-                                                    <a class=""  href="javascript:void(0)" data-id="{{ $rhsd->id }}" title="@lang('rhsd.supprimer')"
-                                                    data-toggle="modal" data-target="#modalRhsdSUP">
-                                                        <i class="text-danger fas fa-trash-alt"></i>
-                                                    </a>
-                                                @endcan
-                                                @endhasanyrole
-                                            </td>
+                                            @hasanyrole('d-p')
+                                            @else
+                                                <td class="mx-auto">
+                                                    @can('insert-real')
+                                                        <a class="mx-auto px-1" href="{{route('rhs.storereal',$rhsd->id)}}" title="@lang('rhsd.ajoutSur')">
+                                                            <i class="fas fa-plus-circle"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('edit-global-goal')
+                                                        <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$rhsd->id)}}" title="@lang('parametre.changeObjectif')">
+                                                            <i class="fas fa-vote-yea"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('follow-info')
+                                                        <a class="mx-auto px-1" href="{{route('rhs.show',$rhsd->id)}}" title="@lang('rhsd.viewRh')">
+                                                            <i class="fas fa-info"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @hasanyrole('s-a')
+                                                        @can('delete-rhsds')
+                                                            <a class=""  href="javascript:void(0)" data-id="{{ $rhsd->id }}" title="@lang('rhsd.supprimer')"
+                                                            data-toggle="modal" data-target="#modalRhsdSUP">
+                                                                <i class="text-danger fas fa-trash-alt"></i>
+                                                            </a>
+                                                        @endcan
+                                                    @endhasanyrole
+                                                </td>
+                                            @endhasanyrole
                                         </tr>
                                         @endif
                                     @endforeach
@@ -210,7 +205,7 @@
                                 </table>
                             </div>
                             <div class="card-text p-2">
-                                <h4>{{$rows_count->goals}}/{{$rows_count->state_six}} @lang('parametre.objecitfs atteints') </h4>
+                                <h4>{{$rows_count->goals}}/{{$rows_count->state_six}} @lang('parametre.objectifs atteints') </h4>
                             </div>
                         </div>  
                     @else
@@ -222,11 +217,11 @@
             </div>
             <div id="data_view" class="card mg-b-20 text-center">
                 <div class="card-header">
-                    <h3>@lang('rhsd.vue graphique')</h3>
+                    <h3>@lang('parametre.vue graphique')</h3>
                 </div>
                 <div class="card-body">
                     @if($rh_v->count() > 0)
-                    <div class="card-title">Realisations de votre {{Auth::user()->domaine->type}}</div>
+                    <div class="card-title">Réalisations de votre {{Auth::user()->domaine->type}}</div>
                     <div class="container mb-5">
                         <div class="row justify-content-center">
                             @foreach($rh_v as $rh)
@@ -242,7 +237,7 @@
                 </div>
                 @if($rh_sum->count() > 0)
                     <div class="card-footer ">
-                        <div class="card-text">@lang('rhsd.moyenne')</div>
+                        <div class="card-text">@lang('parametre.moyenne')</div>
                         <div class="row justify-content-center">
                             @foreach($rh_sum as $rh_year)
                                 <div id="canvasDiv" class="col-4-md mb-2">
@@ -290,7 +285,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('js')
@@ -323,7 +317,6 @@
             modal.find('.modal-body #rhsd_id').val(id);
         })
     </script>
-    
     <!-- charts -->
     @can('view-province')
     <script type="text/javascript">
@@ -429,7 +422,7 @@
                     obj = rh_v[i].OBJECTIFSD
                     var ecart = real - obj;
                     if(ecart < 0) {
-                        var xvals = ["Ecart", "Realisation"];
+                        var xvals = ["Ecart", "Réalisation"];
                         var yvals = [ecart, rh_v[i].REALISATIONSD];
                         var cols = ["#EA3232", "#2b5797"];
                     } else{
@@ -461,7 +454,7 @@
                         var percent = ((sum[0][j]/sum[1][j])*100).toFixed(2)
                         title = ''+percent+'%';
                         if(sum[0][j] < sum[1][j]) {
-                            var xvals = ["Ecart", "Realisation"];
+                            var xvals = ["Ecart", "Réalisation"];
                             var ecart = sum[0][j]- sum[1][j];
                             var yvals = [ecart, sum[0][j]];
                             var cols = ["#EA3232", "#2b5797"];
@@ -497,8 +490,8 @@
         
         </script>
     @endcan
+    <!-- end charts -->
     <!-- Year Filter -->
-    
     @can('dcsasd')
 
     @else
@@ -513,4 +506,5 @@
             });
         </script>   
     @endcan
+    <!-- end Year Filter -->
 @endsection

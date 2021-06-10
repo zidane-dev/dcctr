@@ -17,7 +17,9 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">
-                    @lang('sidebar.rhsds') de la {{Auth::user()->domaine->type}} {{Auth::user()->domaine_fr}}
+                    @can('sd')
+                        @lang('sidebar.rhsds') / {{Auth::user()->domaine->type.' / '.$rhsds->first()->domaine->domaine}}
+                    @endcan
                 </h4>
                 <span class="text-muted mt-1 tx-13 mr-2 mb-0">
                     &nbsp;&nbsp;&nbsp;&nbsp;/  @lang('sidebar.liste rhsd')
@@ -31,6 +33,10 @@
 
 @section('content')
     <!-- row -->
+    <div class=" pb-0">
+        <a href="{{route('rhs.index')}}" class="btn btn-primary" style="color: whitesmoke"><i class="fas fa-undo"></i> @lang('sidebar.return') </a>
+    </div>
+    <br>
     <div class="row row-sm">
         <div class="col-xl-12">
             <div class="card mg-b-20">
@@ -39,7 +45,7 @@
                 <div class="card-header pb-0">
                     <h3 class="text-center">
                         @if($rhsds->count() > 0)
-                            Progression des realisations
+                            @lang('rhsd.progression')
                         @endif
                     </h3>
                     @can('create-rhsds')
@@ -52,10 +58,25 @@
                 @can('list-rhsds')
                     @if($rhsds->count() > 0)
                         <div class="card-body">
-                            <div id='commonInfo' class="card-text px-5 py-2">
-                                @lang('rhsd.nom_qualite') : {{$rhsds->first()->qualite->qualite}} <br>
-                                @lang('rhsd.nom_objectif') : {{$rhsds->first()->OBJECTIFSD}} <br>
-                                @lang('dpcis.nom') : {{$rhsds->first()->domaine->type}} {{$rhsds->first()->domaine->domaine}} <br>
+                            <div id='commonInfo' class="card-text px-5 py-2 mb-3 ">
+                                <table class="table-hover ml-5 pb-2 border-bottom ">
+                                    <tr class="py-5"> 
+                                        <th width="120px"> @lang('rhsd.nom_qualite') </th>
+                                        <td> {{$rhsds->first()->qualite->qualite}} </td> 
+                                    </tr>
+                                    <tr class="py-5"> 
+                                        <th width="120px"> @lang('parametre.nom_objectif') </th>
+                                        <td> {{$rhsds->first()->OBJECTIFSD}} </td> 
+                                    </tr>
+                                    <tr class="py-5"> 
+                                        <th width="120px"> @lang('dpcis.nom') </th>
+                                        <td> {{$rhsds->first()->domaine->type}} {{$rhsds->first()->domaine->domaine}} </td> 
+                                    </tr>
+                                    <tr class="py-5"> 
+                                        <th width="120px"> @lang('parametre.annee') </th>
+                                        <td> {{$rhsds->first()->ANNEESD}} </td> 
+                                    </tr>
+                                </table>
                             </div>
                             <div class="table-responsive">
                                 <table id="example1" class="table key-buttons text-md-nowrap">
@@ -66,14 +87,14 @@
                                                 <th class="border-bottom-0">@lang('dpcis.type')</th>
                                                 <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                             @endcan
-                                            <th class="border-bottom-0">@lang('rhsd.modif_at')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.par')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.nom_realisation')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.annee')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.nom_objectif')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.etat')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.motif')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.description')</th>
+                                            <th class="border-bottom-0">@lang('parametre.modif_at')</th>
+                                            <th class="border-bottom-0">@lang('parametre.par')</th>
+                                            <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
+                                            <th class="border-bottom-0">@lang('parametre.annee')</th>
+                                            <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
+                                            <th class="border-bottom-0">@lang('parametre.etat')</th>
+                                            <th class="border-bottom-0">@lang('parametre.motif')</th>
+                                            <th class="border-bottom-0">@lang('parametre.description')</th>
                                         </tr>
                                     </thead>
 
@@ -87,7 +108,7 @@
                                                 <td>{{$rhsd->domaine->ty}}</td>
                                                 <td>{{$rhsd->domaine->domaine}}</td>
                                             @endcan
-                                            <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} @lang('rhsd.at') 
+                                            <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} @lang('parametre.at') 
                                                 {{\Carbon\Carbon::parse($rhsd->date)->format('H:i')}} 
                                             </td>
                                             <td>{{$rhsd->user->name}}</td>
@@ -105,11 +126,15 @@
                                             @endhasanyrole
                                             <td>
                                                 @if($rhsd->ETATSD == 6)
-                                                    <label class="badge badge-success">@lang('rhsd.validated')</label>
+                                                    <label class="badge badge-success">@lang('parametre.validated')</label>
                                                 @elseif($rhsd->REJETSD == 1)
-                                                    <label class="badge badge-danger">@lang('rhsd.rejete')</label>
+                                                    <label class="badge badge-danger">@lang('parametre.rejete')</label>
                                                 @else
-                                                    <label class="badge badge-secondary">@lang('rhsd.encours')</label>
+                                                    @if($rhsd->ETATSD > 3)
+                                                        <label class="badge badge-secondary">@lang('parametre.validated r')</label>
+                                                    @else
+                                                        <label class="badge badge-secondary">@lang('parametre.encours')</label>
+                                                    @endif
                                                 @endif
                                             </td>
                                             @if($rhsd->REJETSD == 1)

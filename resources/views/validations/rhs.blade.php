@@ -8,11 +8,12 @@
     <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
-    <div class="breadcrumb-header justify-content-between">
-        <div class="my-auto">
+    <div class="breadcarumb-header justify-content-between">
+        <div class="my-auto py-2">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">
                     @can('dcsasd')
@@ -39,28 +40,37 @@
     <div class="row row-sm">
         <div class="col-xl-12">
             <div class="card mg-b-20">
-                
                 @include('layouts.errors_success')
                 <div class="card-header pb-0">
-                    @if($rhsds->count() > 0)
-                        <h3 class="text-center">@lang('axes.nom'): {{$rhsds->first()->axe->axe}}</h3>
+                    @if($datas->count() > 0)
+                        <h3 class="text-center">@lang('axes.nom'): {{$datas->first()->axe->axe}}</h3>
                         <a href="{{route('dashboard.index')}}" class="btn btn-primary" style="color: whitesmoke">
                             <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
                         </a>
+                        @can('create-rhsds')
+                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
+                            <i class="fas fa-plus"></i> @lang('rhsd.add') 
+                        </a>
+                        @endcan
                         <button type="button" class="btn btn-primary" id="btn_update_state" >
-                            @lang('rhsd.envoyer')
+                            @lang('parametre.envoyer')
                         </button>
                         <button type="button" class="btn btn-primary" id="btn_reject" >
-                            @lang('rhsd.rejeter')
+                            @lang('parametre.rejeter')
                         </button>
                     @else
                         <a href="{{route('dashboard.index')}}" class="btn btn-primary" style="color: whitesmoke">
                             <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
                         </a>
+                        @can('create-rhsds')
+                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
+                            <i class="fas fa-plus"></i> @lang('rhsd.add') 
+                        </a>
+                        @endcan
                     @endif
                     </div>
                 @can('list-rhsds')
-                    @if($rhsds->count() > 0)
+                    @if($datas->count() > 0)
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="example1" class="table key-buttons text-md-nowrap">
@@ -72,22 +82,17 @@
                                                 <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                             @endcan
                                             <th class="border-bottom-0">@lang('rhsd.nom_qualite')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.last_modif')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.annee')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.nom_objectif')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.nom_realisation')</th>
+                                            <th class="border-bottom-0">@lang('parametre.last_modif')</th>
+                                            <th class="border-bottom-0">@lang('parametre.annee')</th>
+                                            <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
+                                            <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
                                             <th class="border-bottom-0">@lang('rhsd.user')</th>
-                                            @can('dcsasd')
-                                                <th class="border-bottom-0">@lang('rhsd.etat')</th>
-                                                @else
-                                            @endcan
-                                            <th class="border-bottom-0">@lang('rhsd.rejet')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.motif')</th>
-                                            <th class="col-auto mr-auto border-bottom-0">@lang('rhsd.action')</th>
+                                            <th class="border-bottom-0">@lang('parametre.etat')</th>
+                                            <th class="border-bottom-0">@lang('parametre.action')</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($rhsds as $rhsd)
+                                    @foreach($datas as $rhsd)
                                         <tr @if($rhsd->REJETSD == 1) style="background-color: #f5b4b4 !important;}" @endif  
                                             @if($rhsd->ETATSD == 6) style="background-color: #9ae88b  !important;}" @endif>
                                             <td class="text-center align-middle">
@@ -95,21 +100,21 @@
                                                     <input type="checkbox" value="{{$rhsd->id}}" class="box1">
                                                 @endif
                                             </td>
-                                            <td>{{$loop->iteration}},{{$rhsd->id}}</td>
+                                            <td>{{$loop->iteration}}</td>
                                             @can('view-region')
                                                 <td>{{$rhsd->domaine->ty}} - {{$rhsd->domaine->domaine}}</td>
                                             @endcan
                                             {{-- <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y h:m')}}</td> --}}
                                             {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($rhsd->updated_at)}}</td> --}}
                                             <td>{{$rhsd->qualite->qualite}}</td>
-                                            <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} @lang('rhsd.at') 
+                                            <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} @lang('parametre.at') 
                                                 {{\Carbon\Carbon::parse($rhsd->date)->format('H:i')}} 
                                             </td>
                                             <td>{{$rhsd->ANNEESD}}</td>
                                             <td>{{$rhsd->OBJECTIFSD}}</td>
                                             <td>{{$rhsd->REALISATIONSD}}</td>
                                             <td>{{$rhsd->user->name}}</td>
-                                            @can('dcsasd')
+                                            @can('s-a')
                                             <td>
                                                 @if($rhsd->ETATSD == 0)
                                                     <label class="badge badge-success">{{ $rhsd->ETATSD }}</label>
@@ -118,75 +123,60 @@
                                                 @endif
                                             </td>
                                             @endcan
-                                            <td>
-                                                @if($rhsd->REJETSD == 1)
-                                                    <label class="badge badge-danger">@lang('rhsd.rejete')</label>
-                                                @else
-                                                    @if($rhsd->ETATSD == 6 OR $rhsd->ETATSD < 2)
+                                            @can('view-rejet')
+                                                <td>
+                                                    @if($rhsd->REJETSD == 1)
+                                                        <label class="badge badge-danger">@lang('parametre.rejete')</label>
                                                     @else
-                                                    <label class="badge badge-info">@lang('rhsd.non')</label>
+                                                        @if($rhsd->ETATSD == 6 OR $rhsd->ETATSD < 2)
+                                                        @else
+                                                            <label class="badge badge-info">@lang('parametre.non')</label>
+                                                        @endif
                                                     @endif
-                                                @endif
-                                            </td>
-                                            
-
-                                            <td style="text-align: center">
-                                                @if($rhsd->Motif != "")
-                                                    {{\Illuminate\Support\Str::limit($rhsd->Motif,30,'...')}}
-                                                @else
-                                                    - - -
-                                                @endif
-
-                                            </td>
+                                                </td>
+                                            @endcan
                                             <td class="d-inline-flex text-center align-middle">
-                                                @if($rhsd->ETATSD != 6)
-                                                    <div class="dropdown">
-                                                        <button aria-expanded="false" aria-haspopup="true"
-                                                                class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
-                                                                type="button">
-                                                                    @lang('rhsd.actions')
-                                                                <i class="fas fa-caret-down"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu">
-                                                            @can('edit-rhsds')
-                                                                <a class="dropdown-item" href="{{route('rhs.edit',$rhsd->id)}}">
-                                                                    <i class=" fas fa-edit" style="color: #239a8a"></i>
-                                                                    &nbsp;&nbsp;@lang('rhsd.edit')
-                                                                </a>
-                                                            @endcan
-                                                            @can('insert-real')
-                                                                <a class="dropdown-item" href="{{route('rhs.storereal',$rhsd->id)}}">
-                                                                    <i class="fas fa-plus-circle"></i>
-                                                                    &nbsp;&nbsp;@lang('rhsd.ajoutSur')
-                                                                </a>
-                                                            @endcan
-                                                            @can('edit-global-goal')
-                                                                <a class="dropdown-item" href="{{route('edit.rhsgoal',$rhsd->id)}}">
-                                                                    <i class="fas fa-vote-yea"></i>
-                                                                    &nbsp;&nbsp;@lang('rhsd.changeObjectif')
-                                                                </a>
-                                                            @endcan
-                                                            @can('follow-info')
-                                                                <a class="dropdown-item" href="{{route('rhs.show',$rhsd->id)}}">
-                                                                    <i class="fas fa-trending-up"></i>
-                                                                    &nbsp;&nbsp;@lang('rhsd.viewRh')
-                                                                </a>
-                                                            @endcan
-                                                            @can('delete-rhsds')
-                                                                <a class="dropdown-item"  href="javascript:void(0)" data-id="{{ $rhsd->id }}"
-                                                                data-toggle="modal" data-target="#modalRhsdSUP">
-                                                                    <i class="text-danger fas fa-trash-alt"></i>
-                                                                    &nbsp;&nbsp;@lang('rhsd.supprimer')
-                                                                </a>
-                                                            @endcan
-                                                        </div>
+                                                <div class="dropdown">
+                                                    <button aria-expanded="false" aria-haspopup="true"
+                                                            class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
+                                                            type="button">
+                                                                @lang('parametre.actions')
+                                                            <i class="fas fa-caret-down"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        @can('edit-rhsds')
+                                                            <a class="dropdown-item" href="{{route('rhs.edit',$rhsd->id)}}">
+                                                                <i class="fas fa-edit" style="color: #239a8a"></i>
+                                                                &nbsp;&nbsp;@lang('parametre.edit')
+                                                            </a>
+                                                        @endcan
+                                                        @can('insert-real')
+                                                            <a class="dropdown-item" href="{{route('rhs.storereal',$rhsd->id)}}">
+                                                                <i class="fas fa-plus-circle"></i>
+                                                                &nbsp;&nbsp;@lang('rhsd.ajoutSur')
+                                                            </a>
+                                                        @endcan
+                                                        @can('edit-global-goal')
+                                                            <a class="dropdown-item" href="{{route('edit.rhsgoal',$rhsd->id)}}">
+                                                                <i class="fas fa-vote-yea"></i>
+                                                                &nbsp;&nbsp;@lang('parametre.changeObjectif')
+                                                            </a>
+                                                        @endcan
+                                                        @can('follow-info')
+                                                            <a class="dropdown-item" href="{{route('rhs.show',$rhsd->id)}}">
+                                                                <i class="fas fa-info"></i>
+                                                                &nbsp;&nbsp;@lang('rhsd.viewRh')
+                                                            </a>
+                                                        @endcan
+                                                        @can('delete-rhsds')
+                                                            <a class="dropdown-item"  href="javascript:void(0)" data-id="{{ $rhsd->id }}"
+                                                            data-toggle="modal" data-target="#modalRhsdSUP">
+                                                                <i class="text-danger fas fa-trash-alt"></i>
+                                                                &nbsp;&nbsp;@lang('rhsd.supprimer')
+                                                            </a>
+                                                        @endcan
                                                     </div>
-                                                @else
-                                                    <span class="badge badge-info" style="background-color: #ffffff; color: black;">@lang('rhsd.validated')</span>
-                                                    <a class=" px-3" href="{{route('rhs.storereal',$rhsd->id)}}" title="@lang('rhsd.ajoutSurTitle')">
-                                                        <i class="fas fa-plus-circle"></i>
-                                                    </a>
-                                                @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -204,7 +194,7 @@
             @can('view-etats')
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
-                    <h3 class="text-center">@lang('rhsd.etats actuels')</h3>
+                    <h3 class="text-center">@lang('parametre.etats actuels')</h3>
                 </div>
                 <div class="card-body">
                     <div class="text-center">
@@ -212,16 +202,29 @@
                         <div class="d-flex flex-wrap even-cols">
                             @foreach ($rows_count as $count)
                                 @if($loop->iteration > 1 && $loop->iteration<9)
-                                <div class="col w-100 inline-block" >
-                                    <div class="card" style="height: 180px">
-                                        <div class="card-title m-2" >@lang('roles.Etat '.($loop->iteration-2))(@lang('parametre.etat') {{$loop->iteration -2}})</div>
-                                        <div class="card-body">
+                                    @can('sd')
+                                        @if($loop->iteration>1 && $loop->iteration<6)
+                                            <div class="col w-100 inline-block" >
+                                                <div class="card" style="height: 180px">
+                                                    <div class="card-title mt-2" >@lang('roles.Etat '.($loop->iteration-2))(@lang('parametre.etat') {{$loop->iteration -2}})</div>
+                                                    <div class="card-body">
+                                                        <h2>{{$count}}</h2>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @elsecan('dcsasd')
+                                        <div class="col w-100 inline-block" >
+                                            <div class="card" style="height: 180px">
+                                                <div class="card-title mt-2" ><h2>{{$count}}</h2></div>
+                                                <div class="card-body">
+                                                    @lang('roles.Etat '.($loop->iteration-2))(@lang('parametre.etat') {{$loop->iteration -2}})
+                                                </div>
+                                                
+                                            </div>
                                         </div>
-                                        <div class="card-footer">
-                                            <h2>{{$count}}</h2>
-                                        </div>
-                                    </div>
-                                </div>
+                                    @endcan
                                 @endif
                             @endforeach
                         </div>
@@ -246,7 +249,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-                        {{ trans('rhsd.envoyer') }}
+                        {{ trans('parametre.envoyer') }}
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -279,7 +282,7 @@
                 <div class="modal-header">
                     
                     <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-                        {{ trans('rhsd.rejeter') }}
+                        {{ trans('parametre.rejeter') }}
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -298,13 +301,13 @@
                             <div class="d-flex justify-content-around flex-column ">
                                 <div class="p-2 mx-auto">
                                     <div class="form-group">
-                                        <label for="inputMotif" class="control-label">@lang('rhsd.motif')</label>
+                                        <label for="inputMotif" class="control-label">@lang('parametre.motif')</label>
                                         <input type="text" class="form-control align-self-center" name="motif" id="motif" required>
                                     </div>
                                 </div>
                                 <div class="p-2">
                                     <div class="form-group">
-                                        <label for="inputDesc" class="control-label">@lang('rhsd.description')</label>
+                                        <label for="inputDesc" class="control-label">@lang('parametre.description')</label>
                                         <textarea class="form-control" name="desc" id="desc" rows="3"></textarea>
                                     </div>
                                 </div>
@@ -342,6 +345,43 @@
     <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
     <!--Internal  Datatable js -->
     <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+
+    @can('dcsasd')
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            // Setup - add a text input to each footer cell
+            $('#example1 thead tr').clone(true).appendTo( '#example1 thead' );
+            
+            $('#example1 thead tr:eq(1) th').each( function (i) {
+                if(i==0||i==1||i==9){}
+                else{
+                    var title = $(this).text();
+                    $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+                }
+                
+        
+                $( 'input', this ).on( 'keyup change', function () {
+                    if ( table.column(i).search() !== this.value ) {
+                        table
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+            var table = $('#example1').DataTable( {
+                orderCellsTop: true,
+                fixedHeader: true,
+                
+            } );
+            $('#example-a_filter').hide()
+        } );
+        </script>
+    @endcan
+
+    
 
     <!-- rejet -->
     <script>

@@ -4,6 +4,7 @@ return [
     'dashboard' => 'Accueil',
     'administration' => 'Administration',
     'parametres' => 'Paramétrages',
+    'public'        => 'Public',
     ########################### secteurs
     'secteurs' => 'Secteurs',
     'liste secteur' => 'Liste des secteurs',

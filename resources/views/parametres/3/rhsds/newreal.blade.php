@@ -20,7 +20,6 @@
     <!-- row -->
     <div class=" pb-0">
         <a href="{{route('rhs.index')}}" class="btn btn-primary" style="color: whitesmoke"><i class="fas fa-undo"></i> @lang('sidebar.return') </a>
-
     </div>
     <br>
     <div class="row">
@@ -30,16 +29,16 @@
             <div class="card">
                 @include('layouts.errors_success')
                 <div class= "card-header">
-                    <h3 class="text-center">Modification de l'objectif annuel  de cette qualite </h3>
+                    <h3 class="text-center">@lang('parametre.ajout') {{--$qualite->qualite--}} @lang('parametre.pour lannee') {{$rhsd->ANNEESD}}</h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('rhs.store') }}" method="post" autocomplete="off">
                         @csrf
                         @method('POST')
                         <div class="row justify-content-center">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_axe')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_axe')</label>
                                     <select name="axe" class="form-control SlectBox" readonly>
                                         @if(isset($axes) && $axes->count() > 0)
                                             @foreach($axes as $axe)
@@ -51,9 +50,11 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-5">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_domaine')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_domaine')</label>
                                     <select name="domaine" class="form-control SlectBox" readonly>
                                         @if(isset($domaines) && $domaines->count() > 0)
                                             @foreach($domaines as $domaine)
@@ -65,7 +66,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('rhsd.nom_qualite')</label>
                                     <select name="qualite" class="form-control SlectBox" readonly>
@@ -79,32 +82,35 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="col-md-1">
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.annee')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_realisation')</label>
+                                    <input type="text" class="form-control" id="amount1" name="realisation" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="inputName" class="control-label">@lang('parametre.annee')</label>
                                     <input type="text" class="form-control" id="amount1" name="annee" value="{{$rhsd->ANNEESD}}" readonly>
                                 </div>
                             </div>
                             
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_objectif')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_objectif')</label>
                                     <input type="text" class="form-control" id="amount1" name="objectif" value="{{$rhsd->OBJECTIFSD}}" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_realisation')</label>
-                                    <input type="text" class="form-control" id="amount1" name="realisation" value="">
-                                </div>
-                            </div>
                             
                         </div>
                         <br>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary">@lang('formone.btn_add_edit')</button>
+                        <div class="d-flex justify-content-center pb-4">
+                            <button type="submit" class="btn btn-primary px-2 my-2">@lang('formone.btn_add_edit')</button>
                         </div>
                     </form>
                 </div>
