@@ -26,7 +26,6 @@ class CreateRhsdsTable extends Migration
                 $table->foreign('id_axe')->references('id')->on('axes');
 
                 $table->decimal('ANNEESD',4,0);
-                $table->date('DATESD')->nullable();
                 $table->decimal('OBJECTIFSD',6,0);
                 $table->decimal('REALISATIONSD',6,0);
                 $table->decimal('ECARTSD',6,0);

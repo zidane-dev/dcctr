@@ -38,9 +38,15 @@ return [
     ########################### Dpci
     'dpcis' => 'Domaines',
     'liste dpci' => 'Liste des domaines',
+    ########################### Dépenses
+    'depenses' => 'Dépenses',
+    'liste depenses' => 'Liste des Dépenses',
     ########################### Axes
     'axes' => 'Axes',
     'liste axes' => 'Liste des Axes',
+    ########################### Ressources
+    'ressources' => 'Ressources',
+    'liste ressources' => 'Liste des Ressources',
     ########################### Rhsd
     'rhsds' => 'Ressources Humaines',
     'liste rhsd' => 'Liste des Ressources Humaines',

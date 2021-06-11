@@ -28,8 +28,8 @@ return [
     
     ##### FormRequest
 
-    'regex_fr' => 'Le champ doit être rempli en français.',
-    'regex_ar' => 'Le champ doit être rempli en arabe.',
+    'regex_fr' => 'Le champ français doit être rempli en français.',
+    'regex_ar' => 'Le champ arabe doit être rempli en arabe.',
 
     'champ_fr required' => 'Le champ en français est obligatoire.',
     'champ_ar required' => 'Le champ en arabe est obligatoire.',

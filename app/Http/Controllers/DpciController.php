@@ -32,7 +32,7 @@ class DpciController extends Controller
         }])->select('dpcis.id','domaine_'.LaravelLocalization::getCurrentLocale().' as name','type','dr_id')
             ->leftJoin("levels", 'levels.id', '=', 'dpcis.level_id')->addselect('levels.name as lvl')
             ->orderBy('dpcis.id','ASC')->get();
-        return view('parametres.2.dpcis.index', (['datas' => $datas, 'class' => $this->class]));
+        return view('parametres.2.dpcis.index', (['datas' => $datas]));
     }
 
     

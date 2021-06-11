@@ -541,25 +541,25 @@ class RhsdController extends Controller
 
         if($choice == null){
             if(Auth::user()->hasPermissionTo('view-province')) { 
-                $perDomaine =   Rhsd::where('id_domaine', '=', Auth::user()->domaine->id)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                $perDomaine =   DB::table('rhsds')->where('id_domaine', '=', Auth::user()->domaine->id)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
             } // Region et ses provinces
             elseif(Auth::user()->hasPermissionTo('view-region')){ 
                 if(Auth::user()->hasPermissionTo('dcsasd')){
-                    $perDomaine =   Rhsd::where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                    $perDomaine =   DB::table('rhsds')->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
                 }else{
                     $domaine_group = $this->get_domaineGroup();
-                    $perDomaine = Rhsd::whereIn('id_domaine', $domaine_group)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                    $perDomaine = DB::table('rhsds')->whereIn('id_domaine', $domaine_group)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
                 }
             } 
         }// CHOICE not null
         else{
             if($choice[1] == 1){
-                $perDomaine =   Rhsd::where('id_domaine', '=', $choice[0])->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
-                $rows =         Rhsd::where('id_domaine', '=', $choice[0])->count();      
+                $perDomaine =   DB::table('rhsds')->where('id_domaine', '=', $choice[0])->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                $rows =         DB::table('rhsds')->where('id_domaine', '=', $choice[0])->count();      
             }elseif($choice[1] == 2){
                 $domaine_group = $this->get_domaineGroup($choice[0]);
-                $perDomaine = Rhsd::whereIn('id_domaine', $domaine_group)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
-                $rows =       Rhsd::whereIn('id_domaine', $domaine_group)->count();
+                $perDomaine = DB::table('rhsds')->whereIn('id_domaine', $domaine_group)->where('REJETSD', '=', 0)->whereNull('deleted_at')->get();
+                $rows =       DB::table('rhsds')->whereIn('id_domaine', $domaine_group)->count();
             }
         }
         if($year != null){

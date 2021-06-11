@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') @lang('sidebar.liste dpci')  @endsection
+@section('title') @lang('sidebar.liste depense')  @endsection
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -16,10 +16,10 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">
-                    @lang('sidebar.dpcis')
+                    @lang('sidebar.depenses')
                 </h4>
                 <span class="text-muted mt-1 tx-14 mr-2 mb-0">
-                    /  @lang('sidebar.liste dpci')
+                    /  @lang('sidebar.liste depense')
                 </span>
             </div>
         </div>
@@ -34,17 +34,12 @@
 
         <div class="col-xl-12">
             <div class="card mg-b-20">
-
                 @include('layouts.errors_success')
                 <div class="card-header pb-0">
-                    {{-- <span class="badge badge-danger small-badge-new">NEW</span>  --}}
-                    @can('create-dpcis')
-                    <a href="{{route('dpcis.create')}}" class="btn btn-primary" style="color: whitesmoke"><i class="fas fa-plus"></i>
-                        @lang('dpcis.add')
-                    </a>
+                    @can('create-depenses')
+                        <a href="{{route('depenses.create')}}" class="btn btn-primary" style="color: whitesmoke"><i class="fas fa-plus"></i> @lang('depenses.add') </a>
                     @endcan
                 </div>
-
                 @if($datas->count() > 0)
                     <div class="card-body">
                         <!-- Table -->
@@ -52,12 +47,10 @@
                             <table id="example1" class="table key-buttons text-md-nowrap">
                                 <thead>
                                 <tr>
-                                    <th width="30px" class="border-bottom-0">#</th>
-                                    <th class="text-center" width="150px" class="border-bottom-0">@lang('dpcis.type')</th>
-                                    <th class="border-bottom-0">@lang('dpcis.niveau')</th>
-                                    <th class="border-bottom-0">@lang('dpcis.nom')</th>
-                                    <th class="border-bottom-0">@lang('drs.nom')</th>
-                                    <th width="150px" class="border-bottom-0">@lang('formone.action')</th>
+                                    <th class="border-bottom-0">#</th>
+                                    <th class="border-bottom-0">@lang('depenses.nom')</th>
+                                    <th class="border-bottom-0">@lang('depenses.ressource')</th>
+                                    <th class="border-bottom-0">@lang('formone.action')</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -65,10 +58,8 @@
                                 @forelse($datas as $data)
                                     <tr>
                                         <td>{{$i++}}</td>
-                                        <td class="text-right">{{$data->type}}</td>
-                                        <td>{{$data->lvl}}</td>
                                         <td>{{$data->name}}</td>
-                                        <td>{{$data->region->region}}</td>
+                                        <td>{{$data->ressource->ressource}}</td>
                                         @include('parametres.2.partials.action')
                                     </tr>
                                 @empty
@@ -91,12 +82,12 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">@lang('dpcis.modal supprimer')</h6>
+                    <h6 class="modal-title">@lang('depenses.modal supprimer')</h6>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="dpcis/destroy" method="post">
+                <form action="depenses/destroy" method="post">
                     @method('DELETE')
                     @csrf
                     <div class="modal-body">
@@ -139,10 +130,10 @@
         $('#supprimer_data').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
-            var dpci_name = button.data('data_name')
+            var obj_name = button.data('data_name')
             var modal = $(this)
             modal.find('.modal-body #id').val(id);
-            modal.find('.modal-body #data_name').val(dpci_name);
+            modal.find('.modal-body #data_name').val(obj_name);
         })
     </script>
 @endsection

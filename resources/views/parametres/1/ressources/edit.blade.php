@@ -5,7 +5,7 @@
 @endsection
 
 @section('title')
-    @lang('ressources.add')
+    @lang('axes.edit axe')
 @stop
 
 @section('page-header')
@@ -13,9 +13,11 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">@lang('sidebar.ressources')</h4>
+                <h4 class="content-title mb-0 my-auto">
+                    @lang('sidebar.axes')
+                </h4>
                 <span class="text-muted mt-1 tx-14 mr-2 mb-0">
-                    /  @lang('ressources.add') 
+                    / @lang('axes.edit axe') 
                 </span>
             </div>
         </div>
@@ -23,4 +25,4 @@
     <!-- breadcrumb -->
 @endsection
 
-@include('parametres.partials_1.create')
+@include('parametres.partials_1.edit')

@@ -101,6 +101,16 @@
                                 </a>
                             </li>
                             @endcan
+                            <!-- Ressources -->
+                            @can('access-regions')
+                            <li class="sub-slide">
+                                <a class="side-menu__item"  href="{{route('ressources.index')}}">
+                                    <i class="fas fa-ellipsis-h custom_style_icon"></i>
+                                    <span class="side-menu__label">@lang('sidebar.ressources')
+                                    </span>
+                                </a>
+                            </li>
+                            @endcan
                             <!-- Secteurs -->
                             @can('access-secteurs')
                             <li class="sub-slide">
@@ -159,8 +169,6 @@
                     <!------------------------------------------------------------------------------------------------->
                     <li class="sub-slide">
                         <a class="sub-side-menu__item" data-toggle="sub-slide" href="">
-                            
-        
                             <span class="sub-side-menu__label">
                                 Cat 2
                             </span>
@@ -184,6 +192,15 @@
                                 <a class="side-menu__item"  href="{{route('objectifs.index')}}">
                                     <i class ="fas fa-ellipsis-h custom_style_icon"></i>
                                     <span class="side-menu__label"> @lang('sidebar.objectifs') </span>
+                                </a>
+                            </li>
+                            @endcan
+                            <!-- Depenses -->
+                            @can('access-objectifs')
+                            <li class="sub-slide">
+                                <a class="side-menu__item"  href="{{route('depenses.index')}}">
+                                    <i class ="fas fa-ellipsis-h custom_style_icon"></i>
+                                    <span class="side-menu__label"> @lang('sidebar.depenses') </span>
                                 </a>
                             </li>
                             @endcan
@@ -241,7 +258,7 @@
                     <!-- Budget -->
                      
                     <li class="slide">
-                        <a class="side-menu__item" href="">
+                        <a class="side-menu__item" href="{{route('budgets.index')}}">
                             <i class="fas fa-boxes custom_style_icon"></i>
                             <span class="side-menu__label">
                                 @lang('sidebar.budget')
