@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') @lang('sidebar.liste rhsd')   @endsection
+@section('title') @lang('sidebar.liste budget')   @endsection
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -20,11 +20,14 @@
                     @can('dcsasd')
                         {{$query[4]}} - {{$query[3]}}
                     @elsecan('sd')
-                        @lang('sidebar.rhsds') / {{Auth::user()->domaine->type.' / '.$rh_v->first()->domaine->domaine}}
+                        @lang('sidebar.budget') / {{Auth::user()->domaine->type}}
+                            @if($bdg_v->count()>0)
+                            / {{$bdg_v->first()->domaine->domaine}}
+                            @endif
                     @endcan
                 </h4>
                 <span class="text-muted mt-1 tx-13 mr-2 mb-0">
-                    &nbsp;&nbsp;&nbsp;&nbsp;/  @lang('sidebar.liste rhsd')
+                    &nbsp;&nbsp;&nbsp;&nbsp;/  @lang('sidebar.liste budget')
                 </span>
             </div>
         </div>
@@ -42,8 +45,8 @@
                 @include('layouts.errors_success')
                 <div class="card-header pb-0">
                     <h3 class="text-center">
-                        @if($rh_v->count() > 0)
-                            @lang('axes.nom'): {{$rh_v->first()->axe->axe}}
+                        @if($bdg_v->count() > 0)
+                            @lang('axes.nom'): {{$bdg_v->first()->axe->axe}}
                         @endif
                     </h3>
                     <div>
@@ -93,10 +96,10 @@
                                     <label for="dateFilter" class="sr-only">@lang('parametre.filtrer par')</label>
                                     <select id="dateFilter" name="year" class="form-control SlectBox2 mx-2" >
                                         <option value="null" selected disabled> @lang('parametre.annee')</option> {{-- this year by default --}}
-                                        @if(isset($rh_sum) && $rh_sum->count() > 0)
-                                            @foreach($rh_sum as $rh_year)
-                                                <option value="{{$rh_year->first()->ANNEESD}}" {{ (collect(old('dateFilter'))->contains($rh_year->first()->ANNEESD)) ? 'selected':'' }}>
-                                                    {{$rh_year->first()->ANNEESD}}
+                                        @if(isset($bdg_sum) && $bdg_sum->count() > 0)
+                                            @foreach($bdg_sum as $bdg_year)
+                                                <option value="{{$bdg_year->first()->ANNEE_BDG}}" {{ (collect(old('dateFilter'))->contains($bdg_year->first()->ANNEE_BDG)) ? 'selected':'' }}>
+                                                    {{$bdg_year->first()->ANNEE_BDG}}
                                                 </option>
                                             @endforeach
                                         @else
@@ -119,10 +122,10 @@
                                 <label for="dateFilter" class="control-label form-label mx-2">@lang('parametre.filtrer par')</label>
                                 <select id="dateFilter" name="dateFilter" class="form-control SlectBox  mx-2" >
                                     <option value="" selected disabled> @lang('parametre.annee')</option> {{-- this year by default --}}
-                                    @if(isset($rh_sum) && $rh_sum->count() > 0)
-                                        @foreach($rh_sum as $rh_year)
-                                            <option value="{{$rh_year->first()->ANNEESD}}" {{ (collect(old('dateFilter'))->contains($rh_year->first()->ANNEESD)) ? 'selected':'' }}>
-                                                {{$rh_year->first()->ANNEESD}}
+                                    @if(isset($bdg_sum) && $bdg_sum->count() > 0)
+                                        @foreach($bdg_sum as $bdg_year)
+                                            <option value="{{$bdg_year->first()->ANNEE_BDG}}" {{ (collect(old('dateFilter'))->contains($bdg_year->first()->ANNEE_BDG)) ? 'selected':'' }}>
+                                                {{$bdg_year->first()->ANNEE_BDG}}
                                             </option>   
                                         @endforeach
                                     @endif
@@ -133,7 +136,7 @@
                     @endcan
                 </div>
                 @can('list-rhsds')
-                    @if($rh_v->count() > 0)
+                    @if($bdg_v->count() > 0)
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="example"  class="table key-buttons text-md-nowrap" >
@@ -143,7 +146,7 @@
                                         @can('view-region')
                                             <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                         @endcan
-                                        <th class="border-bottom-0">@lang('rhsd.nom_qualite')</th>
+                                        <th class="border-bottom-0">@lang('bdg.nom_qualite')</th>
                                         <th class="border-bottom-0">@lang('parametre.annee')</th>
                                         <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
                                         <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
@@ -154,44 +157,44 @@
                                     </thead>
 
                                     <tbody>
-                                    @foreach($rh_v as $rhsd)
-                                    @if($rhsd->ETATSD == 6)
+                                    @foreach($bdg_v as $bdg)
+                                    @if($bdg->ETAT == 6)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             @can('view-region')
-                                                <td>{{$rhsd->domaine->ty}} - {{$rhsd->domaine->domaine}}</td>
+                                                <td>{{$bdg->domaine->ty}} - {{$bdg->domaine->domaine}}</td>
                                             @endcan
-                                            {{-- <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y h:m')}}</td> --}}
-                                            {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($rhsd->updated_at)}}</td> --}}
-                                            <td>{{$rhsd->qualite->qualite}}</td>
-                                            <td>{{$rhsd->ANNEESD}}</td>
-                                            <td>{{$rhsd->OBJECTIFSD}}</td>
-                                            <td>{{$rhsd->REALISATIONSD}}</td>
+                                            {{-- <td>{{\Carbon\Carbon::parse($bdg->date)->format('d/m/y h:m')}}</td> --}}
+                                            {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($bdg->updated_at)}}</td> --}}
+                                            <td>{{$bdg->depense->depense}}</td>
+                                            <td>{{$bdg->ANNEE_BDG}}</td>
+                                            <td>{{$bdg->OBJECTIF_BDG}}</td>
+                                            <td>{{$bdg->REALISATION_BDG}}</td>
                                             <td><span class="badge badge-success" >@lang('parametre.validated')</span></td>
-                                            <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} @lang('parametre.at') 
-                                                {{\Carbon\Carbon::parse($rhsd->date)->format('H:i')}} </td>
+                                            <td>{{\Carbon\Carbon::parse($bdg->date)->format('d/m/y')}} @lang('parametre.at') 
+                                                {{\Carbon\Carbon::parse($bdg->date)->format('H:i')}} </td>
                                             @hasanyrole('d-p')
                                             @else
                                                 <td class="mx-auto">
                                                     @can('insert-real')
-                                                        <a class="mx-auto px-1" href="{{route('rhs.storereal',$rhsd->id)}}" title="@lang('rhsd.ajoutSur')">
+                                                        <a class="mx-auto px-1" href="{{route('rhs.storereal',$bdg->id)}}" title="@lang('bdg.ajoutSur')">
                                                             <i class="fas fa-plus-circle"></i>
                                                         </a>
                                                     @endcan
                                                     @can('edit-global-goal')
-                                                        <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$rhsd->id)}}" title="@lang('parametre.changeObjectif')">
+                                                        <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$bdg->id)}}" title="@lang('parametre.changeObjectif')">
                                                             <i class="fas fa-vote-yea"></i>
                                                         </a>
                                                     @endcan
                                                     @can('follow-info')
-                                                        <a class="mx-auto px-1" href="{{route('rhs.show',$rhsd->id)}}" title="@lang('rhsd.viewRh')">
+                                                        <a class="mx-auto px-1" href="{{route('rhs.show',$bdg->id)}}" title="@lang('bdg.viewRh')">
                                                             <i class="fas fa-info"></i>
                                                         </a>
                                                     @endcan
                                                     @hasanyrole('s-a')
-                                                        @can('delete-rhsds')
-                                                            <a class=""  href="javascript:void(0)" data-id="{{ $rhsd->id }}" title="@lang('rhsd.supprimer')"
-                                                            data-toggle="modal" data-target="#modalRhsdSUP">
+                                                        @can('delete-bdgs')
+                                                            <a class=""  href="javascript:void(0)" data-id="{{ $bdg->id }}" title="@lang('bdg.supprimer')"
+                                                            data-toggle="modal" data-target="#modalbdgSUP">
                                                                 <i class="text-danger fas fa-trash-alt"></i>
                                                             </a>
                                                         @endcan
@@ -220,11 +223,11 @@
                     <h3>@lang('parametre.vue graphique')</h3>
                 </div>
                 <div class="card-body">
-                    @if($rh_v->count() > 0)
+                    @if($bdg_v->count() > 0)
                     <div class="card-title">Réalisations de votre {{Auth::user()->domaine->type}}</div>
                     <div class="container mb-5">
                         <div class="row justify-content-center">
-                            @foreach($rh_v as $rh)
+                            @foreach($bdg_v as $rh)
                                 <div class="col-4-md mb-2">
                                     <canvas width="400px" height="250px" id="donut_{{$loop->iteration}}" class="donut-pie"></canvas>
                                 </div>
@@ -232,18 +235,18 @@
                         </div>
                     </div>
                     @else
-                        <div class="text-muted">@lang('rhsd.no valid data')</div>
+                        <div class="text-muted">@lang('bdg.no valid data')</div>
                     @endif
                 </div>
-                @if($rh_sum->count() > 0)
+                @if($bdg_sum->count() > 0)
                     <div class="card-footer ">
                         <div class="card-text">@lang('parametre.moyenne')</div>
                         <div class="row justify-content-center">
-                            @foreach($rh_sum as $rh_year)
+                            @foreach($bdg_sum as $bdg_year)
                                 <div id="canvasDiv" class="col-4-md mb-2">
                             <!-- THIS EFD UP sizes !! -->
                                     <canvas width="400px" height="250px" id="donut_sum_{{$loop->iteration}}" class="donut-pie mb-5"></canvas>
-                                    <h4>{{$rh_year->first()->ANNEESD}}</h4>
+                                    <h4>{{$bdg_year->first()->ANNEE_BDG}}</h4>
                                 </div>
                             @endforeach
                         </div>
@@ -256,19 +259,19 @@
     </div>
 
     <!-- Suppression -->
-    <div class="modal" id="modalRhsdSUP">
+    <div class="modal" id="modalbdgSUP">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">@lang('rhsd.modal supprimer')</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                    <h6 class="modal-title">@lang('bdg.modal supprimer')</h6><button aria-label="Close" class="close" data-dismiss="modal"
                                                                                       type="button"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <form action="rhs/destroy" method="post">
                     @method('DELETE')
                     @csrf
                     <div class="modal-body">
-                        <p>@lang('rhsd.modal validation supprision')</p><br>
-                        <input type="hidden" name="rhsd_id" id="rhsd_id" value="">
+                        <p>@lang('bdg.modal validation supprision')</p><br>
+                        <input type="hidden" name="bdg_id" id="bdg_id" value="">
 
                         <div style="text-align: center;">
                             <img width="50%" height="200px" src="{{asset('/img/ressource_humaine.svg')}}">
@@ -277,8 +280,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('rhsd.modal validation close')</button>
-                        <button type="submit" class="btn btn-danger">@lang('rhsd.modal validation confirm')</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('bdg.modal validation close')</button>
+                        <button type="submit" class="btn btn-danger">@lang('bdg.modal validation confirm')</button>
                     </div>
 
                 </form>
@@ -310,33 +313,36 @@
 
     <!--suppression -->
     <script>
-        $('#modalRhsdSUP').on('show.bs.modal', function(event) {
+        $('#modalbdgSUP').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
             var modal = $(this)
-            modal.find('.modal-body #rhsd_id').val(id);
+            modal.find('.modal-body #bdg_id').val(id);
         })
     </script>
     <!-- charts -->
     @can('view-province')
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded',function(event) {
-            var rh_v = {!! json_encode($rh_v) !!};
+            var bdg_v = {!! json_encode($bdg_v) !!};
             var sum = {!! json_encode($sum)!!};
-            if(rh_v.length > 0){
-                for (i = 0; i < rh_v.length ; i++) {
+            if(bdg_v.length > 0){
+                for (i = 0; i < bdg_v.length ; i++) {
                     var real=0, obj=0;
-                    var title = rh_v[i].qualite.qualite;
-                    real = rh_v[i].REALISATIONSD;
-                    obj = rh_v[i].OBJECTIFSD
+                    var title = bdg_v[i].depense.depense;
+                    real = bdg_v[i].REALISATION_BDG
+                    obj = bdg_v[i].OBJECTIF_BDG
+                    console.log('i'+ i)
+                    console.log('real'+ real)
+                    console.log('obj'+ obj)
                     var ecart = real - obj;
                     if(ecart < 0) {
                         var xvals = ["Ecart", "Realisation"];
-                        var yvals = [ecart, rh_v[i].REALISATIONSD];
+                        var yvals = [ecart, bdg_v[i].REALISATION_BDG];
                         var cols = ["#EA3232", "#2b5797"];
                     } else{
                         var xvals = ["Objectif", "Ecart"];
-                        var yvals = [rh_v[i].OBJECTIFSD, ecart*-1];
+                        var yvals = [bdg_v[i].OBJECTIF_BDG, ecart];
                         var cols = ["#2b5797", "#32EA8E"];
                     }
                     
@@ -402,7 +408,7 @@
     @can('view-region')
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded',function(event) {
-            var rh_v = {!! json_encode($rh_v) !!};
+            var rh_v = {!! json_encode($bdg_v) !!};
             var sum = {!! json_encode($sum)!!};
             var t, d, domaine, id;
             if(rh_v.length > 0){

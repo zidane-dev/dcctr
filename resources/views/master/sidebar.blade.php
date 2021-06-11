@@ -2,7 +2,7 @@
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar sidebar-scroll">
     <div class="main-sidebar-header active">
-        <a class="desktop-logo logo-light active" href=""><img style="width:150%"  src="{{URL::asset('assets/img/mcinet/logo.png')}}" class="main-logo" alt="logo"></a>
+        <a class="desktop-logo logo-light active" href=""><img src="{{URL::asset('assets/img/mcinet/logo.png')}}" class="main-logo" alt="logo"></a>
         <a class="desktop-logo logo-dark active" href=""><img src="{{URL::asset('assets/img/mcinet/logo.png')}}" class="main-logo dark-theme" alt="logo"></a>
         <a class="logo-icon mobile-logo icon-light active" href=""><img src="{{URL::asset('assets/img/mcinet/logo.png')}}" class="logo-icon" alt="logo"></a>
         <a class="logo-icon mobile-logo icon-dark active" href=""><img src="{{URL::asset('assets/img/mcinet/logo.png')}}" class="logo-icon dark-theme" alt="logo"></a>
@@ -101,6 +101,16 @@
                                 </a>
                             </li>
                             @endcan
+                            <!-- Ressources -->
+                            @can('access-regions')
+                            <li class="sub-slide">
+                                <a class="side-menu__item"  href="{{route('ressources.index')}}">
+                                    <i class="fas fa-ellipsis-h custom_style_icon"></i>
+                                    <span class="side-menu__label">@lang('sidebar.ressources')
+                                    </span>
+                                </a>
+                            </li>
+                            @endcan
                             <!-- Secteurs -->
                             @can('access-secteurs')
                             <li class="sub-slide">
@@ -159,8 +169,6 @@
                     <!------------------------------------------------------------------------------------------------->
                     <li class="sub-slide">
                         <a class="sub-side-menu__item" data-toggle="sub-slide" href="">
-                            
-        
                             <span class="sub-side-menu__label">
                                 Cat 2
                             </span>
@@ -187,6 +195,15 @@
                                 </a>
                             </li>
                             @endcan
+                            <!-- Depenses -->
+                            @can('access-objectifs')
+                            <li class="sub-slide">
+                                <a class="side-menu__item"  href="{{route('depenses.index')}}">
+                                    <i class ="fas fa-ellipsis-h custom_style_icon"></i>
+                                    <span class="side-menu__label"> @lang('sidebar.depenses') </span>
+                                </a>
+                            </li>
+                            @endcan
                             <!-- Dpcis -->
                             @can('access-dpcis')
                             <li class="sub-slide">
@@ -206,10 +223,10 @@
 
             <!-- SIDEBAR.AXES -->
 
-            <li class="side-item side-item-category">@lang('sidebar.axes')</li>
+            <li class="side-item side-item-category">@lang('sidebar.public')</li>
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="">
-                    <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="1" stroke-linecap="square" stroke-linejoin="arcs"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     <span class="side-menu__label">
                         @lang('sidebar.axes')
                     </span>
@@ -241,7 +258,7 @@
                     <!-- Budget -->
                      
                     <li class="slide">
-                        <a class="side-menu__item" href="">
+                        <a class="side-menu__item" href="{{route('budgets.index')}}">
                             <i class="fas fa-boxes custom_style_icon"></i>
                             <span class="side-menu__label">
                                 @lang('sidebar.budget')
@@ -272,8 +289,8 @@
                         <span class="side-menu__label">
                             @lang('sidebar.users')
                         </span>
-                        <i class="angle fe fe-chevron-down"></i>
-                    </a>
+                    <i class="angle fe fe-chevron-down"></i>
+                </a>
                 <ul class="slide-menu">
                     <li class="slide">
                         <a class="side-menu__item" href="{{route('users.index')}}">
@@ -299,17 +316,15 @@
             
              <li class="side-item side-item-category">@lang('sidebar.validation')</li>
              <li class="slide">
-                 <a class="side-menu__item" data-toggle="slide" href="">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" >
-                         <path d="M0 0h24v24H0V0z" fill="none"/>
-                         <path d="M15 11V4H4v8.17l.59-.58.58-.59H6z" opacity=".3"/>
-                         <path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-5 7c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10zM4.59 11.59l-.59.58V4h11v7H5.17l-.58.59z"/>
-                     </svg>
-                         <span class="side-menu__label">
-                             @lang('sidebar.validation_tables')
-                         </span>
-                         <i class="angle fe fe-chevron-down"></i>
-                     </a>
+                <a class="side-menu__item" data-toggle="slide" href="">
+                    <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span class="side-menu__label">
+                        @lang('sidebar.validation_tables')
+                    </span>
+                    <i class="angle fe fe-chevron-down"></i>
+                </a>
                  <ul class="slide-menu">
                     <li class="slide">
                         <a class="side-menu__item" href="{{route('archives.index')}}">
@@ -332,8 +347,6 @@
                             @endif
                          </a>
                      </li>
-                     
-                     {{-- <li><a class="slide-item" href="{{route('roles.index')}}">Rôles des utilisateurs</a></li> --}}
                  </ul>
              </li>
         </ul>

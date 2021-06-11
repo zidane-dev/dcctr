@@ -72,7 +72,7 @@ class PermissionTableSeeder extends Seeder
         ///1- SG MLM 
         //2- SD CS
 
-          $i = 321;
+          $i = 322;
 
           // Permission::create(['name' => 'dcsasd']);
           // Permission::create(['name' => 'sd']);
@@ -85,6 +85,7 @@ class PermissionTableSeeder extends Seeder
 
           if($i==321){
             $ir = Permission::create(['name' => 'insert-real']);
+            $vr = Permission::create(['name' => 'view-rejet']);
             $egg = Permission::create(['name' => 'edit-global-goal']);
             $fi = Permission::create(['name' => 'follow-info']);
 

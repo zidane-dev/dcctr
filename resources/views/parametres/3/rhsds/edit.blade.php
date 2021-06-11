@@ -36,9 +36,9 @@
                         <div class="row justify-content-center">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_axe')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_axe')</label>
                                     <select name="axe" class="form-control SlectBox">
-                                        <option value=""   selected disabled>@lang('rhsd.choi_axe')</option>
+                                        <option value=""   selected disabled>@lang('parametre.choi_axe')</option>
                                         @if(isset($axes) && $axes->count() > 0)
                                             @foreach($axes as $axe)
                                             @if($axe->id === $rhsd->id_axe)
@@ -51,7 +51,7 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_domaine')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_domaine')</label>
                                     <select name="domaine" class="form-control SlectBox">
                                         <option value=""  selected disabled>@lang('rhsd.choi_domaine')</option>
                                         @if(isset($domaines) && $domaines->count() > 0)
@@ -79,28 +79,29 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>@lang('rhsd.annee')</label>
+                                    <label>@lang('parametre.annee')</label>
                                     <input class="form-control fc-datepicker" name="ANNEESD" id="ANNEESD" placeholder="yyyy" value="{{$rhsd->ANNEESD}}"
-                                           type="text" required>
+                                           type="text" required     @unless(Auth::user()->can('edit-annee')) readonly @endunless>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_objectif')</label>
-                                    <input type="text" class="form-control" id="amount1" name="objectif" value="{{$rhsd->OBJECTIFSD}}">
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_objectif')</label>
+                                    <input type="text" class="form-control" id="amount1" name="objectif" value="{{$rhsd->OBJECTIFSD}}" 
+                                                                    @unless(Auth::user()->can('edit-objectif')) readonly @endunless>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_realisation')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_realisation')</label>
                                     <input type="text" class="form-control"  name="realisation" id="amount2" value="{{$rhsd->REALISATIONSD}}">
                                 </div>
                             </div>
 
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_ecart')</label>
-                                    <input type="text" class="form-control"  name="ecart"  readonly id="ecart" value="{{$rhsd->ECARTSD}}">
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_ecart')</label>
+                                    <input type="text" class="form-control"  name="ecart" readonly id="ecart" value="{{$rhsd->ECARTSD}}">
                                 </div>
                             </div>
                         </div>

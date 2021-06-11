@@ -18,7 +18,7 @@
 @section('content')
     <!-- row -->
     <div class=" pb-0">
-        <a href="{{route('rhs.index')}}" class="btn btn-primary" style="color: whitesmoke">
+        <a href="{{URL::previous()}}" class="btn btn-primary" style="color: whitesmoke">
             <i class="fas fa-undo"></i> 
             @lang('sidebar.return') 
         </a>
@@ -35,7 +35,7 @@
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_axe')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_axe')</label>
                                     <select name="axe" class="form-control SlectBox">
                                         @if(isset($axes) && $axes->count() > 0)
                                         @foreach($axes as $axe)
@@ -49,13 +49,13 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_domaine')</label>
-                                    <select name="domaine" class="form-control SlectBox">
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_domaine')</label>
+                                    <select id="selectDomaine" name="domaine" class="form-control SlectBox" readonly>
                                         <option value=""   selected disabled>@lang('rhsd.choi_domaine')</option>
                                         @if(isset($domaines) && $domaines->count() > 0)
                                             @foreach($domaines as $domaine)
                                             @if($domaine->id === Auth::user()->domaine_id)
-                                                <option  selected="selected"  value="{{$domaine->id}}" {{ (collect(old('domaine'))->contains($domaine->id)) ? 'selected':'' }}>{{$domaine->domaine}} - {{$domaine->type}}.</option>
+                                                <option selected="selected"  value="{{$domaine->id}}" {{ (collect(old('domaine'))->contains($domaine->id)) ? 'selected':'' }}>{{$domaine->domaine}} - {{$domaine->type}}.</option>
                                             @endif
                                             @endforeach
                                         @endif
@@ -65,8 +65,8 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('rhsd.nom_qualite')</label>
-                                    <select name="qualite" class="form-control SlectBox" >
-                                        <option value="" selected disabled> @lang('rhsd.choix_qualite')</option>
+                                    <select id="selectQualite" name="qualite" class="form-control SlectBox" >
+                                        <option value="" selected disabled> @lang('parametre.choix_qualite')</option>
                                         @if(isset($qualites) && $qualites->count() > 0)
                                             @foreach($qualites as $qualite)
                                                 <option value="{{$qualite->id}}" {{ (collect(old('qualite'))->contains($qualite->id)) ? 'selected':'' }}>{{$qualite->qualite}}</option>
@@ -77,25 +77,25 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>@lang('rhsd.annee')</label>
+                                    <label>@lang('parametre.annee')</label>
                                     <input class="form-control fc-datepicker" name="date_creation" id="date_creation" placeholder="YYYY-MM-DD" value="{{date('Y')}}" type="text" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_objectif')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_objectif')</label>
                                     <input type="text" class="form-control" id="amount1" name="objectif" value="{{old('objectif')}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_realisation')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_realisation')</label>
                                     <input type="text" class="form-control"  name="realisation" id="amount2" value="0">
                                 </div>
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('rhsd.nom_ecart')</label>
+                                    <label for="inputName" class="control-label">@lang('parametre.nom_ecart')</label>
                                     <input type="text" class="form-control"  name="ecart" readonly id="ecart" value="{{old('ecart')}}">
                                 </div>
                             </div>
@@ -139,12 +139,9 @@
         var date = $('.fc-datepicker').datepicker({
             dateFormat: 'yy'
         }).val();
-
-
     </script>
 
-    <script>
-        // calculate objectif et realisation and display in Ecart input
+    <script>  // calculate Ecart input
         $(document).ready(function(){
             $("input").keyup(function(){
                 var obj = $("#amount1").val();
@@ -170,5 +167,5 @@
                 if(isNaN(ecart)){$("#ecart").val('...');}
             });
         });
-    </script>
+    </script> 
 @endsection

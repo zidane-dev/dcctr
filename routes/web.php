@@ -43,12 +43,14 @@ Route::group(['middleware' => 'auth'],function (){
         Route::resource('qualites', 'QualiteController')->except(['show']);
         Route::resource('secteurs', 'SecteurController')->except(['show']);
         Route::resource('structures', 'StructureController')->except(['show']);
+        Route::resource('ressources', 'RessourceController')->except(['show']);
         Route::resource('unites', 'UniteController')->except(['show']);
         Route::resource('typecredits', 'TypeCreditController')->except(['show']);
         ####################### Parametres 2
         Route::resource('attributions', 'AttributionController')->except(['show']);
         Route::resource('dpcis', 'DpciController')->except(['show']);
         Route::resource('objectifs', 'ObjectifController')->except(['show']);
+        Route::resource('depenses', 'DepenseController')->except(['show']);
         ####################### Parametres 3
         ############    RH
         ########    SD
@@ -64,9 +66,11 @@ Route::group(['middleware' => 'auth'],function (){
         ########    DC SASD
         Route::get('indexo', 'RhsdController@indexByQuery')->name('indexByQuery');
         Route::get('regs', 'RhsdController@get_domaineGroupByReg')->name('subReg');
-        ############    AttProc
+        ############    ATT PROC
 
         Route::resource('attprocs', 'AttProcController');
+        ############    BUDGET
+        Route::resource('budgets', 'BudgetController');
         ############    AXE X
         
         ####################### Users
