@@ -73,6 +73,9 @@ class Kernel extends HttpKernel
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+        //Getting hold of domaine
+        'domaine_is_set' => \App\Http\Middleware\domaineIsSet::class,
+        'domaine_is_unset' => \App\Http\Middleware\domaineIsUnset::class,
 
     ];
 }

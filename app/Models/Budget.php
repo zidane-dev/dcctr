@@ -9,7 +9,18 @@ class Budget extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['OBJECTIF_BDG', 'REALISATION_BDG', 'ANNEE_BDG', 'ECART', 'ETAT', 'REJET', 'id_depense','id_domaine','id_axe','id_user','Description','Motif'];
+    protected $fillable =   ['OBJECTIF',
+                             'REALISATION',
+                             'ANNEE',
+                             'ECART',
+                             'ETAT',
+                             'REJET',
+                             'id_depense',
+                            'id_domaine',
+                            'id_axe',
+                            'id_user',
+                            'Description',
+                            'Motif'];
 
     public function domaine(){
         return $this->belongsTo('App\Models\Dpci', 'id_domaine');

@@ -27,7 +27,7 @@ class CreateAttProcsTable extends Migration
             $table->unsignedBigInteger('id_level');
             $table->foreign('id_level')->references('id')->on('levels');
             
-            $table->decimal('ANNEEOBJ',4,0);
+            $table->decimal('ANNEE',4,0);
             $table->decimal('ANNEERLS',4,0);
 
             $table->boolean('STATUT')->default(0);
@@ -35,11 +35,12 @@ class CreateAttProcsTable extends Migration
             $table->tinyInteger('REJET');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
-            
+            $table->text("Description")->nullable();
+            $table->text("Motif")->nullable();
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unique(['id_axe', 'id_attribution', 'id_domaine', 'id_action', 'id_level', 'ANNEEOBJ'], 'attproc_unique');
+            $table->index(['id_axe', 'id_attribution', 'id_domaine', 'id_action', 'id_level', 'ANNEE'], 'attproc_unique');
         });
     }
 

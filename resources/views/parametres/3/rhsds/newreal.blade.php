@@ -29,7 +29,7 @@
             <div class="card">
                 @include('layouts.errors_success')
                 <div class= "card-header">
-                    <h3 class="text-center">@lang('parametre.ajout') {{--$qualite->qualite--}} @lang('parametre.pour lannee') {{$rhsd->ANNEESD}}</h3>
+                    <h3 class="text-center">@lang('parametre.ajout') {{--$qualite->qualite--}} @lang('parametre.pour lannee') {{$rhsd->ANNEE}}</h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('rhs.store') }}" method="post" autocomplete="off">
@@ -95,14 +95,14 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('parametre.annee')</label>
-                                    <input type="text" class="form-control" id="amount1" name="annee" value="{{$rhsd->ANNEESD}}" readonly>
+                                    <input type="text" class="form-control" id="amount1" name="annee" value="{{$rhsd->ANNEE}}" readonly>
                                 </div>
                             </div>
                             
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('parametre.nom_objectif')</label>
-                                    <input type="text" class="form-control" id="amount1" name="objectif" value="{{$rhsd->OBJECTIFSD}}" readonly>
+                                    <input type="text" class="form-control" id="amount1" name="objectif" value="{{$rhsd->OBJECTIF}}" readonly>
                                 </div>
                             </div>
 
@@ -110,7 +110,7 @@
                         </div>
                         <br>
                         <div class="d-flex justify-content-center pb-4">
-                            <button type="submit" class="btn btn-primary px-2 my-2">@lang('formone.btn_add_edit')</button>
+                            <button type="submit" class="btn btn-primary px-2 my-2">@lang('formone.btn_add_on')</button>
                         </div>
                     </form>
                 </div>

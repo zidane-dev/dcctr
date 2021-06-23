@@ -25,7 +25,7 @@ return [
     'secteur success in add' => 'Le secteur a été ajouté avec succès',
     ################################   edit secteur
 
-    'edit secteur' => 'Modifier un secteur',
+    'edit' => 'Modifier un secteur',
     'secteur success in edit' => 'Le secteur a été modifié avec succès.',
     ################################   supprimer secteur
     'secteur success in supprimer' => 'Le secteur a été supprimé avec succès.',

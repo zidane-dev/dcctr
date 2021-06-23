@@ -39,6 +39,8 @@ class Dpci extends Model
                 case 'P' : return "Direction Provinciale"; break;
                 case 'R' : return "Direction Régionale"; break;
                 case 'C' : return "Direction Centrale"; break;
+                // case 'C' : return "Direction Centrale"; break;
+                // case 'D' : return "Direction de Coordination"; break;
             }
         }elseif(LaravelLocalization::getCurrentLocale() === 'ar'){
             switch ($val) {
@@ -53,6 +55,8 @@ class Dpci extends Model
             case 'P' : return "DP"; break;
             case 'R' : return "DR"; break;
             case 'C' : return "DC"; break;
+            // case 'C' : return "AC"; break;
+            // case 'D' : return "DC"; break;
         }
     }
 

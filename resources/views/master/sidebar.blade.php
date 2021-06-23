@@ -38,6 +38,7 @@
             </a>
             </li>
             <!-- Models or Parameters -->
+        @can('administrate')
             <li class="side-item side-item-category">@lang('sidebar.administration')</li>
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="">
@@ -72,7 +73,6 @@
                         </a>
                         <ul class="sub-slide-menu">
                             <!-- Axes -->
-                            @can('access-axes')
                             <li class="sub-slide">
                                 <a class="side-menu__item" href="{{route('axes.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i>
@@ -81,18 +81,14 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Indicateurs -->
-                            @can('access-indicateurs')
                             <li class="sub-slide">
                                 <a class="side-menu__item" href="{{route('indicateurs.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i>
                                     <span class="side-menu__label">@lang('sidebar.indicateurs')</span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Regions-->
-                            @can('access-regions')
                             <li class="sub-slide">
                                 <a class="side-menu__item"  href="{{route('regions.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i>
@@ -100,9 +96,7 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Ressources -->
-                            @can('access-regions')
                             <li class="sub-slide">
                                 <a class="side-menu__item"  href="{{route('ressources.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i>
@@ -110,9 +104,7 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Secteurs -->
-                            @can('access-secteurs')
                             <li class="sub-slide">
                                 <a class="side-menu__item" href="{{route('secteurs.index')}}"> 
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i> 
@@ -121,9 +113,7 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Structures -->
-                            @can('access-structures')
                             <li class="sub-slide">
                                 <a class="side-menu__item" href="{{route('structures.index')}}"> 
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i> 
@@ -132,9 +122,7 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Unites -->
-                            @can('access-unites')
                             <li class="sub-slide">
                                 <a class="side-menu__item" href="{{route('unites.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i>
@@ -143,18 +131,14 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                             <!--Type Credit-->
-                            @can('access-typecredits')
-                            <li class="sub-slide">
+                            {{-- <li class="sub-slide">
                                 <a class="side-menu__item"  href="{{route('typecredits.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"> </i>
                                     <span class="side-menu__label"> @lang('sidebar.typeCredits') </span>
                                 </a>
-                            </li>
-                            @endcan
+                            </li> --}}
                             <!-- Qualites -->
-                            @can('access-qualites')
                             <li class="sub-slide">
                                 <a class="side-menu__item"  href="{{route('qualites.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i>
@@ -163,7 +147,6 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                         </ul>
                     </li>
                     <!------------------------------------------------------------------------------------------------->
@@ -176,7 +159,6 @@
                         </a>
                         <ul class="sub-slide-menu">
                             <!-- Attribution -->
-                            @can('access-attributions')
                             <li class="sub-slide">
                                 <a class="side-menu__item" href="{{route('attributions.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i>
@@ -185,27 +167,21 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Objectif -->
-                            @can('access-objectifs')
                             <li class="sub-slide">
                                 <a class="side-menu__item"  href="{{route('objectifs.index')}}">
                                     <i class ="fas fa-ellipsis-h custom_style_icon"></i>
                                     <span class="side-menu__label"> @lang('sidebar.objectifs') </span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Depenses -->
-                            @can('access-objectifs')
                             <li class="sub-slide">
                                 <a class="side-menu__item"  href="{{route('depenses.index')}}">
                                     <i class ="fas fa-ellipsis-h custom_style_icon"></i>
                                     <span class="side-menu__label"> @lang('sidebar.depenses') </span>
                                 </a>
                             </li>
-                            @endcan
                             <!-- Dpcis -->
-                            @can('access-dpcis')
                             <li class="sub-slide">
                                 <a class="side-menu__item" href="{{route('dpcis.index')}}">
                                     <i class="fas fa-ellipsis-h custom_style_icon"></i>
@@ -214,11 +190,11 @@
                                     </span>
                                 </a>
                             </li>
-                            @endcan
                         </ul>
                     </li>
                 </ul>
             </li>
+        @endcan
             <!------------------------------------------------------------------------------------------------->
 
             <!-- SIDEBAR.AXES -->
@@ -234,49 +210,53 @@
                 </a>
                 <ul class="slide-menu">
                     <!-- Attributions de processus -->
-
+                    @canany(['administrate','sd', 'dc'])
                     <li class="slide">
-                        <a class="side-menu__item" title="@lang('sidebar.attprocs')" href="{{route('attprocs.index')}}">
+                        <a class="side-menu__item" title="@lang('sidebar.attprocs')" 
+                                href="{{route('attprocs.index')}}">
                             <i class="fas fa-boxes custom_style_icon"></i>
                             <span class="side-menu__label">
                                 @lang('sidebar.attprocs')
                             </span>
                         </a>
                     </li>
-
+                    @endcanany
                     <!-- Ressources Humaines -->
-                    @can('access-rhsds')
+                    @canany(['administrate','ac','sd', 'dc'])
                     <li class="slide">
-                        <a class="side-menu__item" title="@lang('sidebar.rhsds')" href="{{route('rhs.index')}}">
+                        <a class="side-menu__item" title="@lang('sidebar.rhsds')"
+                                href="{{route('rhs.index')}}">
                             <i class="fas fa-boxes custom_style_icon"></i>
                             <span class="side-menu__label">
                                 @lang('sidebar.rhsds')
                             </span>
                         </a>
                     </li>
-                    @endcan
+                    @endcanany
                     <!-- Budget -->
-                     
+                    @canany(['administrate','ac','sd', 'dc'])
                     <li class="slide">
-                        <a class="side-menu__item" href="{{route('budgets.index')}}">
+                        <a class="side-menu__item"
+                                    href="{{route('budgets.index')}}">
                             <i class="fas fa-boxes custom_style_icon"></i>
                             <span class="side-menu__label">
-                                @lang('sidebar.budget')
+                                @lang('sidebar.budgets')
                             </span>
                         </a>
                     </li>
-                    
+                    @endcanany
                     <!-- Indicateurs de Performance -->
-                     
+                    @canany(['administrate','sd', 'dc'])
                     <li class="slide">
-                        <a class="side-menu__item" title="@lang('sidebar.indicperfs')" href="">
+                        <a class="side-menu__item" title="@lang('sidebar.indicperfs')"
+                                href="">
                             <i class="fas fa-boxes custom_style_icon"></i>
                             <span class="side-menu__label">
                                 @lang('sidebar.indicperfs')
                             </span>
                         </a>
                     </li>
-                     
+                     @endcanany
                 </ul>
             </li>
             
@@ -334,19 +314,88 @@
                             </span>
                         </a>
                     </li>
-                     <li class="slide">
-                         <a class="side-menu__item" href="{{route('rhs.validation')}}">
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{route('validation.att_procs')}}">   
                             <i class="fas fa-users custom_style_icon"></i>
+                            @if(session()->get('attproc_count') > 0)
+                                <label class="badge badge-warning">
+                                    <span class="text-light ">{{session()->get('attproc_count')}}</span>
+                                </label>
+                            @else
+                                <label class="badge badge-success">
+                                    <span class="text-light ">0</span>
+                                </label>
+                            @endif
                             <span class="side-menu__label">
-                                @lang('sidebar.rhsds')
+                                @lang('sidebar.attprocs')
                             </span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{route('validation.rhsds')}}">   
+                            <i class="fas fa-users custom_style_icon"></i>
                             @if(session()->get('rh_count') > 0)
                                 <label class="badge badge-warning">
                                     <span class="text-light ">{{session()->get('rh_count')}}</span>
                                 </label>
+                            @else
+                                <label class="badge badge-success">
+                                    <span class="text-light ">0</span>
+                                </label>
                             @endif
-                         </a>
-                     </li>
+                            <span class="side-menu__label">
+                                @lang('sidebar.rhsds')
+                            </span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{route('validation.budgets')}}">   
+                            <i class="fas fa-users custom_style_icon"></i>
+                            @if(session()->get('bdg_count') > 0)
+                                <label class="badge badge-warning">
+                                    <span class="text-light ">{{session()->get('bdg_count')}}</span>
+                                </label>
+                            @else
+                                <label class="badge badge-success">
+                                    <span class="text-light ">0</span>
+                                </label>
+                            @endif
+                            <span class="side-menu__label">
+                                @lang('sidebar.budgets')
+                            </span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{route('validation.indic_perfs')}}">   
+                            <i class="fas fa-users custom_style_icon"></i>
+                            @if(session()->get('indic_count') > 0)
+                                <label class="badge badge-warning">
+                                    <span class="text-light ">{{session()->get('indic_count')}}</span>
+                                </label>
+                            @else
+                                <label class="badge badge-success">
+                                    <span class="text-light ">0</span>
+                                </label>
+                            @endif
+                            <span class="side-menu__label">
+                                @lang('sidebar.indicperfs')
+                            </span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{route('show.session')}}">
+                            <i class="fas fa-users custom_style_icon"></i>
+                            <span class="side-menu__label">
+                            SESSION
+                        </span>
+                        </a>
+                        <a class="side-menu__item" href="{{route('show.requete')}}">
+                            <i class="fas fa-users custom_style_icon"></i>
+                            <span class="side-menu__label">
+                            REQUETE
+                        </span>
+                        </a>
+                    </li>
                  </ul>
              </li>
         </ul>

@@ -8,12 +8,11 @@
             <div class="card mg-b-20">
                 @include('layouts.errors_success')
                 <div class="card-header pb-0">
-                    @can('create-'.$class)
+                    @can('administrate')
                         <a href="/{{$class}}/create" class="btn btn-primary" style="color: whitesmoke">
                         <i class="fas fa-plus"></i> @lang($class.'.add') </a> <!-- ROUTE -->
                     @endcan
                 </div>
-                @can('list-'.$class)
                     @if($data->count() > 0)
                         <div class="card-body">
                             <!-- Table -->
@@ -35,12 +34,12 @@
                                             <td class="text-center">{{$i++}}</td>
                                             <td>{{$dt->name}}</td>
                                             <td class="text-center">
-                                                @can('edit-'.$class)
+                                                @can('administrate')
                                                 <a class="btn btn-sm btn-info" href="{{$class}}/{{$dt->id}}/edit" title="@lang('formone.title edit')">
                                                     <i class="las la-pen"></i>    
                                                 </a>
                                                 @endcan
-                                                @can('delete-'.$class)
+                                                @can('administrate')
                                                 <a class="modal-effect btn btn-sm btn-danger"   
                                                     title="@lang('formone.title supprimer')"
                                                     data-effect="effect-scale" 

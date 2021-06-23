@@ -4,6 +4,7 @@ use App\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Contracts\Role;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -46,23 +47,23 @@ class PermissionTableSeeder extends Seeder
         //   'parameter-delete', 
         //   'parameter-erase', 
 
-        //   'baseone-create', 
-        //   'baseone-edit', 
-        //   'baseone-list', 
-        //   'baseone-delete', 
-        //   'baseone-erase',
+        //   'basepf-create', 
+        //   'basepf-edit', 
+        //   'basepf-list', 
+        //   'basepf-delete', 
+        //   'basepf-erase',
 
-        //   'basetwo-create', 
-        //   'basetwo-edit', 
-        //   'basetwo-list', 
-        //   'basetwo-delete', 
-        //   'basetwo-erase',
+        //   'basecs-create', 
+        //   'basecs-edit', 
+        //   'basecs-list', 
+        //   'basecs-delete', 
+        //   'basecs-erase',
 
-        //   'basethree-create', 
-        //   'basethree-edit', 
-        //   'basethree-list', 
-        //   'basethree-delete', 
-        //   'basethree-erase',
+        //   'basedr-create', 
+        //   'basedr-edit', 
+        //   'basedr-list', 
+        //   'basedr-delete', 
+        //   'basedr-erase',
         // ];
 
         // foreach($permissions as $permission){
@@ -72,16 +73,167 @@ class PermissionTableSeeder extends Seeder
         ///1- SG MLM 
         //2- SD CS
 
-          $i = 322;
+          $i = 0;
 
-          // Permission::create(['name' => 'dcsasd']);
-          // Permission::create(['name' => 'sd']);
-          // Permission::create(['name' => 'administrate']);  //?
-          // Permission::create(['name' => 'view-region']);
-          // Permission::create(['name' => 'view-province']);
-          // Permission::create(['name' => 'validate-only']);
-          // Permission::create(['name' => 'reject-only']);
-          // Permission::create(['name' => 'insert-real']);
+         if($i == 1){
+
+            // Role::create(['name' => 's-a']);
+            // Role::create(['name' => 'pf']);
+            // Role::create(['name' => 'apf']);
+            // Role::create(['name' => 'cs']);
+            // Role::create(['name' => 'acs']);
+            // Role::create(['name' => 'd-r']);
+            // Role::create(['name' => 'ad']);
+            // Role::create(['name' => 'd-p']);
+            // Role::create(['name' => 'dcs']);
+            // Role::create(['name' => 'dcd']);
+            // Role::create(['name' => 'dd']);
+
+            // $us_ad = User::create([
+            //   'name' => 'Hicham Chamich',
+            //   'email' => 'directeur-a@gmail.com',
+            //   'password' => bcrypt('12345678'),
+            //   'domaine_id' => 33,
+            // ]);
+            // $us_acs = User::create([
+            //   'name' => 'Hamid Mohammad',
+            //   'email' => 'chef-a@gmail.com',
+            //   'password' => bcrypt('12345678'),
+            //   'domaine_id' => 33,
+            // ]);
+            // $us_apf = User::create([
+            //   'name' => 'Samsoum Bilal',
+            //   'email' => 'employe-a@gmail.com',
+            //   'password' => bcrypt('12345678'),
+            //   'domaine_id' => 33,
+            // ]);
+
+            $us_adm = User::where('id', 1)->first();
+            $us_pf = User::where('id', 8)->first();
+            $us_cs = User::where('id', 4)->first();
+            $us_csr = User::where('id', 5)->first();
+            $us_dp = User::where('id', 3)->first();
+            $us_dr = User::where('id', 2)->first();
+            $us_dcs = User::where('id', 10)->first();
+            $us_dcd = User::where('id', 11)->first();
+            $us_dd = User::where('id', 9)->first();
+            $us_apf = User::where('id', 26)->first();
+            $us_acs = User::where('id', 25)->first();
+            $us_ad = User::where('id', 24)->first();
+
+            // $admin = Role::findByName('s-a');
+            // $pf = Role::findByName('pf');
+            // $apf = Role::findByName('apf');
+            // $cs = Role::findByName('cs');
+            // $acs = Role::findByName('acs');
+            // $dr = Role::findByName('d-r');
+            // $ad = Role::findByName('ad');
+            // $dp = Role::findByName('d-p');
+            // $dcs = Role::findByName('dcs');
+            // $dcd = Role::findByName('dcd');
+            // $dd = Role::findByName('dd');
+
+            $us_apf->assignRole('apf');
+            $us_acs->assignRole('acs');
+            $us_ad->assignRole('ad');
+            $us_adm->assignRole('s-a');
+            $us_pf->assignRole('pf');
+            $us_cs->assignRole('cs');
+            $us_csr->assignRole('cs');
+            $us_dp->assignRole('d-p');
+            $us_dr->assignRole('d-r');
+            $us_dcs->assignRole('dcs');
+            $us_dcd->assignRole('dcd');
+            $us_dd->assignRole('dd');
+         }
+            $j=2;
+
+         if($j==2){
+          $admin = Role::findByName('s-a', 'web');
+          $pf = Role::findByName('pf', 'web');
+          $apf = Role::findByName('apf', 'web');
+          $cs = Role::findByName('cs', 'web');
+          $acs = Role::findByName('acs', 'web');
+          $dr = Role::findByName('d-r', 'web');
+          $ad = Role::findByName('ad', 'web');
+          $dp = Role::findByName('d-p', 'web');
+          $dcs = Role::findByName('dcs', 'web');
+          $dcd = Role::findByName('dcd', 'web');
+          $dd = Role::findByName('dd', 'web');
+          
+            $adm = Permission::findOrCreate('administrate');
+            $sd = Permission::findOrCreate('sd');
+            $ac = Permission::findOrCreate('ac');
+            $dc = Permission::findOrCreate('dc');
+
+            $vs = Permission::findOrCreate('view-select');
+            $vp = Permission::findOrCreate('view-province');
+            $vr = Permission::findOrCreate('view-region');
+            
+            $ve = Permission::findOrCreate('view-etats');
+            $vrj = Permission::findOrCreate('view-rejets');
+            $fi = Permission::findOrCreate('follow-info');
+            $ao = Permission::findOrCreate('add-on'); //new-rea
+            $a = Permission::findOrCreate('add'); //new-rea
+            $dbt = Permission::findOrCreate('delete-basethree'); 
+            $ddbt = Permission::findOrCreate('destroy-basethree'); 
+            $dbo = Permission::findOrCreate('delete-baseone'); 
+            $ddbo = Permission::findOrCreate('destroy-baseone'); 
+            
+            $v = Permission::findOrCreate('validate');
+            $r = Permission::findOrCreate('reject');
+            $e = Permission::findOrCreate('edit');
+            $ey = Permission::findOrCreate('edit-annee');
+            $eo = Permission::findOrCreate('edit-global-goal');
+
+            $perms_for_pf =  [ $sd  , $vp, $v,  $ao, $vrj, $e];
+            $perms_for_apf = [ $ac  , $vp, $v, $r, $ao, $vrj, $e];
+            $perms_for_cs =  [ $sd  , $vp, $v, $r, $ao, $vrj, $e];
+            $perms_for_acs = [ $ac  , $vp, $v, $r, $ao, $vrj, $e];
+            $perms_for_dcs = [ $dc  , $vs, $v, $r ];
+            $perms_for_dcd = [ $dc  , $vs, $v, $r, $fi];
+            $perms_for_dp =  [ $sd  , $vp, $v, $r,$a, $ve, $fi];
+            $perms_for_dr =  [ $sd  , $vr, $v, $r,$a, $ve, $fi];
+            $perms_for_ad =  [ $ac  , $vp, $v, $r,$a, $ve, $fi];
+            $perms_for_dd =  [ $dc  , $vs,  $r, $ve, $fi];
+            $perms_for_adm = [ $adm , $vs,  $r, $ey, $eo, $dbt, $ddbt, $dbo, $ddbo];
+
+            foreach($perms_for_pf as $action){
+              $action->assignRole($pf);
+            }
+            foreach($perms_for_apf as $action){
+              $action->assignRole($apf);
+            }
+            foreach($perms_for_cs as $action){
+              $action->assignRole($cs);
+            }
+            foreach($perms_for_acs as $action){
+              $action->assignRole($acs);
+            }
+            foreach($perms_for_dcs as $action){
+              $action->assignRole($dcs);
+            }
+            foreach($perms_for_dcd as $action){
+              $action->assignRole($dcd);
+            }
+            foreach($perms_for_dp as $action){
+              $action->assignRole($dp);
+            }
+            foreach($perms_for_dr as $action){
+              $action->assignRole($dr);
+            }
+            foreach($perms_for_ad as $action){
+              $action->assignRole($ad);
+            }
+            foreach($perms_for_dd as $action){
+              $action->assignRole($dd);
+            }
+            foreach($perms_for_adm as $action){
+              $action->assignRole($admin);
+            }
+            
+          return 1;
+         }
 
           if($i==321){
             $ir = Permission::create(['name' => 'insert-real']);
@@ -89,65 +241,45 @@ class PermissionTableSeeder extends Seeder
             $egg = Permission::create(['name' => 'edit-global-goal']);
             $fi = Permission::create(['name' => 'follow-info']);
 
-            $two =    Role::findByName('cs');
-            $one =    Role::findByName('point focal');
-            $four =   Role::findByName('d-r');
+            $cs =    Role::findByName('cs');
+            $pf =    Role::findByName('point focal');
+            $dp =   Role::findByName('d-r');
             $ten =  Role::findByName('dcs');
             $nine =  Role::findByName('dcd');
             $eight =  Role::findByName('dd');
 
-            $four->givePermissionTo($egg);
+            $dp->givePermissionTo($egg);
             $eight->givePermissionTo($egg);
 
-            $two->givePermissionTo($ir);
-            $one->givePermissionTo($ir);
+            $cs->givePermissionTo($ir);
+            $pf->givePermissionTo($ir);
 
             $eight->givePermissionTo($fi);
-            $four->givePermissionTo($fi);
+            $dp->givePermissionTo($fi);
 
             return 1;
           }
 
-        // $role = Role::create(['name' => 'point focal']);
-        // $role = Role::create(['name' => 'cs']);
-        // $role = Role::create(['name' => 'dp']);
-        // $role = Role::create(['name' => 'dr']);
-        // $role = Role::create(['name' => 'dcs']);
-        // $role = Role::create(['name' => 'dcd']);
-        // $role = Role::create(['name' => 'dd']);
-        // $role = Role::create(['name' => 'management']);
-        // $role = Role::create(['name' => 'mlm']);
-        // $role = Role::create(['name' => 'dcsasd']);
-        // $role = Role::create(['name' => 's-a']);
+        $admin = Role::create(['name' => 's-a']);
+        $pf = Role::create(['name' => 'pf']);
+        $cs = Role::create(['name' => 'cs']);
+        $dr = Role::create(['name' => 'd-r']);
+        $dp = Role::create(['name' => 'd-p']);
+        $dcs = Role::create(['name' => 'dcs']);
+        $dcd = Role::create(['name' => 'dcd']);
+        $dd = Role::create(['name' => 'dd']);
 
-        $admin =  Role::findByName('s-a');
-        $ten =  Role::findByName('dcs');
-        $nine =  Role::findByName('dcd');
-        // $eight =  Role::findByName('dcsasd');
-        // $seven =  Role::findByName('management');
-        // $six =    Role::findByName('mlm');
-        // $five =   Role::findByName('ss');
-        // $four =   Role::findByName('d-r');
-        // $three =  Role::findByName('d-p');
-        // $two =    Role::findByName('cs');
-        // $one =    Role::findByName('point focal');
 
         $parametres = [
-          'axes', 
-          'attributions',
-          'dpcis', 
-          'regions', 
-          'indicateurs', 
-          'objectifs', 
-          'qualites',
-          'secteurs',
-          'structures',
-          'typecredits',
-          'unites',
-          'rhsds'
+          'rhsds',
+          'budgets',
+          'attprocs',
+          'indicperfs',
         ];
         $validation_parameters = [
           'rhsds',
+          'budgets',
+          'indicperfs',
           'attprocs'
         ];
 
@@ -156,7 +288,6 @@ class PermissionTableSeeder extends Seeder
             'access-'.$parametre,
             'create-'.$parametre,
             'edit-'.$parametre,
-            'list-'.$parametre,
             'delete-'.$parametre,
             'erase-'.$parametre,
             'restore-'.$parametre,
@@ -171,82 +302,66 @@ class PermissionTableSeeder extends Seeder
           }
         }
           foreach($perm as $p){
-            if(! Permission::findByName($p))
-              $action = Permission::create(['name' => $p]);
-            else
-              $action = Permission::findByName($p);
+            
+              $action = Permission::findOrCreate($p);
 
             if(preg_match('/^access-/', $p)){
               // $action->assignRole($admin);
-              // $action->assignRole($one);
-              // $action->assignRole($two);
-              // $action->assignRole($three);
-              // $action->assignRole($four);
-              // $action->assignRole($five);
-              // $action->assignRole($six);
-              // $action->assignRole($seven);              
+              // $action->assignRole($pf);
+              // $action->assignRole($cs);
+              // $action->assignRole($dr);
+              // $action->assignRole($dp);
+              // $action->assignRole($dcs);
+              // $action->assignRole($dcd);
+              // $action->assignRole($dd);              
               // $action->assignRole($eight);
-              $action->assignRole($nine);              
-              $action->assignRole($ten);
             }
             if(preg_match('/^create-/', $p)){
               // $action->assignRole($admin);
-              // $action->assignRole($one);
-              // $action->assignRole($two);
+              // $action->assignRole($pf);
+              // $action->assignRole($cs);
             }
             if(preg_match('/^edit-/', $p)){
               // $action->assignRole($admin);
-              // $action->assignRole($one);
-              // $action->assignRole($two);
-              // $action->assignRole($four);
-              // $action->assignRole($three);
+              // $action->assignRole($pf);
+              // $action->assignRole($cs);
+              // $action->assignRole($dp);
+              // $action->assignRole($dr);
             }
-            if(preg_match('/^list-/', $p)){
-              // $action->assignRole($admin);
-              // $action->assignRole($one);
-              // $action->assignRole($two);
-              // $action->assignRole($three);
-              // $action->assignRole($four);
-              // $action->assignRole($five);
-              // $action->assignRole($six);
-              // $action->assignRole($seven);
-              // $action->assignRole($eight);
-              $action->assignRole($nine);              
-              $action->assignRole($ten);
-            }
+            
             if(preg_match('/^delete-/', $p)){
               // $action->assignRole($admin);
-              // $action->assignRole($three);
-              // $action->assignRole($four);
+              // $action->assignRole($dr);
+              // $action->assignRole($dp);
               // $action->assignRole($eight);
               $action->assignRole($ten);
             }
             if(preg_match('/^erase-/', $p)){
               // $action->assignRole($admin);
-              // $action->assignRole($three);
-              // $action->assignRole($four);
+              // $action->assignRole($dr);
+              // $action->assignRole($dp);
               // $action->assignRole($eight);
               $action->assignRole($nine);              
               $action->assignRole($ten);
             }
             if(preg_match('/^restore-/', $p)){
               // $action->assignRole($admin);
-              // $action->assignRole($three);
-              // $action->assignRole($four);
+              // $action->assignRole($dr);
+              // $action->assignRole($dp);
               // $action->assignRole($eight);
             }
             if(preg_match('/^validate-/', $p)){
               // $action->assignRole($admin);
-              // $action->assignRole($three);
-              // $action->assignRole($four);
+              // $action->assignRole($dr);
+              // $action->assignRole($dp);
               // $action->assignRole($eight);
               $action->assignRole($nine);              
               $action->assignRole($ten);
             }
             if(preg_match('/^reject-/', $p)){
               // $action->assignRole($admin);
-              // $action->assignRole($three);
-              // $action->assignRole($four);
+              // $action->assignRole($dr);
+              // $action->assignRole($dp);
               // $action->assignRole($eight);
               $action->assignRole($nine);              
               $action->assignRole($ten);

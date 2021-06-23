@@ -7,8 +7,8 @@ return [
     'modal supprimer' => "Suppression de la région ?",
 
     ################################  create et edit  l'region
-    'nom_champ_fr' => 'Nom de la région',
-    'nom_champ_ar' => ' اسم المنطقة ',
+    'champ_fr' => 'Nom de la région',
+    'champ_ar' => ' اسم المنطقة ',
     'btn_add_edit' => 'sauvegarder',
     'form.title' => "Veuillez saisir le nom de la région.",
 
@@ -24,7 +24,7 @@ return [
     'region success in add' => "La région a été ajoutée avec succès.",
 
     ################################   edit  l'region
-    'edit dr' => "Editer la région ",
+    'edit' => "Editer la région ",
     'region success in edit' => "La région a été éditée avec succès.",
 
     ################################   supprimer  l'region

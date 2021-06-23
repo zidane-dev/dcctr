@@ -24,9 +24,9 @@ class CreateBudgetsTable extends Migration
             $table->unsignedBigInteger('id_axe');
             $table->foreign('id_axe')->references('id')->on('axes');
 
-            $table->decimal('ANNEE_BDG',4,0);
-            $table->decimal('OBJECTIF_BDG',12,0);
-            $table->decimal('REALISATION_BDG',12,0);
+            $table->decimal('ANNEE',4,0);
+            $table->decimal('OBJECTIF',12,0);
+            $table->decimal('REALISATION',12,0);
             $table->decimal('ECART',12,0);
             $table->tinyInteger('ETAT');
             $table->tinyInteger('REJET');
@@ -39,7 +39,7 @@ class CreateBudgetsTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unique(['id_depense', 'id_domaine', 'ANNEE_BDG'], 'budget_unique');
+            $table->index(['id_depense', 'id_domaine', 'ANNEE', 'OBJECTIF'], 'budget_unique');
 
         });
     }
