@@ -243,55 +243,7 @@
                                             <td>{{$att->ANNEE}}</td>
                                             <td>{{$att->STATUT}}</td>
                                             <td>{{$att->username}}</td>
-                                            @canany(['edit-basethree','view-rejets', 'add-on','follow-info','delete-basethree'])
-                                                <td class="d-inline-flex text-center align-middle">
-                                                    <div class="dropdown">
-                                                        <button aria-expanded = "false" 
-                                                                aria-haspopup = "true"
-                                                                class = "btn ripple btn-primary btn-sm" 
-                                                                data-toggle = "dropdown"
-                                                                type = "button">
-                                                                    @lang('parametre.actions')
-                                                                <i class="fas fa-caret-down"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu">
-                                                            @can('edit-basethree') 
-                                                                <a class="dropdown-item" href="{{route('rhs.edit',$del->id)}}">
-                                                                    <i class="fas fa-edit" style="color: #239a8a"></i>
-                                                                    &nbsp;&nbsp;@lang('parametre.edit')
-                                                                </a>
-                                                            @endcan
-                                                            @can('add-on')
-                                                                <a class="dropdown-item" href="{{route('rhs.storereal',$del->id)}}">
-                                                                    <i class="fas fa-plus-circle"></i>
-                                                                    &nbsp;&nbsp;@lang('del.ajoutSur')
-                                                                </a>
-                                                            @endcan
-                                                            @can('follow-info')
-                                                                <a class="dropdown-item" href="{{route('rhs.show',$del->id)}}">
-                                                                    <i class="fas fa-info"></i>
-                                                                    &nbsp;&nbsp;@lang('parametre.follow_line')
-                                                                </a>
-                                                            @endcan
-                                                            @if ($del->REJET == 1)
-                                                                @can('view-rejets')
-                                                                    <a class="dropdown-item" href="{{--route('rhs.storereal',$del->id)--}}">
-                                                                        <i class="fas fa-plus-circle"></i>
-                                                                        &nbsp;&nbsp;@lang('parametre.view_rejet')
-                                                                    </a>
-                                                                @endcan
-                                                            @endif
-                                                            @can('delete-basethree')
-                                                                <a class="dropdown-item"  href="javascript:void(0)" data-id="{{ $del->id }}"
-                                                                data-toggle="modal" data-target="#modaldelSUP">
-                                                                    <i class="text-danger fas fa-trash-alt"></i>
-                                                                    &nbsp;&nbsp;@lang('del.supprimer')
-                                                                </a>
-                                                            @endcan
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            @endcanany
+                                            
                                         </tr>
                                     @endforeach
                                     </tbody>

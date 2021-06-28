@@ -45,18 +45,15 @@
                                 <thead>
                                 <tr>
                                     <th width="25px" class="border-bottom-0">#</th>
-                                    @canany(['view-region','view-select'])
-                                        <th class="border-bottom-0">@lang('dpcis.nom')</th>
-                                    @endcanany
-                                    <th class="border-bottom-0">@lang('attproc.niveau')</th>
-                                    <th class="border-bottom-0">@lang('attproc.transferts')</th>
-                                    <th class="border-bottom-0">@lang('attproc.action')</th>
                                     <th class="border-bottom-0">@lang('parametre.annee')</th>
+                                    @cannot('view-province')
+                                        <th class="border-bottom-0">@lang('dpcis.nom')</th>
+                                        <th class="border-bottom-0">@lang('attproc.niveau')</th>
+                                    @endcannot
+                                    <th class="border-bottom-0">@lang('attproc.transferts')</th>
+                                    <th class="border-bottom-0">@lang('parametre.action')</th>
                                     <th class="border-bottom-0">@lang('attproc.statut')</th>
-                                    <th class="border-bottom-0">@lang('parametre.last_update')</th>
-                                    @canany(['add-on','edit-global-goal','follow-info','delete-rhsds'])
-                                        <th class="border-bottom-0">@lang('parametre.actions')</th>
-                                    @endcanany
+                                    <th class="border-bottom-0 no-wrap">@lang('parametre.last_update')</th>
                                 </tr>
                                 </thead>
 
@@ -64,41 +61,18 @@
                                 @foreach($data_v[0] as $attribution)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        @canany(['view-region','view-select'])
+                                        <td>{{$attribution->ANNEE}}</td>
+                                        @cannot('view-province')
                                             <td>{{$attribution->domaine->ty}} - {{$attribution->domaine->domaine}}</td>
-                                        @endcanany
-                                        <td>{{$attribution->niveau->niveau}}</td>                                        
+                                            <td>{{$attribution->niveau->niveau}}</td>                                        
+                                        @endcannot
                                         <td>{{$attribution->attribution->attribution}}</td>
                                         <td>{{$attribution->action->action}}</td>                                        
-                                        <td>{{$attribution->ANNEE}}</td>
                                         <td>{{$attribution->STATUT}}</td>
                                         <td>{{\Carbon\Carbon::parse($attribution->date)->format('d/m/y')}} @lang('parametre.at') 
-                                            {{\Carbon\Carbon::parse($attribution->date)->format('H:i')}} </td>
-                                        @canany(['add-on','edit-global-goal','follow-info','delete-basethree'])
-                                            <td class="mx-auto">
-                                                @can('add-on')
-                                                    <a class="mx-auto px-1" href="{{route('rhs.storereal',$attribution->id)}}" title="@lang('rhsd.ajoutSur')">
-                                                        <i class="fas fa-plus-circle"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('edit-global-goal')
-                                                    <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$attribution->id)}}" title="@lang('parametre.changeObjectif')">
-                                                        <i class="fas fa-vote-yea"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('follow-info')
-                                                    <a class="mx-auto px-1" href="{{route('rhs.show',$attribution->id)}}" title="@lang('rhsd.viewRh')">
-                                                        <i class="fas fa-info"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('delete-basethree')
-                                                    <a class=""  href="javascript:void(0)" data-id="{{ $attribution->id }}" title="@lang('rhsd.supprimer')"
-                                                    data-toggle="modal" data-target="#modalRhsdSUP">
-                                                        <i class="text-danger fas fa-trash-alt"></i>
-                                                    </a>
-                                                @endcan
-                                            </td>
-                                        @endcanany
+                                            {{\Carbon\Carbon::parse($attribution->date)->format('H:i')}} 
+                                        </td>
+                                        
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -135,18 +109,15 @@
                                 <thead>
                                 <tr>
                                     <th width="25px" class="border-bottom-0">#</th>
-                                    @canany(['view-region','view-select'])
+                                    @cannot('view-province')
                                         <th class="border-bottom-0">@lang('dpcis.nom')</th>
-                                    @endcanany
+                                    @endcannot
+                                    <th class="border-bottom-0">@lang('parametre.annee')</th>
                                     <th class="border-bottom-0">@lang('attproc.niveau')</th>
                                     <th class="border-bottom-0">@lang('attproc.delegations')</th>
-                                    <th class="border-bottom-0">@lang('attproc.action')</th>
-                                    <th class="border-bottom-0">@lang('parametre.annee')</th>
+                                    <th class="border-bottom-0">@lang('parametre.action')</th>
                                     <th class="border-bottom-0">@lang('attproc.statut')</th>
                                     <th class="border-bottom-0">@lang('parametre.last_update')</th>
-                                    @canany(['add-on','edit-global-goal','follow-info','delete-rhsds'])
-                                        <th class="border-bottom-0">@lang('parametre.actions')</th>
-                                    @endcanany
                                 </tr>
                                 </thead>
 
@@ -154,41 +125,17 @@
                                 @foreach($data_v[1] as $delegation)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        @canany(['view-region','view-select'])
+                                        <td>{{$delegation->ANNEE}}</td>
+                                        @cannot('view-province')
                                             <td>{{$delegation->domaine->ty}} - {{$delegation->domaine->domaine}}</td>
-                                        @endcanany
+                                        @endcannot
                                         <td>{{$delegation->niveau->niveau}}</td>  
                                         <td>{{$delegation->attribution->attribution}}</td>
                                         <td>{{$delegation->action->action}}</td>  
-                                        <td>{{$delegation->ANNEE}}</td>
                                         <td>{{$delegation->STATUT}}</td>  
                                         <td>{{\Carbon\Carbon::parse($delegation->date)->format('d/m/y')}} @lang('parametre.at') 
-                                            {{\Carbon\Carbon::parse($delegation->date)->format('H:i')}} </td>
-                                        @canany(['add-on','edit-global-goal','follow-info','delete-basethree'])
-                                            <td class="mx-auto">
-                                                @can('add-on')
-                                                    <a class="mx-auto px-1" href="{{route('rhs.storereal',$delegation->id)}}" title="@lang('rhsd.ajoutSur')">
-                                                        <i class="fas fa-plus-circle"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('edit-global-goal')
-                                                    <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$delegation->id)}}" title="@lang('parametre.changeObjectif')">
-                                                        <i class="fas fa-vote-yea"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('follow-info')
-                                                    <a class="mx-auto px-1" href="{{route('rhs.show',$delegation->id)}}" title="@lang('rhsd.viewRh')">
-                                                        <i class="fas fa-info"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('delete-basethree')
-                                                    <a class=""  href="javascript:void(0)" data-id="{{ $delegation->id }}" title="@lang('rhsd.supprimer')"
-                                                    data-toggle="modal" data-target="#modalRhsdSUP">
-                                                        <i class="text-danger fas fa-trash-alt"></i>
-                                                    </a>
-                                                @endcan
-                                            </td>
-                                        @endcanany
+                                            {{\Carbon\Carbon::parse($delegation->date)->format('H:i')}} 
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

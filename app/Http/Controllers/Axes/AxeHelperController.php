@@ -61,8 +61,7 @@ class AxeHelperController extends Controller
                     ];
         } 
         elseif(Auth::user()->hasPermissionTo('view-region')){
-            $region_id = $dp->dr_id;
-            $frame = $this->load_region_frame($metabase, $helper, $region_id);
+            $frame = $this->load_region_frame($metabase, $helper, $dp->dr_id);
 
         }elseif(Auth::user()->hasPermissionTo('view-province')){
             $frame = $this->load_province_frame($metabase, $helper, $request->session()->get('domaine_id'));
@@ -208,7 +207,6 @@ class AxeHelperController extends Controller
         $frame = $metabase->get_dashboard($data[3], $token);
         return $frame;
     }
-
     public function update_all_ecarts($table){ // for developement purposes 
         $bdgs = DB::table($table)->all();       // never tested this particular line
         foreach($bdgs as $bdg){

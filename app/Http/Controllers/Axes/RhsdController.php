@@ -268,19 +268,20 @@ class RhsdController extends Controller
         return $token;
     }
     public function get_region_token($builder, $signer, $secret, $region_id){
+        $etat = (new UserValidationController)->get_supposed_states('public');
         $token = ($builder)
-            ->set('resource', [ 'dashboard' => 33 ])
-            ->set('params', ['region' => [$region_id]])
+            ->set('resource', [ 'dashboard' => 129 ])
+            ->set('params', ['region' => $region_id, 'etat' => $etat[0]])
             ->sign($signer, $secret)
             ->getToken();
 
         return $token;
     }
     public function get_province_token($builder, $signer, $secret, $domaine){
-        
+        $etat = (new UserValidationController)->get_supposed_states('public');
         $token = ($builder)
             ->set('resource', [ 'dashboard' => 34 ])
-            ->set('params', ['domaine' => $domaine])
+            ->set('params', ['domaine' => $domaine, 'etat' => $etat[0]])
             ->sign($signer, $secret)
             ->getToken();
 

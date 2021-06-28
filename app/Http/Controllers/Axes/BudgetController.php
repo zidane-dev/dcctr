@@ -106,28 +106,30 @@ class BudgetController extends Controller
         //
     }
     public function get_select_token($builder, $signer, $secret){
+        $etat = (new UserValidationController)->get_supposed_states('public');
         $token = ($builder)
             ->set('resource', [ 'dashboard' => 69 ])
-            ->set('params', ['param' => ''])
+            ->set('params', ['etat' => $etat[0]])
             ->sign($signer, $secret)
             ->getToken();
 
         return $token;
     }
     public function get_region_token($builder, $signer, $secret, $region_id){
+        $etat = (new UserValidationController)->get_supposed_states('public');
         $token = ($builder)
             ->set('resource', [ 'dashboard' => 97 ])
-            ->set('params', ['region' => [$region_id]])
+            ->set('params', ['region' => $region_id, 'etat' => $etat[0]])
             ->sign($signer, $secret)
             ->getToken();
 
         return $token;
     }
     public function get_province_token($builder, $signer, $secret, $domaine){
-        
+        $etat = (new UserValidationController)->get_supposed_states('public');
         $token = ($builder)
             ->set('resource', [ 'dashboard' => 67 ])
-            ->set('params', ['domaine' => $domaine])
+            ->set('params', ['domaine' => $domaine, 'etat' => $etat[0]])
             ->sign($signer, $secret)
             ->getToken();
 
