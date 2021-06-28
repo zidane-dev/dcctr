@@ -19,4 +19,10 @@ class SessionController extends Controller
     public function erase_domaine_in(Request $request){
         $request->session()->forget('domaine_in');
     }
+    public function get_role(Request $request){
+        if ($request->session()->has('role'))
+            return $request->session()->get('role');
+        else
+            return null;
+    }
 }

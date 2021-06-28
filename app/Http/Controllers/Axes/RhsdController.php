@@ -11,6 +11,7 @@ use App\Models\Axe;
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\MetabaseController;
 use App\Http\Controllers\Validation\UserValidationController;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Illuminate\Support\Carbon;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Throwable;
 
 class RhsdController extends Controller
 {
@@ -34,33 +36,30 @@ class RhsdController extends Controller
         $this->table = 'rhsds';
     }
     public function index(Request $request){
-        
-
-        $domaine = $this->helper->define_domaine($request);                             // old('province') ? old('province') : session()->domaine_in
-        $year = $this->helper->define_year($request);                                   // same for year
-        
         $table = $this->table;         
-        $data_v = $this->get_query($domaine, $year);                                    // query for public state
-        
-        $years = $this->helper->get_years_array($data_v);                               // fill the years array
-        $dp = $this->helper->get_domaine_by_id($request->session()->get('domaine_id')); // get the dp
+        try{
+            $data = $this->helper->index($table, $request);
+            if($data['gate'] == 1){
+                return view('parametres.3.rhsds.index',with( ['data_v'   => $data['data_v'], 
+                                                                'years'    => $data['years'],  
+                                                                'filters'  => $data['filters'],
+                                                                'frame'    => $data['frame'], 
+                                                                'table'    => $table  
+                                                            ]));
+            }else{
+                return view('parametres.3.rhsds.index',with( [  'count'    => $data['count'],
+                                                                'years'    => $data['years'], 
+                                                                'dp'       => $data['dp'],
+                                                                'frame'    => $data['frame'],
+                                                                'data_v'   => $data['data_v'],
+                                                                'table'    => $table  
+                                                            ]));
+            }
 
-        $metabase = new MetabaseController();
-        if(Auth::user()->hasPermissionTo('view-select')){
-            $frame = $this->load_select_frame($metabase);
-            $filters = $this->helper->get_filter_parameters();
-            return view('parametres.3.rhsds.index',compact('data_v', 'years', 'filters', 'frame', 'table'));
-        } 
-        elseif(Auth::user()->hasPermissionTo('view-region')){
-            $region_id = $dp->dr_id;
-            $frame = $this->load_region_frame($metabase, $region_id);
-
-        }elseif(Auth::user()->hasPermissionTo('view-province')){
-            $frame = $this->load_province_frame($metabase, $request->session()->get('domaine_id'));
+        } catch(Throwable $e){
+            Session::flash('error',__('parametre.error_loading_data').'  ERROR:'.$e);
+            return redirect()->back();
         }
-        $achieved = $this->helper->get_count_achieved($data_v);                         // get "achieved / total goals"
-
-        return view('parametres.3.rhsds.index',compact('data_v', 'achieved', 'years', 'dp' , 'frame', 'table'));
     }
     public function create(){
         $qualites = Qualite::select('id','qualite_'.LaravelLocalization::getCurrentLocale().' as qualite')->orderBy('id','ASC')->cursor();
@@ -179,7 +178,6 @@ class RhsdController extends Controller
             'Description' => '',
             'updated_at' => now()
         ]);
-    
         (new BadgeController)->refresh_badges($request);
         Session::flash('success',__('rhsd.success_edit'));
     
@@ -190,8 +188,7 @@ class RhsdController extends Controller
         $rhsd->delete();
         Session::flash('success', __('rhsd.success_supprimer'));
         return redirect()->route('rhs.index');
-    }
-    
+    } 
     public function get_query($domaine=null, $year=null){ //for INDEX
         $public = (new UserValidationController)->get_supposed_states('public');
         $query = Rhsd::select('id',
@@ -230,13 +227,12 @@ class RhsdController extends Controller
     }
     public function add_on($id){
         $data       = $this->edit($id, 1);
-        $rhsd       = $data['rhsd'];
-        $qualites   = $data['qualites'];
-
-        $domaines   = $data['domaines'];
-        $axes       = $data['axes'];
-        $fullDate   = $data['fullDate'];
-        return view('parametres.3.rhsds.newreal', compact('rhsd', 'qualites', 'domaines', 'axes', 'fullDate'));
+        return view('parametres.3.rhsds.newreal')->with(['rhsd' => $data['rhsd'],
+                                                         'qualites' => $data['qualites'],
+                                                         'domaines' => $data['domaines'],
+                                                         'axes' => $data['axes'],
+                                                         'fullDate' => $data['fullDate']
+                                                        ]);
     }
     public function edit_goal(Request $request){
 
@@ -262,58 +258,32 @@ class RhsdController extends Controller
 
         return redirect()->route('rhs.show', $request->id);
     }
-    public function load_select_frame($metabase){
-        
-        $url = $metabase->get_url();
-        $secret = $metabase->get_secret_key();
-
-        $time = time();
-        $signer = new Sha256();
-        
-        $token = (new Builder())
+    public function get_select_token($builder, $signer, $secret){
+        $token = ($builder)
             ->set('resource', [ 'dashboard' => 2 ])
             ->set('params', ['param' => ''])
             ->sign($signer, $secret)
             ->getToken();
 
-        $frame = $metabase->get_dashboard($url, $token);
-
-        return $frame;
+        return $token;
     }
-    public function load_region_frame($metabase, $region_id){
-        
-        $url = $metabase->get_url();
-        $secret = $metabase->get_secret_key();
-
-        $time = time();
-        $signer = new Sha256();
-        
-        $token = (new Builder())
+    public function get_region_token($builder, $signer, $secret, $region_id){
+        $token = ($builder)
             ->set('resource', [ 'dashboard' => 33 ])
             ->set('params', ['region' => [$region_id]])
             ->sign($signer, $secret)
             ->getToken();
 
-        $frame = $metabase->get_dashboard($url, $token);
-
-        return $frame;
+        return $token;
     }
-    public function load_province_frame($metabase, $domaine){
+    public function get_province_token($builder, $signer, $secret, $domaine){
         
-        $url = $metabase->get_url();
-        $secret = $metabase->get_secret_key();
-
-        $time = time();
-        $signer = new Sha256();
-        
-        $token = (new Builder())
+        $token = ($builder)
             ->set('resource', [ 'dashboard' => 34 ])
             ->set('params', ['domaine' => $domaine])
             ->sign($signer, $secret)
             ->getToken();
 
-        $frame = $metabase->get_dashboard($url, $token);
-
-        return $frame;
-    }
+        return $token;
+    }   
 }

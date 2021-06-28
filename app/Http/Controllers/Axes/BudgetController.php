@@ -3,14 +3,8 @@
 namespace App\Http\Controllers\Axes;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\MetabaseController;
-use App\Http\Controllers\User\DomaineController;
-use App\Http\Controllers\User\SessionController;
-use App\Http\Controllers\User\UsebdgelperController;
 use App\Http\Controllers\Validation\UserValidationController;
 use App\Models\Budget;
-use App\Models\Dpci;
-use App\Models\Dr;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +37,7 @@ class BudgetController extends Controller
                                                                 'table'    => $table  
                                                             ]));
             }else{
-                return view('parametres.3.budgets.index',with( ['achieved' => $data['achieved'],
+                return view('parametres.3.budgets.index',with( ['count'    => $data['count'],
                                                                 'years'    => $data['years'], 
                                                                 'dp'       => $data['dp'],
                                                                 'frame'    => $data['frame'],
@@ -111,10 +105,9 @@ class BudgetController extends Controller
     public function destroy($id){
         //
     }
-
     public function get_select_token($builder, $signer, $secret){
         $token = ($builder)
-            ->set('resource', [ 'dashboard' => 2 ])
+            ->set('resource', [ 'dashboard' => 69 ])
             ->set('params', ['param' => ''])
             ->sign($signer, $secret)
             ->getToken();
@@ -123,7 +116,7 @@ class BudgetController extends Controller
     }
     public function get_region_token($builder, $signer, $secret, $region_id){
         $token = ($builder)
-            ->set('resource', [ 'dashboard' => 33 ])
+            ->set('resource', [ 'dashboard' => 97 ])
             ->set('params', ['region' => [$region_id]])
             ->sign($signer, $secret)
             ->getToken();
@@ -133,7 +126,7 @@ class BudgetController extends Controller
     public function get_province_token($builder, $signer, $secret, $domaine){
         
         $token = ($builder)
-            ->set('resource', [ 'dashboard' => 34 ])
+            ->set('resource', [ 'dashboard' => 67 ])
             ->set('params', ['domaine' => $domaine])
             ->sign($signer, $secret)
             ->getToken();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Validation;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\User\DomaineController;
+use App\Http\Controllers\User\SessionController;
 use App\Http\Controllers\User\UserHelperController;
 use App\Http\Controllers\Validation\UserValidationController;
 use App\Models\Dpci;
@@ -22,11 +23,7 @@ class AxeValidationController extends Controller
 {
     private string $table;
 
-    public function __construct($table)
-    {
-        // $route_name = 1;
-        // // $name = explode('.',$route_name);
-        // dd($route_name);
+    public function __construct($table){
         $this->table = $table;
         $this->userValidationHelper = (new UserValidationController);
     } 
@@ -38,7 +35,7 @@ class AxeValidationController extends Controller
         return $this->table;
     }
 
-    public function get_query(){ // query back with ETAT, REJET, and ID_DOMAINE.
+    public function get_query($for_counts = 0){ // query back with ETAT, REJET, and ID_DOMAINE.
         if($this->table == null)
             throw new Exception("Table is not set correctly.", 1);
         $helper = $this->userValidationHelper;
@@ -51,68 +48,97 @@ class AxeValidationController extends Controller
                                     ->whereIn('ETAT', $etats)
                                     ->whereIn('REJET', $rejets);
         
-        $domaines = (new DomaineController)->get_domaine();
+        $domaines = (new DomaineController)->get_domaines();
         if($domaines != null)
             $query = $query->whereIn('id_domaine', $domaines);
                 
         return $query;
     }
     public function get_states_overview(){ // state count view
-        $query = $this->get_query();
-
+        $query = DB::table($this->table)->where('deleted_at', NULL);
+        $domaines = (new DomaineController)->get_domaines();
+        if($domaines != null)
+            $query = $query->whereIn('id_domaine', $domaines);
         $helper = $this->userValidationHelper;
-                        
-        // dd(Auth::user()->hasPermissionTo('ac'));
-        $state_o =      $query->where('etat', '=', $helper->get_supposed_states('pf'))->whereIn('REJET', [0,1])->count(); 
-        $state_one =    $query->where('etat', '=', $helper->get_supposed_states('cs'))->count();
-        $state_two =    $query->where('etat', '=', $helper->get_supposed_states('d-p'))->count();
-        $state_three =  $query->where('etat', '=', $helper->get_supposed_states('d-r'))->count();
+        $query_o = clone $query;
+        $query_one = clone $query;
+        $query_two = clone $query;
+        $query_three = clone $query;
+        $query_four = clone $query;
+        $query_five = clone $query;
+        $query_six = clone $query;
         
 
+        if(Auth::user()->hasPermissionTo('ac')){
+            $pf='apf';
+            $cs='acs';
+            $d ='ad';
+        }
+        elseif(Auth::user()->hasAnyPermission(['sd', 'dc'])){
+            $pf='pf';
+            $cs='cs';
+            $d ='d-p';
+        }
+        $this->get_bottom_states($query, 'ac');
+        
+        $rows = $query->count();
+        $state_o =      $query_o->whereIn('ETAT', $helper->get_supposed_states($pf))
+                                ->whereIn('REJET', $helper->get_reject_states($pf))
+                                ->count(); 
+        
+        $state_two =    $query_two->whereIn('ETAT', $helper->get_supposed_states($d))
+                                ->whereIn('REJET', $helper->get_reject_states($d))
+                                ->count();
+        $state_one =    $query_one->whereIn('ETAT', $helper->get_supposed_states($cs))
+                                ->whereIn('REJET', $helper->get_reject_states($cs))
+                                ->count();
+
+        $state_three =  $query_three->whereIn('ETAT', $helper->get_supposed_states('d-r'))
+                                ->count();
         if(Auth::user()->hasPermissionTo('view-province')){
-            if(Auth::user()->hasPermissionTo('ac'))
-                $state_one =    $query->where('etat', '=', $helper->get_supposed_states('acs'))->count();
-
-            $rows_count = [ 'states' =>
-                                        ['state_o'      => $state_o,
-                                        'state_one'     => $state_one,
-                                        'state_two'     => $state_two ]];
+            $rows_count = [ 'states' => [$state_o,
+                                         $state_one,
+                                         $state_two ],
+                            'rows'  =>$rows
+                        ];
         } elseif(Auth::user()->hasPermissionTo('view-region')){
-            $rows_count = [ 'states' =>
-                                        ['state_o'      => $state_o,
-                                        'state_one'     => $state_one,
-                                        'state_two'     => $state_two,
-                                        'state_three'   => $state_three]];
+            $rows_count = [ 'states' => [$state_o,
+                                         $state_one,
+                                         $state_two,
+                                         $state_three],
+                            'rows'  =>$rows
+                        ];
         } elseif(Auth::user()->hasPermissionTo('view-select')){
-            $state_four =   $query->where('etat', '=', $helper->get_supposed_states('dcs'))->count();
-            $state_five =   $query->where('etat', '=', $helper->get_supposed_states('dcd'))->count();
-            $state_six =    $query->where('ETAT', '=', $helper->get_supposed_states('dd'))->count();
+            $state_four =   $query_four->whereIn('ETAT', $helper->get_supposed_states('dcs'))
+                                    ->count();
+            $state_five =   $query_five->whereIn('ETAT', $helper->get_supposed_states('dcd'))
+                                    ->count();
+            $state_six =    $query_six->whereIn('ETAT', $helper->get_supposed_states('dd'))
+                                    ->count();
 
             $rows_count = [ 'states' =>
-                                        ['state_o'      => $state_o,
-                                        'state_one'     => $state_one,
-                                        'state_two'     => $state_two,
-                                        'state_three'   => $state_three,
-                                        'state_four'    => $state_four,
-                                        'state_five'    => $state_five,
-                                        'state_six'     => $state_six]];
+                                        ['state_o'       => $state_o,
+                                         'state_one'     => $state_one,
+                                         'state_two'     => $state_two,
+                                         'state_three'   => $state_three,
+                                         'state_four'    => $state_four,
+                                         'state_five'    => $state_five,
+                                         'state_six'     => $state_six],
+                            'rows'  =>$rows
+                        ];
         }
         $rows_response = (object) $rows_count;
         return $rows_response; 
     }
-
-    public function get_goals($rows_count = null){
-        $query = $this->get_query();
-        $rows =         $query->count();                                             //commentable i want the states
-        $goal_done =    $query->where('etat', 6)->where('ECART', '>=', 0)->count(); //commentable i want the states here (index validation)
-        if($rows_count != null){
-            $rows_count->rows = $rows;
-            $rows_count->goals = $goal_done;
-            return $rows_count;
-        }else{
-             return  (object) ['rows' => $rows,
-                        'goals' => $goal_done];
-        }  
+    private function get_bottom_states($query, $type){
+        switch($type){
+            case 'sd': 
+                break;
+            case 'ac': 
+                break;
+            case 'sd': 
+                break;  
+        }
     }
     private function get_valid_rows($selected_row){
         $axe = $selected_row->id_axe;
@@ -187,10 +213,11 @@ class AxeValidationController extends Controller
     }
     public function valider(Request $request){
         try{
-            $newState = $this->userValidationHelper->get_validation_states();
-            $supposedState = $this->userValidationHelper->get_supposed_states();
+            $helper = $this->userValidationHelper;
+            $newState = $helper->get_validation_states();
+            $supposedState = $helper->get_supposed_states();
             $update_state_ids = explode(",", $request->update_state_id);
-            $public_state = $this->userValidationHelper->get_supposed_states('public');
+            $public_state = $helper->get_supposed_states('public');
             if($newState == $public_state){
                 $this->realisation_validee($update_state_ids, $newState);
             }
@@ -205,20 +232,15 @@ class AxeValidationController extends Controller
                             'updated_at' => now()
                         ]);
             }
-    
             (new BadgeController)->refresh_badges($request);
-    
-            $helper = $this->userValidationHelper;
-            $public = $helper->get_supposed_states('public');
-
             if(count($update_state_ids) > 1){ // Just the flash message
-                if($newState == $public[0]){
+                if($newState == $public_state[0]){
                     Session::flash('success',__('parametre.lignes_publiees'));
                 }else{
                     Session::flash('success',__('parametre.lignes_validees'));
                 }
             }else{
-                if($newState == $public[0]){
+                if($newState == $public_state[0]){
                     Session::flash('success',__('parametre.ligne_publiee'));
                 }else{
                     Session::flash('success',__('parametre.ligne_validee'));
@@ -238,6 +260,8 @@ class AxeValidationController extends Controller
     }
     public function rejeter(Request $request){
         try{
+            $helper = $this->userValidationHelper;
+            $newState = $helper->get_reject_newState((new SessionController)->get_role($request));
             $update_state_ids = explode(",", $request->re_id);
             $supposedState = $this->userValidationHelper->get_supposed_states();
             DB::table($this->getTable())
@@ -245,6 +269,7 @@ class AxeValidationController extends Controller
                 ->whereIn('id', $update_state_ids)
                 ->where('REJET', 0)
                 ->update([ 
+                    // 'ETAT'      => $newState,
                     'ETAT'      => 0,
                     'id_user'   => Auth::id(),
                     'REJET'     => 1,

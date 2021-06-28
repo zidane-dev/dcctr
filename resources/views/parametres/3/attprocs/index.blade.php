@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') @lang('sidebar.liste rhsd')   @endsection
+
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -8,438 +8,205 @@
     <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+
 @endsection
 @section('page-header')
-    <!-- breadcrumb -->
-    <div class="breadcrumb-header justify-content-between">
-        <div class="my-auto">
-            <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">
-                    @can('dcsasd')
-                        {{$query[4]}} - {{$query[3]}}
-                    @else
-                        @lang('sidebar.rhsds') de la {{Auth::user()->domaine->type}} {{Auth::user()->domaine->domaine}}
-                    @endcan
-                </h4>
-                <span class="text-muted mt-1 tx-13 mr-2 mb-0">
-                    &nbsp;&nbsp;&nbsp;&nbsp;/  @lang('sidebar.liste rhsd')
-                </span>
-            </div>
-        </div>
-    </div>
-    <!-- breadcrumb -->
+    @include('parametres.3.partials.breadcrumb_index')
 @endsection
+
 @section('content')
     <!-- row -->
     <div class="row row-sm">
         <div class="col-xl-12">
-            <div class="card mg-b-20">
-                
+            <div id="attributions_card" class="card mg-b-20">
                 @include('layouts.errors_success')
-                <div class="card-header pb-0">
-                    <h3 class="text-center">
-                        @if($attproc_v->count() > 0)
-                            @lang('axes.nom'): {{$attproc_v->first()->axe->axe}} <br/>
-                            @lang('attproc.niveau') : {{$attproc_v->first()->niveau->niveau}}
-                        @endif
-                    </h3>
-                    <div>
-                        {{-- @can('supervise') --}}
-                        <a href="{{url()->previous()}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
-                        </a>
-                        {{-- @endcan --}}
-                        @can('create-rhsds')
-                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-plus"></i> @lang('rhsd.add') 
-                        </a>
-                        @endcan
+                <div class="card-header pb-0 ">
+                    <div class="d-flex justify-content-center text-center">
+                        <h3 class="col-5">
+                            @if($data_v[0]->count() > 0)
+                                @lang('axes.nom'): {{$data_v[0]->first()->axe->axe}}
+                            @endif
+                        </h3>
                     </div>
-                    @can('dcsasd')
-                        @if(!isset($backfirst))
-                        <div class="m-4 float-right">
-                            <form class="form-inline" method="GET" action="{{route('indexByQuery')}}">
-                                @csrf
-                                
-                                <div id="regDiv">
-                                    <label for="region" class="sr-only">@lang('drs.nom')</label>
-                                    <select id="region" name="region" class="form-control SlectBox mr-sm-2">
-                                        <option value="" selected disabled> @lang('drs.nom')</option> {{-- this year by default --}}
-                                            @foreach($regions as $r)
-                                            @if(isset($query[1]))
-                                                @if($r->id == $query[1])
-                                                    <option value="{{$r->id}}" selected>
-                                                        {{$r->region}}
-                                                    </option>
-                                                @else
-                                                @endif
-                                            @else
-                                                @if($r->id==13)
-                                                <option class="d-none" value="{{$r->id}}" {{ (collect(old('region'))->contains($r->region)) ? 'selected':'' }}>
-                                                    {{$r->region}}
-                                                </option>
-                                                
-                                                @else
-                                                    <option value="{{$r->id}}" {{ (collect(old('region'))->contains($r->region)) ? 'selected':'' }}>
-                                                        {{$r->region}}
-                                                    </option>
-                                                @endif
-                                            @endif
-                                            @endforeach
-                                    </select>
-                                </div>
-                                <div id="provDiv">
-                                    <label for="province" class="sr-only">@lang('dpcis.nom')</label>
-                                    <select id="selectProvince" name="province" class="form-control SlectBox mr-sm-2" >
-                                        <option id="optionProvince" value="{{$query[0]}}" >{{$dp->t}}-{{$dp->domaine}}</option>
-                                    </select>
-                                </div>
-                                <div id ="dateDiv">
-                                    <label for="dateFilter" class="sr-only">@lang('rhsd.annee')</label>
-                                    <select id="dateFilter" name="year" class="form-control SlectBox2 mx-2" >
-                                        <option value="null" selected disabled> @lang('rhsd.annee')</option> {{-- this year by default --}}
-                                        @if(isset($rh_sum) && $rh_sum->count() > 0)
-                                            @foreach($rh_sum as $rh_year)
-                                                <option value="{{$rh_year->first()->ANNEESD}}" {{ (collect(old('dateFilter'))->contains($rh_year->first()->ANNEESD)) ? 'selected':'' }}>
-                                                    {{$rh_year->first()->ANNEESD}}
-                                                </option>
-                                            @endforeach
-                                        @else
-                                                <option value="2020">2020</option>
-                                                <option value="2021">2021</option>
-                                                <option value="2022">2022</option>
-                                                <option value="2023">2023</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <input type="submit" value="GO" id="submit">
-                            </form>
+                    <div class="row d-flex">
+                        <div class="col p-4 ">
+                                <a href="{{url()->previous()}}" class="btn btn-primary" style="color: whitesmoke">
+                                    <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
+                                </a>
                         </div>
-                        @endif
-                    @else
-                        @if(!isset($backfirst))
-                        <form>
-                            @csrf
-                            <div class="form-inline row m-4 float-right">
-                                <label for="dateFilter" class="control-label form-label mx-2">@lang('rhsd.annee')</label>
-                                <select id="dateFilter" name="dateFilter" class="form-control SlectBox  mx-2" >
-                                    <option value="" selected disabled> @lang('rhsd.annee')</option> {{-- this year by default --}}
-                                    @if(isset($attproc_sum) && $attproc_sum->count() > 0)
-                                        @foreach($attproc_sum as $attproc_year)
-                                            <option value="{{$attproc_year->first()->ANNEEOBJ}}" {{ (collect(old('dateFilter'))->contains($attproc_year->first()->ANNEEOBJ)) ? 'selected':'' }}>
-                                                {{$attproc_year->first()->ANNEEOBJ}}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </form>
-                        @endif
-                        <div class="card-text mt-2 px-5 py-2">
-                            
-                        </div>
-                    @endcan
+                        @include('parametres.partials.filter')
+                    </div>
+
                 </div>
-                @can('list-rhsds')
-                    @if($attproc_v->count() > 0)
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example2"  class="table key-buttons text-md-nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th width="25px" class="border-bottom-0">#</th>
-                                        @can('view-region')
-                                            <th class="border-bottom-0">@lang('dpcis.nom')</th>
-                                        @endcan
-                                        
-                                        <th class="border-bottom-0">@lang('secteurs.nom')</th>
-                                        <th class="border-bottom-0">@lang('attproc.attribution')</th>
-                                        <th class="border-bottom-0">@lang('parametre.action')</th>
-                                        <th class="border-bottom-0">@lang('attproc.anneeobj')</th>
-                                        <th class="border-bottom-0">@lang('parametre.etat')</th>
+                @if($data_v[0]->count() > 0)
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example"  class="table key-buttons text-md-nowrap width-100" >
+                                <thead>
+                                <tr>
+                                    <th width="25px" class="border-bottom-0">#</th>
+                                    @canany(['view-region','view-select'])
+                                        <th class="border-bottom-0">@lang('dpcis.nom')</th>
+                                    @endcanany
+                                    <th class="border-bottom-0">@lang('attproc.niveau')</th>
+                                    <th class="border-bottom-0">@lang('attproc.transferts')</th>
+                                    <th class="border-bottom-0">@lang('attproc.action')</th>
+                                    <th class="border-bottom-0">@lang('parametre.annee')</th>
+                                    <th class="border-bottom-0">@lang('attproc.statut')</th>
+                                    <th class="border-bottom-0">@lang('parametre.last_update')</th>
+                                    @canany(['add-on','edit-global-goal','follow-info','delete-rhsds'])
                                         <th class="border-bottom-0">@lang('parametre.actions')</th>
-                                    </tr>
-                                    </thead>
+                                    @endcanany
+                                </tr>
+                                </thead>
 
-                                    <tbody>
-                                    @foreach($attproc_v as $attproc)
-                                    @if($attproc->ETAT == 6)
-                                        <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            @can('view-region')
-                                                <td>{{$attproc->domaine->t}} - {{$attproc->domaine->domaine}}</td>
-                                            @endcan
-                                            {{-- <td>{{\Carbon\Carbon::parse($attproc->date)->format('d/m/y h:m')}}</td> --}}
-                                            {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($attproc->updated_at)}}</td> --}}
-                                            <td>{{$attproc->attribution->secteur->secteur}}</td>
-                                            <td>{{$attproc->attribution->attribution}}</td>
-                                            <td>{{$attproc->action->action}}</td>
-                                            <td>{{$attproc->ANNEEOBJ}}</td>
-                                            <td><span class="badge badge-success" >@lang('rhsd.validated')</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button aria-expanded="false" aria-haspopup="true"
-                                                            class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
-                                                            type="button">
-                                                                @lang('rhsd.actions')
-                                                            <i class="fas fa-caret-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        @can('edit-rhsds')
-                                                            <a class="dropdown-item" href="{{route('rhs.edit',$attproc->id)}}">
-                                                                <i class=" fas fa-edit" style="color: #239a8a"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.edit')
-                                                            </a>
-                                                        @endcan
-
-                                                            <a class="dropdown-item" href="{{route('rhs.storereal',$attproc->id)}}">
-                                                                <i class="fas fa-plus-circle"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.ajoutSur')
-                                                            </a>
-
-                                                            <a class="dropdown-item" href="{{route('edit.rhsgoal',$attproc->id)}}">
-                                                                <i class="fas fa-vote-yea"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.changeObjectif')
-                                                            </a>
-
-                                                            <a class="dropdown-item" href="{{route('rhs.show',$attproc->id)}}">
-                                                                <i class="fas fa-trending-up"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.viewRh')
-                                                            </a>
-                                                        
-                                                        @can('delete-rhsds')
-                                                            <a class="dropdown-item"  href="javascript:void(0)" data-id="{{ $attproc->id }}"
-                                                            data-toggle="modal" data-target="#modalRhsdSUP">
-                                                                <i class="text-danger fas fa-trash-alt"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.supprimer')
-                                                            </a>
-                                                        @endcan
-                                                    </div>
-                                                </div>
+                                <tbody>
+                                @foreach($data_v[0] as $attribution)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        @canany(['view-region','view-select'])
+                                            <td>{{$attribution->domaine->ty}} - {{$attribution->domaine->domaine}}</td>
+                                        @endcanany
+                                        <td>{{$attribution->niveau->niveau}}</td>                                        
+                                        <td>{{$attribution->attribution->attribution}}</td>
+                                        <td>{{$attribution->action->action}}</td>                                        
+                                        <td>{{$attribution->ANNEE}}</td>
+                                        <td>{{$attribution->STATUT}}</td>
+                                        <td>{{\Carbon\Carbon::parse($attribution->date)->format('d/m/y')}} @lang('parametre.at') 
+                                            {{\Carbon\Carbon::parse($attribution->date)->format('H:i')}} </td>
+                                        @canany(['add-on','edit-global-goal','follow-info','delete-basethree'])
+                                            <td class="mx-auto">
+                                                @can('add-on')
+                                                    <a class="mx-auto px-1" href="{{route('rhs.storereal',$attribution->id)}}" title="@lang('rhsd.ajoutSur')">
+                                                        <i class="fas fa-plus-circle"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('edit-global-goal')
+                                                    <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$attribution->id)}}" title="@lang('parametre.changeObjectif')">
+                                                        <i class="fas fa-vote-yea"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('follow-info')
+                                                    <a class="mx-auto px-1" href="{{route('rhs.show',$attribution->id)}}" title="@lang('rhsd.viewRh')">
+                                                        <i class="fas fa-info"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('delete-basethree')
+                                                    <a class=""  href="javascript:void(0)" data-id="{{ $attribution->id }}" title="@lang('rhsd.supprimer')"
+                                                    data-toggle="modal" data-target="#modalRhsdSUP">
+                                                        <i class="text-danger fas fa-trash-alt"></i>
+                                                    </a>
+                                                @endcan
                                             </td>
-                                        </tr>
-                                        @endif
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                                        @endcanany
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @cannot('view-select')
                             <div class="card-text p-2">
-                                <h4>
-                                    {{-- {{$rows_count->goals}}/{{$rows_count->state_six}}  --}}
-                                    {{$rows_count}} attributions validees ?
-                                </h4>
+                                <h4> @lang('attproc.vos_attributions') {{$count->a}} </h4>
+                            
                             </div>
-                        </div>  
-                    @else
-                        @include('partials.emptylist')
-                    @endif
+                        @endcannot
+                    </div>  
                 @else
                     @include('partials.emptylist')
-                @endcan
+                @endif
             </div>
 
-            <div class="card mg-b-20">
-                <div class="card-header pb-0">
-                    <h3 class="text-center">
-                        @if($delegproc_v->count() > 0)
-                            @lang('axes.nom'): {{$delegproc_v->first()->axe->axe}} <br/>
-                            @lang('attproc.niveau') : {{$delegproc_v->first()->niveau->niveau}}
-                        @endif
-                    </h3>
-                    <div>
-                        {{-- @can('supervise') --}}
-                        <a href="{{url()->previous()}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
-                        </a>
-                        {{-- @endcan --}}
-                        @can('create-rhsds')
-                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-plus"></i> @lang('rhsd.add') 
-                        </a>
-                        @endcan
+            <div id="delegations_card" class="card mg-b-20">
+                @include('layouts.errors_success')
+                <div class="card-header pb-0 ">
+                    <div class="d-flex justify-content-center text-center">
+                        <h3 class="col-5">
+                            @if($data_v[1]->count() > 0)
+                                @lang('axes.nom'): {{$data_v[1]->first()->axe->axe}}
+                            @endif
+                        </h3>
                     </div>
-                    @can('dcsasd')
-                        @if(!isset($backfirst))
-                        <div class="m-4 float-right">
-                            <form class="form-inline" method="GET" action="{{route('indexByQuery')}}">
-                                @csrf
-                                
-                                <div id="regDiv">
-                                    <label for="region" class="sr-only">@lang('drs.nom')</label>
-                                    <select id="region" name="region" class="form-control SlectBox mr-sm-2">
-                                        <option value="" selected disabled> @lang('drs.nom')</option> {{-- this year by default --}}
-                                            @foreach($regions as $r)
-                                            @if(isset($query[1]))
-                                                @if($r->id == $query[1])
-                                                    <option value="{{$r->id}}" selected>
-                                                        {{$r->region}}
-                                                    </option>
-                                                @else
-                                                @endif
-                                            @else
-                                                @if($r->id==13)
-                                                <option class="d-none" value="{{$r->id}}" {{ (collect(old('region'))->contains($r->region)) ? 'selected':'' }}>
-                                                    {{$r->region}}
-                                                </option>
-                                                
-                                                @else
-                                                    <option value="{{$r->id}}" {{ (collect(old('region'))->contains($r->region)) ? 'selected':'' }}>
-                                                        {{$r->region}}
-                                                    </option>
-                                                @endif
-                                            @endif
-                                            @endforeach
-                                    </select>
-                                </div>
-                                <div id="provDiv">
-                                    <label for="province" class="sr-only">@lang('dpcis.nom')</label>
-                                    <select id="selectProvince" name="province" class="form-control SlectBox mr-sm-2" >
-                                        <option id="optionProvince" value="{{$query[0]}}" >{{$dp->t}}-{{$dp->domaine}}</option>
-                                    </select>
-                                </div>
-                                <div id ="dateDiv">
-                                    <label for="dateFilter" class="sr-only">@lang('rhsd.annee')</label>
-                                    <select id="dateFilter" name="year" class="form-control SlectBox2 mx-2" >
-                                        <option value="null" selected disabled> @lang('rhsd.annee')</option> {{-- this year by default --}}
-                                        @if(isset($rh_sum) && $rh_sum->count() > 0)
-                                            @foreach($rh_sum as $rh_year)
-                                                <option value="{{$rh_year->first()->ANNEESD}}" {{ (collect(old('dateFilter'))->contains($rh_year->first()->ANNEESD)) ? 'selected':'' }}>
-                                                    {{$rh_year->first()->ANNEESD}}
-                                                </option>
-                                            @endforeach
-                                        @else
-                                                <option value="2020">2020</option>
-                                                <option value="2021">2021</option>
-                                                <option value="2022">2022</option>
-                                                <option value="2023">2023</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <input type="submit" value="GO" id="submit">
-                            </form>
-                        </div>
-                        @endif
-                    @else
-                        @if(!isset($backfirst))
-                        <form>
-                            @csrf
-                            <div class="form-inline row m-4 float-right">
-                                <label for="dateFilter" class="control-label form-label mx-2">@lang('rhsd.annee')</label>
-                                <select id="dateFilter" name="dateFilter" class="form-control SlectBox  mx-2" >
-                                    <option value="" selected disabled> @lang('rhsd.annee')</option> {{-- this year by default --}}
-                                    @if(isset($delegproc_sum) && $delegproc_sum->count() > 0)
-                                        @foreach($delegproc_sum as $delegproc_year)
-                                            <option value="{{$delegproc_year->first()->ANNEEOBJ}}" {{ (collect(old('dateFilter'))->contains($delegproc_year->first()->ANNEEOBJ)) ? 'selected':'' }}>
-                                                {{$delegproc_year->first()->ANNEEOBJ}}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </form>
-                        @endif
-                        <div class="card-text mt-2 px-5 py-2">
-                            
-                        </div>
-                    @endcan
+
                 </div>
-                @can('list-rhsds')
-                    @if($delegproc_v->count() > 0)
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example2"  class="table key-buttons text-md-nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th width="25px" class="border-bottom-0">#</th>
-                                        @can('view-region')
-                                            <th class="border-bottom-0">@lang('dpcis.nom')</th>
-                                        @endcan
-                                        
-                                        <th class="border-bottom-0">@lang('secteurs.nom')</th>
-                                        <th class="border-bottom-0">@lang('attproc.attribution')</th>
-                                        <th class="border-bottom-0">@lang('parametre.action')</th>
-                                        <th class="border-bottom-0">@lang('attproc.anneeobj')</th>
-                                        <th class="border-bottom-0">@lang('parametre.etat')</th>
+                @if($data_v[1]->count() > 0)
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example_copy"  class="table key-buttons text-md-nowrap width-100" >
+                                <thead>
+                                <tr>
+                                    <th width="25px" class="border-bottom-0">#</th>
+                                    @canany(['view-region','view-select'])
+                                        <th class="border-bottom-0">@lang('dpcis.nom')</th>
+                                    @endcanany
+                                    <th class="border-bottom-0">@lang('attproc.niveau')</th>
+                                    <th class="border-bottom-0">@lang('attproc.delegations')</th>
+                                    <th class="border-bottom-0">@lang('attproc.action')</th>
+                                    <th class="border-bottom-0">@lang('parametre.annee')</th>
+                                    <th class="border-bottom-0">@lang('attproc.statut')</th>
+                                    <th class="border-bottom-0">@lang('parametre.last_update')</th>
+                                    @canany(['add-on','edit-global-goal','follow-info','delete-rhsds'])
                                         <th class="border-bottom-0">@lang('parametre.actions')</th>
-                                    </tr>
-                                    </thead>
+                                    @endcanany
+                                </tr>
+                                </thead>
 
-                                    <tbody>
-                                    @foreach($delegproc_v as $delegproc)
-                                    @if($delegproc->ETAT == 6)
-                                        <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            @can('view-region')
-                                                <td>{{$delegproc->domaine->t}} - {{$delegproc->domaine->domaine}}</td>
-                                            @endcan
-                                            {{-- <td>{{\Carbon\Carbon::parse($delegproc->date)->format('d/m/y h:m')}}</td> --}}
-                                            {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($delegproc->updated_at)}}</td> --}}
-                                            <td>{{$delegproc->attribution->secteur->secteur}}</td>
-                                            <td>{{$delegproc->attribution->attribution}}</td>
-                                            <td>{{$delegproc->action->action}}</td>
-                                            <td>{{$delegproc->ANNEEOBJ}}</td>
-                                            <td><span class="badge badge-success" >@lang('rhsd.validated')</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button aria-expanded="false" aria-haspopup="true"
-                                                            class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
-                                                            type="button">
-                                                                @lang('rhsd.actions')
-                                                            <i class="fas fa-caret-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        @can('edit-rhsds')
-                                                            <a class="dropdown-item" href="{{route('rhs.edit',$delegproc->id)}}">
-                                                                <i class=" fas fa-edit" style="color: #239a8a"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.edit')
-                                                            </a>
-                                                        @endcan
-
-                                                            <a class="dropdown-item" href="{{route('rhs.storereal',$delegproc->id)}}">
-                                                                <i class="fas fa-plus-circle"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.ajoutSur')
-                                                            </a>
-
-                                                            <a class="dropdown-item" href="{{route('edit.rhsgoal',$delegproc->id)}}">
-                                                                <i class="fas fa-vote-yea"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.changeObjectif')
-                                                            </a>
-
-                                                            <a class="dropdown-item" href="{{route('rhs.show',$delegproc->id)}}">
-                                                                <i class="fas fa-trending-up"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.viewRh')
-                                                            </a>
-                                                        
-                                                        @can('delete-rhsds')
-                                                            <a class="dropdown-item"  href="javascript:void(0)" data-id="{{ $delegproc->id }}"
-                                                            data-toggle="modal" data-target="#modalRhsdSUP">
-                                                                <i class="text-danger fas fa-trash-alt"></i>
-                                                                &nbsp;&nbsp;@lang('rhsd.supprimer')
-                                                            </a>
-                                                        @endcan
-                                                    </div>
-                                                </div>
+                                <tbody>
+                                @foreach($data_v[1] as $delegation)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        @canany(['view-region','view-select'])
+                                            <td>{{$delegation->domaine->ty}} - {{$delegation->domaine->domaine}}</td>
+                                        @endcanany
+                                        <td>{{$delegation->niveau->niveau}}</td>  
+                                        <td>{{$delegation->attribution->attribution}}</td>
+                                        <td>{{$delegation->action->action}}</td>  
+                                        <td>{{$delegation->ANNEE}}</td>
+                                        <td>{{$delegation->STATUT}}</td>  
+                                        <td>{{\Carbon\Carbon::parse($delegation->date)->format('d/m/y')}} @lang('parametre.at') 
+                                            {{\Carbon\Carbon::parse($delegation->date)->format('H:i')}} </td>
+                                        @canany(['add-on','edit-global-goal','follow-info','delete-basethree'])
+                                            <td class="mx-auto">
+                                                @can('add-on')
+                                                    <a class="mx-auto px-1" href="{{route('rhs.storereal',$delegation->id)}}" title="@lang('rhsd.ajoutSur')">
+                                                        <i class="fas fa-plus-circle"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('edit-global-goal')
+                                                    <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$delegation->id)}}" title="@lang('parametre.changeObjectif')">
+                                                        <i class="fas fa-vote-yea"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('follow-info')
+                                                    <a class="mx-auto px-1" href="{{route('rhs.show',$delegation->id)}}" title="@lang('rhsd.viewRh')">
+                                                        <i class="fas fa-info"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('delete-basethree')
+                                                    <a class=""  href="javascript:void(0)" data-id="{{ $delegation->id }}" title="@lang('rhsd.supprimer')"
+                                                    data-toggle="modal" data-target="#modalRhsdSUP">
+                                                        <i class="text-danger fas fa-trash-alt"></i>
+                                                    </a>
+                                                @endcan
                                             </td>
-                                        </tr>
-                                        @endif
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                                        @endcanany
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @cannot('view-select')
                             <div class="card-text p-2">
-                                <h4>
-                                    {{-- {{$rows_count->goals}}/{{$rows_count->state_six}}  --}}
-                                    {{$rows_count}} attributions validees ?
-                                </h4>
+                                <h4> @lang('attproc.vos_delegations') {{$count->b}} </h4>
                             </div>
-                        </div>  
-                    @else
-                        @include('partials.emptylist')
-                    @endif
+                        @endcannot
+                    </div>  
                 @else
                     @include('partials.emptylist')
-                @endcan
+                @endif
             </div>
+
+            @include('parametres.partials.meta_frame')
+            
         </div>
     </div>
 
@@ -459,7 +226,7 @@
                         <input type="hidden" name="rhsd_id" id="rhsd_id" value="">
 
                         <div style="text-align: center;">
-                            <img width="45%" height="200px" src="{{asset('/img/ressource_humaine.svg')}}">
+                            <img width="50%" height="200px" src="{{asset('/img/ressource_humaine.svg')}}">
 
                         </div>
                     </div>
@@ -473,7 +240,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('js')
@@ -506,94 +272,7 @@
             modal.find('.modal-body #rhsd_id').val(id);
         })
     </script>
-    
-    <!-- Year Filter -->
-    
-    @can('dcsasd')
-        <script type="text/javascript">
-            $.ajaxSetup({
-                headers:{
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $(document).ready(function(){
-                var provinceSel = $('#provDiv');
-                var regionSel = $('#regDiv');
-                const elementRegion = document.querySelector('#region');
-                const elementType = document.querySelector('#type');
-                const elementProvince = document.querySelector('#selectProvince');
-                const e = new Event("change");
-                
-                var query = {!! json_encode($query) !!}
-                if(query){
-                    console.log(query[0],query[1],query[2]);
-                    console.log('province','region','type');
-                    elementRegion.value = query[1];
-                    elementRegion.dispatchEvent(e);
-                    ajaxCall();
-                }
-
-                $('#type').on('change', function(e){
-                $('#dateDiv').hide();
-                $('#submit').hide();
-                provinceSel.hide();
-                regionSel.hide();
-                    var type = e.target.value;
-                    $('select[name="province"]').empty();
-                    if(type==1){
-                        regionSel.show();
-                        provinceSel.hide();
-                    }else if(type==2){
-                        regionSel.hide();
-                        elementRegion.value = 13;
-                        elementRegion.dispatchEvent(e);
-                    }
-                })
-                $('#region').on('change', function(e){
-                    var cat_id = e.target.value;
-                    ajaxCall();
-                });
-                $('#selectProvince').on('change', function(e){
-                    $('#dateDiv').show();
-                    $('#submit').show();
-                })
-            });
-            function ajaxCall(){
-                $.ajax({
-                        url:"{{route('subReg')}}",
-                        type: "GET",
-                        data:{
-                            region_id: cat_id,
-                        },
-                        success : function(data){
-                            provinceSel.show();
-                            $('select[name="province"]').empty();
-                            var id, type, nom;
-                            for(var i = 0; i<data['provinces'].length; i++){
-                                if(i==0){
-                                    $('#selectProvince').append('<option value="" selected disabled></option>');
-                                    
-                                }
-                                    id = data["provinces"][i]['id'];
-                                    type = data["provinces"][i]['t'];
-                                    nom = data["provinces"][i]['name'];
-                                    $('#selectProvince').append('<option value="'+id+'">'+type+' - '+nom+'</option>');
-                            }
-                        }
-                    });
-            }
-        </script>
-    @else
-        <script>
-            jQuery(document).ready(function(){
-                
-                $('#dateFilter').on("change", function(e){
-                    e.preventDefault();
-                    var _token = $('input[name="_token"]').val();
-                    var annee = $(this).val();
-                    window.location.href = "/indexyear/"+annee;
-                });
-            });
-        </script>   
+    @can('view-select')
+        @include('parametres.partials.filter_script')
     @endcan
 @endsection

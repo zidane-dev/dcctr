@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Validation;
 
-use App\Http\Controllers\AxeController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Parametres\AxeController;
 use App\Models\Depense;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -31,18 +31,15 @@ class BdgValidationController extends Controller
                                 'updated_at as date',
                                 'depense',
                                 'domaine',
-                                'type',
-                                't',
-                                'ty');
+                                'type', 't', 'ty');
         
         $depenses = Depense::select('depenses.id','depense_'.LaravelLocalization::getCurrentLocale().' as depense');
         
         $datas = $query->leftJoinSub($depenses, 'depenses', function($join) {
                             $join->on('budgets.id_depense', '=', 'depenses.id');});
-        $datas = $this->helper->domaine_n_user($datas)->get();
+        $datas = $this->helper->domaine_n_user($datas)->orderBy('date', 'DESC')->get();
 
         $rows_count = $this->helper->get_states_overview();
-        $rows_count = $this->helper->get_goals($rows_count);
         $axe = (new AxeController)->get_axe(4);
         return view('validations.bdg', compact('datas', 'rows_count', 'axe', 'class'));
     }

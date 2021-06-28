@@ -104,7 +104,7 @@
                         </div>
                         @cannot('view-select')
                             <div class="card-text p-2">
-                                <h4>{{$achieved->goals}}/{{$achieved->public}} @lang('parametre.objectifs atteints') </h4>
+                                <h4>{{$count->a}}/{{$count->b}} @lang('parametre.objectifs atteints') </h4>
                             </div>
                         @endcannot
                     </div>  

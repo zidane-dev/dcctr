@@ -1,5 +1,4 @@
 @extends('layouts.master')
-@section('title') @lang('sidebar.liste rhsd')   @endsection
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -11,29 +10,7 @@
     
 @endsection
 @section('page-header')
-    <!-- breadcrumb -->
-    <div class="breadcarumb-header justify-content-between">
-        <div class="my-auto py-2">
-            <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">
-                    @can('dc')
-                        @lang('sidebar.rhsds') 
-                    @else
-                        @if(LaravelLocalization::getCurrentLocale() === 'fr')
-                            @lang('sidebar.rhsds') / {{Auth::user()->domaine->type}} - {{Auth::user()->domaine->domaine_fr}}
-                        @else
-                            @lang('sidebar.rhsds') / {{Auth::user()->domaine->type}} - {{Auth::user()->domaine->domaine_ar}}
-                        @endif
-                    @endcan
-                </h4>
-                <span class="text-muted mt-1 tx-13 mr-2 mb-0">
-                    &nbsp;&nbsp;&nbsp;&nbsp;/  @lang('sidebar.validation')
-                </span>
-            </div>
-        </div>
-
-    </div>
-    <!-- breadcrumb -->
+    @include('validations.partials.breadcrumb_index')
 @endsection
 
 @section('content')
@@ -89,7 +66,7 @@
                                             <th class="border-bottom-0">@lang('parametre.annee')</th>
                                             <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
                                             <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.user')</th>
+                                            <th class="border-bottom-0">@lang('parametre.user')</th>
                                             @canany(['edit-basethree','view-rejets','add-on','follow-info','delete-basethree'])
                                                 <th class="border-bottom-0">@lang('parametre.action')</th>
                                             @endcanany
@@ -133,8 +110,13 @@
                                                         <div class="dropdown-menu">
                                                             @can('edit-basethree') 
                                                                 <a class="dropdown-item" href="{{route('rhs.edit',$rhsd->id)}}">
-                                                                    <i class="fas fa-edit" style="color: #239a8a"></i>
-                                                                    &nbsp;&nbsp;@lang('parametre.edit')
+                                                                    @if ($rhsd->REJET == 1)
+                                                                        <i class="fas fa-edit" style="color: #b68c32"></i>
+                                                                        &nbsp;&nbsp;@lang('parametre.correct')
+                                                                    @else
+                                                                        <i class="fas fa-edit" style="color: #239a8a"></i>
+                                                                        &nbsp;&nbsp;@lang('parametre.edit')
+                                                                    @endif
                                                                 </a>
                                                             @endcan
                                                             @can('add-on')
@@ -149,14 +131,6 @@
                                                                     &nbsp;&nbsp;@lang('parametre.follow_line')
                                                                 </a>
                                                             @endcan
-                                                            @if ($rhsd->REJET == 1)
-                                                                @can('view-rejets')
-                                                                    <a class="dropdown-item" href="{{--route('rhs.storereal',$rhsd->id)--}}">
-                                                                        <i class="fas fa-plus-circle"></i>
-                                                                        &nbsp;&nbsp;@lang('parametre.view_rejet')
-                                                                    </a>
-                                                                @endcan
-                                                            @endif
                                                             @can('delete-basethree')
                                                                 <a class="dropdown-item"  href="javascript:void(0)" data-id="{{ $rhsd->id }}"
                                                                 data-toggle="modal" data-target="#modalRhsdSUP">
@@ -179,55 +153,7 @@
                     @endif
             </div>
             @can('view-etats')
-                <div class="card mg-b-20">
-                    <div class="card-header pb-0">
-                        <h3 class="text-center">@lang('parametre.etats actuels')</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <div class="d-flex flex-wrap even-cols">
-                                @foreach ($rows_count->states as $count)
-                                    @can('view-province')
-                                        <div class="col w-100 inline-block" >
-                                            <div class="card" style="height: 180px">
-                                                <div class="card-title mt-2" >
-                                                    @lang('roles.Etat '.($loop->iteration-1))(@lang('parametre.etat') {{$loop->iteration-1 }})</div>
-                                                <div class="card-body">
-                                                    <h2>{{$count}}</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @elsecan('view-region')
-                                        <div class="col w-100 inline-block" >
-                                            <div class="card" style="height: 180px">
-                                                <div class="card-title mt-2" ><h2>{{$count}}</h2></div>
-                                                <div class="card-body">
-                                                    @lang('roles.Etat '.($loop->iteration-1))(@lang('parametre.etat') {{$loop->iteration-1}})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @elsecan('view-select')
-                                        <div class="col w-100 inline-block" >
-                                            <div class="card" style="height: 180px">
-                                                <div class="card-title mt-2" ><h2>{{$count}}</h2></div>
-                                                <div class="card-body">
-                                                    @lang('roles.Etat '.($loop->iteration-1))(@lang('parametre.etat') {{$loop->iteration-1 }})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endcan
-                                @endforeach
-                            </div>
-                        </div>
-                        <div>
-                            @lang('rhsd.total lignes')
-                            @canany(['sd', 'ac'])
-                                @lang('rhsd.de votre') {{Auth::user()->domaine->type}} 
-                            @endcanany
-                            : {{$rows_count->rows}}
-                        </div>
-                    </div>
-                </div>
+                @include('validations.partials.states_summary')
             @endcan
         </div>
     </div>

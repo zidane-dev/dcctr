@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Validation;
 
-use App\Http\Controllers\Validation\AxeValidationController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Parametres\AxeController;
 use App\Models\Dpci;
@@ -20,9 +19,21 @@ class RhValidationController extends Controller
     }
     
     public function index(){
-        $class = $this->table;
+        $table = $this->table;
         $query = $this->helper->get_query();
-        $query = $query->select('rhsds.id','OBJECTIF','REALISATION','ANNEE', 'ETAT', 'REJET','id_qualite','id_domaine','id_user','Description','Motif', 'username', 'updated_at as date', 'qualite', 'domaine', 'type', 't', 'ty');
+        $query = $query->select('rhsds.id',
+                                'OBJECTIF',
+                                'REALISATION',
+                                'ANNEE',
+                                'ETAT',
+                                'REJET',
+                                'id_user',
+                                'Description','Motif',
+                                'username',
+                                'updated_at as date',
+                                'qualite',
+                                'domaine',
+                                'type', 't', 'ty');
         
         $qualites = Qualite::select('qualites.id','qualite_'.LaravelLocalization::getCurrentLocale().' as qualite');
         $dpcis = Dpci::select('dpcis.id','domaine_'.LaravelLocalization::getCurrentLocale().' as domaine', 'type', 'type as t', 'type as ty');
@@ -34,9 +45,9 @@ class RhValidationController extends Controller
                                 ->get();
 
         $rows_count = $this->helper->get_states_overview();
-        $rows_count = $this->helper->get_goals($rows_count);
+        // $rows_count = $this->helper->get_goals($rows_count);
         $axe = (new AxeController)->get_axe(3);
-        return view('validations.rhs', compact('datas', 'rows_count', 'axe', 'class'));
+        return view('validations.rhs', compact('datas', 'rows_count', 'axe', 'table'));
     }
 
     public function valider(Request $request){
@@ -51,8 +62,5 @@ class RhValidationController extends Controller
         return $badge_count;
     }
 
-    public function get_frame(){
-        
-    }
     
 }

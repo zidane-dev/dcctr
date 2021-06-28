@@ -212,11 +212,11 @@
                     <!-- Attributions de processus -->
                     @canany(['administrate','sd', 'dc'])
                     <li class="slide">
-                        <a class="side-menu__item" title="@lang('sidebar.attprocs')" 
+                        <a class="side-menu__item" title="@lang('sidebar.att_procs')" 
                                 href="{{route('attprocs.index')}}">
                             <i class="fas fa-boxes custom_style_icon"></i>
                             <span class="side-menu__label">
-                                @lang('sidebar.attprocs')
+                                @lang('sidebar.att_procs')
                             </span>
                         </a>
                     </li>
@@ -327,7 +327,7 @@
                                 </label>
                             @endif
                             <span class="side-menu__label">
-                                @lang('sidebar.attprocs')
+                                @lang('sidebar.att_procs')
                             </span>
                         </a>
                     </li>

@@ -48,7 +48,7 @@
                                     @canany(['view-region','view-select'])
                                         <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                     @endcanany
-                                    <th class="border-bottom-0">@lang('budget.depense')</th>
+                                    <th class="border-bottom-0">@lang('depenses.nom')</th>
                                     <th class="border-bottom-0">@lang('parametre.annee')</th>
                                     <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
                                     <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
@@ -60,37 +60,37 @@
                                 </thead>
 
                                 <tbody>
-                                @foreach($data_v as $rhsd)
+                                @foreach($data_v as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         @canany(['view-region','view-select'])
-                                            <td>{{$rhsd->domaine->ty}} - {{$rhsd->domaine->domaine}}</td>
+                                            <td>{{$data->domaine->ty}} - {{$data->domaine->domaine}}</td>
                                         @endcanany
-                                        <td>{{$rhsd->depense->depense}}</td>
-                                        <td>{{$rhsd->ANNEE}}</td>
-                                        <td>{{$rhsd->OBJECTIF}}</td>
-                                        <td>{{$rhsd->REALISATION}}</td>
-                                        <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} @lang('parametre.at') 
-                                            {{\Carbon\Carbon::parse($rhsd->date)->format('H:i')}} </td>
+                                        <td>{{$data->depense->depense}}</td>
+                                        <td>{{$data->ANNEE}}</td>
+                                        <td>{{$data->OBJECTIF}}</td>
+                                        <td>{{$data->REALISATION}}</td>
+                                        <td>{{\Carbon\Carbon::parse($data->date)->format('d/m/y')}} @lang('parametre.at') 
+                                            {{\Carbon\Carbon::parse($data->date)->format('H:i')}} </td>
                                         @canany(['add-on','edit-global-goal','follow-info','delete-basethree'])
                                             <td class="mx-auto">
                                                 @can('add-on')
-                                                    <a class="mx-auto px-1" href="{{route('rhs.storereal',$rhsd->id)}}" title="@lang('rhsd.ajoutSur')">
+                                                    <a class="mx-auto px-1" href="{{route('rhs.storereal',$data->id)}}" title="@lang('rhsd.ajoutSur')">
                                                         <i class="fas fa-plus-circle"></i>
                                                     </a>
                                                 @endcan
                                                 @can('edit-global-goal')
-                                                    <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$rhsd->id)}}" title="@lang('parametre.changeObjectif')">
+                                                    <a class="mx-auto px-1" href="{{route('edit.rhsgoal',$data->id)}}" title="@lang('parametre.changeObjectif')">
                                                         <i class="fas fa-vote-yea"></i>
                                                     </a>
                                                 @endcan
                                                 @can('follow-info')
-                                                    <a class="mx-auto px-1" href="{{route('rhs.show',$rhsd->id)}}" title="@lang('rhsd.viewRh')">
+                                                    <a class="mx-auto px-1" href="{{route('rhs.show',$data->id)}}" title="@lang('rhsd.viewRh')">
                                                         <i class="fas fa-info"></i>
                                                     </a>
                                                 @endcan
                                                 @can('delete-basethree')
-                                                    <a class=""  href="javascript:void(0)" data-id="{{ $rhsd->id }}" title="@lang('rhsd.supprimer')"
+                                                    <a class=""  href="javascript:void(0)" data-id="{{ $data->id }}" title="@lang('rhsd.supprimer')"
                                                     data-toggle="modal" data-target="#modalRhsdSUP">
                                                         <i class="text-danger fas fa-trash-alt"></i>
                                                     </a>
@@ -104,7 +104,7 @@
                         </div>
                         @cannot('view-select')
                             <div class="card-text p-2">
-                                <h4>{{$achieved->goals}}/{{$achieved->public}} @lang('parametre.objectifs atteints') </h4>
+                                <h4>{{$count->a}}/{{$count->b}} @lang('parametre.objectifs atteints') </h4>
                             </div>
                         @endcannot
                     </div>  

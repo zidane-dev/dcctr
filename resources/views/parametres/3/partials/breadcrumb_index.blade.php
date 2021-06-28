@@ -1,4 +1,4 @@
-@section('title') @lang('sidebar.liste_'.$table)   @endsection
+@section('title') @lang('sidebar.'.$table)   @endsection
 
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">

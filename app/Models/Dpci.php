@@ -39,6 +39,7 @@ class Dpci extends Model
                 case 'P' : return "Direction Provinciale"; break;
                 case 'R' : return "Direction Régionale"; break;
                 case 'C' : return "Direction Centrale"; break;
+                case 'D' : return "Direction de Coordination et du Suivi de l'Action des Services Déconcentrés"; break;
                 // case 'C' : return "Direction Centrale"; break;
                 // case 'D' : return "Direction de Coordination"; break;
             }
@@ -47,6 +48,7 @@ class Dpci extends Model
                 case 'P' : return "Moudiria Provinciale"; break;
                 case 'R' : return "Moudiria Régionale"; break;
                 case 'C' : return "Moudiria Centrale"; break;
+                case 'D' : return "DCSASD_aR"; break;
             }
         }
     }
@@ -54,6 +56,7 @@ class Dpci extends Model
         switch ($val) {
             case 'P' : return "DP"; break;
             case 'R' : return "DR"; break;
+            case 'D' :
             case 'C' : return "DC"; break;
             // case 'C' : return "AC"; break;
             // case 'D' : return "DC"; break;
@@ -65,13 +68,15 @@ class Dpci extends Model
             switch ($val) {
                 case 'P' : return "DP"; break;
                 case 'R' : return "DR"; break;
-                case 'C' : return "DC"; break;
+                case 'C' : return "AC"; break;
+                case 'D' : return "DC"; break;
             }
         }elseif(LaravelLocalization::getCurrentLocale() === 'ar'){
             switch ($val) {
                 case 'P' : return "MP"; break;
                 case 'R' : return "MR"; break;
-                case 'C' : return "MC"; break;
+                case 'C' : return "mAC"; break;
+                case 'D' : return "mDC"; break;
             }
         }
     }

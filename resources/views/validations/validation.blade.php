@@ -1,5 +1,4 @@
 @extends('layouts.master')
-@section('title') @lang('sidebar.liste rhsd')   @endsection
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -11,29 +10,7 @@
     
 @endsection
 @section('page-header')
-    <!-- breadcrumb -->
-    <div class="breadcarumb-header justify-content-between">
-        <div class="my-auto py-2">
-            <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">
-                    @can('dc')
-                        @lang('sidebar.rhsds') 
-                    @else
-                        @if(LaravelLocalization::getCurrentLocale() === 'fr')
-                            @lang('sidebar.rhsds') / {{Auth::user()->domaine->type}} - {{Auth::user()->domaine->domaine_fr}}
-                        @else
-                            @lang('sidebar.rhsds') / {{Auth::user()->domaine->type}} - {{Auth::user()->domaine->domaine_ar}}
-                        @endif
-                    @endcan
-                </h4>
-                <span class="text-muted mt-1 tx-13 mr-2 mb-0">
-                    &nbsp;&nbsp;&nbsp;&nbsp;/  @lang('sidebar.validation')
-                </span>
-            </div>
-        </div>
-
-    </div>
-    <!-- breadcrumb -->
+    @include('validations.partials.breadcrumb_index')
 @endsection
 
 @section('content')

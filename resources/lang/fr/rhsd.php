@@ -7,7 +7,6 @@ return [
        'nom_qualite'                         => 'Qualité',
        'edit goal'                           => 'Modifier les objectifs liés à cette qualité',
        'ajoutSur'                            => 'Ajouter sur',
-       'user'                                => 'Auteur',
        'supprimer'                           => 'Supprimer',
        'ajoutSur'                            => 'Ajouter sur cette qualité',
        'modal supprimer'                     => "Supprimer la Ressource",

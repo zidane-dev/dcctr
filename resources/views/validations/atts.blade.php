@@ -1,5 +1,4 @@
 @extends('layouts.master')
-@section('title') @lang('sidebar.liste bdg')   @endsection
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -11,29 +10,7 @@
     
 @endsection
 @section('page-header')
-    <!-- breadcrumb -->
-    <div class="breadcarumb-header justify-content-between">
-        <div class="my-auto py-2">
-            <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">
-                    @can('dc')
-                        @lang('sidebar.bdgs') 
-                    @else
-                        @if(LaravelLocalization::getCurrentLocale() === 'fr')
-                            @lang('sidebar.bdgs') / {{Auth::user()->domaine->type}} - {{Auth::user()->domaine->domaine_fr}}
-                        @else
-                            @lang('sidebar.bdgs') / {{Auth::user()->domaine->type}} - {{Auth::user()->domaine->domaine_ar}}
-                        @endif
-                    @endcan
-                </h4>
-                <span class="text-muted mt-1 tx-13 mr-2 mb-0">
-                    &nbsp;&nbsp;&nbsp;&nbsp;/  @lang('sidebar.validation')
-                </span>
-            </div>
-        </div>
-
-    </div>
-    <!-- breadcrumb -->
+    @include('validations.partials.breadcrumb_index')
 @endsection
 
 @section('content')
@@ -85,12 +62,14 @@
                                             @canany(['view-region', 'view-select'])
                                                 <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                             @endcanany
-                                            <th class="border-bottom-0">@lang('att.level.level')</th>
+                                            @cannot('view-province')
+                                                <th class="border-bottom-0">@lang('attproc.niveau')</th>
+                                            @endcannot
                                             <th class="border-bottom-0">@lang('parametre.annee')</th>
-                                            <th class="border-bottom-0">@lang('att.action')</th>
-                                            <th class="border-bottom-0">@lang('att.nom_attribution')</th>
-                                            <th class="border-bottom-0">@lang('parametre.statut')</th>
-                                            <th class="border-bottom-0">@lang('att.user')</th>
+                                            <th class="border-bottom-0">@lang('attproc.attribution')</th>
+                                            <th class="border-bottom-0">@lang('parametre.action')</th>
+                                            <th class="border-bottom-0">@lang('attproc.statut')</th>
+                                            <th class="border-bottom-0">@lang('parametre.user')</th>
                                             <th class="border-bottom-0">@lang('parametre.last_modif')</th>
                                             @canany(['edit-basethree','view-rejets','add-on','follow-info','delete-basethree'])
                                                 <th class="border-bottom-0">@lang('parametre.action')</th>
@@ -112,10 +91,12 @@
                                             @endcanany
                                             {{-- <td>{{\Carbon\Carbon::parse($att->date)->format('d/m/y h:m')}}</td> --}}
                                             {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($att->updated_at)}}</td> --}}
-                                            <td>{{$att->level}}</td>
+                                            @cannot('view-province')
+                                                <td>{{$att->level}}</td>
+                                            @endcannot
                                             <td>{{$att->ANNEE}}</td>
-                                            <td>{{$att->action}}</td>
                                             <td>{{$att->attribution}}</td>
+                                            <td>{{$att->action}}</td>
                                             <td>{{$att->STATUT}}</td>
                                             <td>{{$att->username}}</td>
                                             <td>
@@ -390,7 +371,7 @@
                         </button>
                     </div>
 
-                    <form action="{{route('valider.'.$class)}}" method="POST">
+                    <form action="{{route('valider.'.$table)}}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <input type="hidden" name="update_state_id" id="update_state_id" value="">
@@ -425,7 +406,7 @@
                         </button>
                     </div>
 
-                    <form action="{{route('rejeter.'.$class)}}" method="POST">
+                    <form action="{{route('rejeter.'.$table)}}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <input type="hidden" name="re_id" id="re_id" value="">

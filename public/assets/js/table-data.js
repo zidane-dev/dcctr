@@ -14,9 +14,22 @@ $(function(e) {
 	});
 	table.buttons().container()
 	.appendTo( '#example_wrapper .col-md-6:eq(0)' );	
-	
-	
-	
+
+	var table = $('#example_copy').DataTable({
+		lengthChange: false,
+		buttons: ['excel', 'pdf', 'colvis'],
+		responsive: false,
+		language: {
+			searchPlaceholder: 'Search...',
+			sSearch: '',
+			lengthMenu: '_MENU_ ',
+		},
+		autowidth: true,
+        fixedColumns: true
+	});
+	table.buttons().container()
+	.appendTo( '#example_copy_wrapper .col-md-6:eq(0)' );
+
 	
 	$('#example1').DataTable({
 		responsive: true,
@@ -78,4 +91,6 @@ $(function(e) {
 			}
 		}
 	} );
+
+	
 });

@@ -106,7 +106,7 @@
                         </div>
                         <br>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary">@lang('formone.btn_add')</button>
+                            <button type="submit" class="btn btn-primary">@lang('parametre.submit_to_validation')</button>
                         </div>
                     </form>
                 </div>
