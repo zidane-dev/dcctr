@@ -21,7 +21,7 @@ return [
     'qualite success in add' => "La qualité a été ajoutée avec succès.",
 
     ################################   edit  l'qualite
-    'edit qualite' => "Editer la Qualité ",
+    'edit' => "Editer la qualité ",
     'qualite success in edit' => " la Qualité a été editer avec succès",
 
     ################################   supprimer  l'qualite

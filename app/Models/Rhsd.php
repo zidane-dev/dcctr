@@ -10,7 +10,7 @@ class Rhsd extends BaseThree
 {
     use SoftDeletes;
 
-    protected $fillable = ['OBJECTIFSD', 'REALISATIONSD', 'ANNEESD', 'ECARTSD', 'ETATSD', 'REJETSD', 'id_qualite','id_domaine','id_axe','id_user','Description','Motif'];
+    protected $fillable = ['OBJECTIF', 'REALISATION', 'ANNEE', 'ECART', 'ETAT', 'REJET', 'id_qualite','id_domaine','id_axe','id_user','Description','Motif'];
 
     
     public function qualite(){

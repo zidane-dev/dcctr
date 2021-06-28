@@ -3,7 +3,6 @@ return [
     
     ################################  index
     'add' => 'Nouvelle unité',
-    'edit' => 'Modifier ',
     'nom' => 'Unité',
     'modal supprimer' => "Supprimer l'unité",
 
@@ -26,7 +25,7 @@ return [
     'unite success in add' => "L'unité a été ajoutée avec succès.",
 
     ################################   edit  l'unite
-    'edit unite' => "Modérer l'unité",
+    'edit' => "Modifier l'unité",
     'unite success in edit' => "L'unité a été modifiée avec succès.",
 
     ################################   supprimer  l'unite

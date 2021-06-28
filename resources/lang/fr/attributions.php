@@ -7,8 +7,8 @@ return [
     'modal supprimer' => "Supprimer l'attribution ",
 
     ################################  create et edit  l'attribution
-    'nom_attribution_fr' => "Nom de l'attribution",
-    'nom_attribution_ar' => 'اسم الإسناد',
+    'champ_fr' => "Nom de l'attribution",
+    'champ_ar' => 'اسم الإسناد',
     'form.title' => "Veuillez saisir le nom de d'attribution ",
 
     "form select" => "Sélectionnez le secteur",
@@ -27,7 +27,7 @@ return [
     'attribution success in add' => "l'attribution  a été ajouté avec succès",
 
     ################################   edit  l'attribution
-    'edit attribution' => "Editer   l'attribution ",
+    'edit' => "Editer   l'attribution ",
     'attribution success in edit' => " l'attribution  a été editer avec succès",
 
     ################################   supprimer  l'attribution

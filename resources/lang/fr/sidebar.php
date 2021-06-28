@@ -49,16 +49,16 @@ return [
     'liste ressources' => 'Liste des Ressources',
     ########################### Rhsd
     'rhsds' => 'Ressources Humaines',
-    'liste rhsd' => 'Liste des Ressources Humaines',
+    'liste_rhsds' => 'Liste des Ressources Humaines',
     ########################### Attproc
-    'attprocs' => 'Attributions de processus',
-    'liste attproc' => 'Liste des attributions de processus',
+    'att_procs' => 'Attributions de processus',
+    'liste_att_procs' => 'Liste des attributions de processus',
     ########################### Budget
-    'budget' => 'Budget',
-    'liste budget' => 'Liste des budget',
+    'budgets' => 'Ressources Matérielles',
+    'liste_budgets' => 'Liste des Ressources Matérielles',
     ########################### Indicperf
     'indicperfs' => 'Indicateurs de performance',
-    'liste indicperf' => 'Liste des indicateurs de performance',
+    'liste_indicperfs' => 'Liste des indicateurs de performance',
     ########################### Users
     'users' => 'Utilisateurs',
     'liste user' => "Liste d'utilisateurs",

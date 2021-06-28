@@ -53,4 +53,9 @@ class User extends Authenticatable
     public function attprocs(){
         return $this->hasMany('App\Models\AttProc', 'id_user');
     }
+
+    public function userable()
+    {
+        return $this->morphTo();
+    }
 }

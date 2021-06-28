@@ -80,30 +80,46 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>@lang('parametre.annee')</label>
-                                    <input class="form-control fc-datepicker" name="ANNEESD" id="ANNEESD" placeholder="yyyy" value="{{$rhsd->ANNEESD}}"
+                                    <input class="form-control fc-datepicker" name="ANNEE" id="ANNEE" placeholder="yyyy" value="{{$rhsd->ANNEE}}"
                                            type="text" required     @unless(Auth::user()->can('edit-annee')) readonly @endunless>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('parametre.nom_objectif')</label>
-                                    <input type="text" class="form-control" id="amount1" name="objectif" value="{{$rhsd->OBJECTIFSD}}" 
-                                                                    @unless(Auth::user()->can('edit-objectif')) readonly @endunless>
+                                    <input type="text" class="form-control" id="amount1" name="objectif" value="{{$rhsd->OBJECTIF}}" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 offset-md-1">
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('parametre.nom_realisation')</label>
-                                    <input type="text" class="form-control"  name="realisation" id="amount2" value="{{$rhsd->REALISATIONSD}}">
+                                    <input type="text" class="form-control" autofocus  name="realisation" id="amount2" value="{{$rhsd->REALISATION}}">
                                 </div>
                             </div>
 
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label for="inputName" class="control-label">@lang('parametre.nom_ecart')</label>
-                                    <input type="text" class="form-control"  name="ecart" readonly id="ecart" value="{{$rhsd->ECARTSD}}">
+                            @if ($rhsd->REJET == 1)
+                                @can('view-rejets')
+                                <br>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputName" class="control-label">@lang('parametre.rejete_par')</label>
+                                        <input type="text" class="form-control"  name="par" readonly id="par" value="{{$rejet['user']->name}}">
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputName" class="control-label">@lang('parametre.motif')</label>
+                                        <input type="text" class="form-control"  name="motif" readonly id="motif" value="{{$rhsd->Motif}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label for="inputName" class="control-label">@lang('parametre.description')</label>
+                                        <textarea class="form-control" rows="3" name="description" readonly id="description" >{{$rhsd->Description}}</textarea>
+                                    </div>
+                                </div>
+                                @endcan
+                            @endif
                         </div>
                         <br>
                         <div class="d-flex justify-content-center my-3">

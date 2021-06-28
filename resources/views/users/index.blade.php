@@ -31,7 +31,7 @@
           <table id="example1" class="table key-buttons text-md-nowrap">
             <thead>
               <tr>
-                <th class="border-bottom-0">No</th>
+                <th class="border-bottom-0">#</th>
                 <th class="border-bottom-0">Name</th>
                 <th class="border-bottom-0">Email</th>
                 <th class="border-bottom-0">Type</th>

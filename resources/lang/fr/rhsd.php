@@ -7,8 +7,6 @@ return [
        'nom_qualite'                         => 'Qualité',
        'edit goal'                           => 'Modifier les objectifs liés à cette qualité',
        'ajoutSur'                            => 'Ajouter sur',
-       'user'                                => 'Auteur',
-       'viewRh'                              => 'Suivre cette entrée',
        'supprimer'                           => 'Supprimer',
        'ajoutSur'                            => 'Ajouter sur cette qualité',
        'modal supprimer'                     => "Supprimer la Ressource",
@@ -32,17 +30,17 @@ return [
        'realisation numeric'                 => "La realisation doit être un nombre.",
        'realisation gte'                     => "La realisation  doit être supérieur ou égal à 0.",
        'ecart numeric'                       => "Ecart doit être un nombre.",
-       'rhsd success in add'                 => "La Ressource Humaine  a été ajouté avec succès",
+       'success_add'                         => "La Ressource Humaine  a été ajouté avec succès",
        ################################   edit rhsd
        'edit rhsd'                           => 'Modifier la Ressource Humaine',
        'la_raison_du_refus'                  => "Justificatif du refus : ",
        'motif required'                      => 'le champs du Motif est obligatoire',
-       'rhsd success in edit'                => 'La Ressource Humaine a été modifiée avec succès',
+       'success_edit'                        => 'La Ressource Humaine a été modifiée avec succès',
        'rhsd success in motif'               => 'Le motif a été ajouté avec succès',
        ################################   supprimer rhsd
-       'rhsd success in supprimer'           => 'La Ressource Humaine a été supprimée avec succès.',
-       'obj exists and different'            => 'Cette qualité existe déjà avec un objectif différent pour cette année.',
-       'supprimez cette ligne'               => 'Supprimez cette ligne.',
+       'success_supprimer'                   => 'La Ressource Humaine a été supprimée avec succès.',
+       'different_obj_exists'                => 'Cette qualité existe déjà avec un objectif différent pour cette année.',
+       'supprimez_ligne'                     => 'Contactez votre administrateur si besoin de supprimer cette ligne.',
        'corriger objectif'                   => 'Veuillez respecter l\'unicité.',
        ##################################### to be moved to parametres
        

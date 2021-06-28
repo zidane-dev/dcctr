@@ -24,7 +24,7 @@ return [
     "axe success in add" => "L'axe a été ajouté avec succès",
     ################################   edit axe
 
-    "edit axe" => "Editer  l'axe",
+    "edit" => "Editer l'axe",
     "axe success in edit" => "L'axe a été editer avec succès",
     ################################   supprimer axe
     "axe success in supprimer" => "L'axe a été supprimé avec succès",

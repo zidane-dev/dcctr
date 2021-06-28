@@ -19,7 +19,7 @@ return [
 
     'indicateur success in add' => "l'indicateur a été ajouté avec succès",
     ################################   edit  l'indicateur
-    'edit indicateur' => "Editer   l'indicateur",
+    'edit' => "Modifier l'indicateur",
     'indicateur success in edit' => " l'indicateur a été editer avec succès",
     ################################   supprimer  l'indicateur
     'indicateur success in supprimer' => " l'indicateur a été supprimé avec succès",

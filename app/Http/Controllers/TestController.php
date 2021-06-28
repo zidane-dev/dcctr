@@ -10,12 +10,18 @@ use Spatie\Permission\Models\Role;
 class TestController extends Controller
 {
     public function index(){
-        
         $permissions = Permission::select('id', 'name')->cursor();
         $roles = Role::select('id', 'name')->cursor();
 
         return view('permissions.index', compact('permissions', 'roles'));
 
 
+    }
+
+    public function session(Request $request){
+        dd($request->session()->all());
+    }
+    public function requete(Request $request){
+        dd($request);
     }
 }

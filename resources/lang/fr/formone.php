@@ -24,7 +24,10 @@ return [
 
     #### Create et Edit
 
-    'btn_add_edit' => 'Sauvegarder',
+    'btn_add_edit' => 'Modifier',
+    'btn_add' => 'Créer',
+    'btn_add_on' => 'Ajouter',
+    
     
     ##### FormRequest
 

@@ -2,12 +2,12 @@
 return [
            ################################  index
            'add' => 'Ajouter un événement ',
-           'nom_action' => 'événement  ',
+           'nom' => 'événement  ',
            'modal supprimer' => "Supprimer l'événement ",
        
                   ################################  create et edit  l'action
-           'nom_action_fr' => "Nom d'événement  (FR)",
-           'nom_action_ar' => " Nom d'événement  (AR)",
+           'champ_fr' => "Nom d'événement  (FR)",
+           'champ_ar' => " Nom d'événement  (AR)",
            'form.title' => "Veuillez saisir le nom de  d'événement ",
        
            ################################  create  l'action -------- messages request
@@ -22,7 +22,7 @@ return [
            'action success in add' => "l'événement  a été ajouté avec succès",
        
            ################################   edit  l'action
-           'edit action' => "Editer   l'événement ",
+           'edit' => "Editer   l'événement ",
            'action success in edit' => " l'événement  a été editer avec succès",
        
            ################################   supprimer  l'action

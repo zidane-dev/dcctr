@@ -83,14 +83,14 @@
                             <div class="col-md-1">
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('rhsd.annee')</label>
-                                    <input type="text" class="form-control" id="amount1" name="annee" value="{{$rhsd->ANNEESD}}" disabled>
+                                    <input type="text" class="form-control" id="amount1" name="annee" value="{{$rhsd->ANNEE}}" disabled>
                                 </div>
                             </div>
                             
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('rhsd.nom_objectif')</label>
-                                    <input type="text" class="form-control" id="amount1" name="newObjectif" value="{{$rhsd->OBJECTIFSD}}">
+                                    <input type="text" class="form-control" id="amount1" name="newObjectif" value="{{$rhsd->OBJECTIF}}">
                                 </div>
                             </div>
                             

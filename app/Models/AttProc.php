@@ -8,10 +8,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AttProc extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['id_axe', 'id_attribution', 'id_action', 'id_level', 'ANNEEOBJ', 'ANNEERLS', 'STATUT', 'ETAT', 'REJET', 'id_user'];
+    protected $fillable = ['id_axe',
+                            'id_attribution',
+                            'id_action',
+                            'id_level',
+                            'ANNEE',
+                            'ANNEERLS',
+                            'STATUT',
+                            'ETAT',
+                            'REJET',
+                            'id_user'];
 
     public function axe(){
-        return $this->belongsTo('App\Models\Axe', 'id_axe');
+        return $this->belongsTo('App\Models\Axe',  'id_axe');
     }
 
     public function user(){
