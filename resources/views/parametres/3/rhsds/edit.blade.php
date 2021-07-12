@@ -24,9 +24,7 @@
     </div>
     <br>
     <div class="row">
-
         <div class="col-lg-12 col-md-12 ">
-
             <div class="card">
                 @include('layouts.errors_success')
                 <div class="card-body">

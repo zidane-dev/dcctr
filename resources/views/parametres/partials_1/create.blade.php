@@ -1,4 +1,4 @@
-@can('create-'.$class)
+{{-- @can('create-'.$class) --}}
     @section('content')
         <!-- row -->
         <div class=" pb-0">
@@ -21,14 +21,12 @@
                                     <label for="inputName" class="control-label">@lang($class.'.champ_fr')</label>
                                     <input type="text" class="form-control" id="inputName" name="champ_fr" dir="ltr"
                                         title="@lang($class.'.form.title')" value="{{old('champ_fr')}}">
-                                        {{-- WHAT IS {{OLD}} ? --}}
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang($class.'.champ_ar')</label>
                                     <input type="text" class="form-control" id="inputName" name="champ_ar" dir="rtl"
                                         title="@lang($class.'.form.title')" value="{{old('champ_ar')}}">
-                                        {{-- WHAT IS {{OLD}} ? --}}
                                 </div>
 
                             <br>
@@ -73,4 +71,4 @@
         <!-- form-elements js -->
         <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
     @endsection
-@endcan
+{{-- @endcan --}}

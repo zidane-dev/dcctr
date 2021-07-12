@@ -29,7 +29,7 @@ class RhsdController extends Controller
     public function __construct(){
         $this->middleware(['permission:administrate|ac|sd|dc']);
         $this->middleware(['permission:add-basethree|add-on'])->only(['create', 'store']);
-        $this->middleware(['permission:edit-basethree'])->only(['edit', 'update']);
+        $this->middleware(['permission:edit-basethree|view-rejets'])->only(['edit', 'update']);
         $this->middleware(['permission:delete-basethree'])->only('destroy');
 
         $this->helper = new AxeHelperController();
@@ -70,25 +70,33 @@ class RhsdController extends Controller
     }
     public function store(Request $request){
         if($request->isMethod('POST')){
-            
             if($request->date_creation){
                 $year =Carbon::createFromFormat('yy',$request->date_creation)->format('Y');}
             elseif($request->annee)
                 {$year = $request->annee;}
             
-            $public = (new UserValidationController)->get_supposed_states('public');
-            $validated_rhs = Rhsd::where('ETAT', $public)
-                                ->where('id_domaine', '=', $request->domaine)
+            // $public = (new UserValidationController)->get_supposed_states('public');
+            // $validated_rhs = Rhsd::where('ETAT', $public)
+            //                     ->where('id_domaine', '=', $request->domaine)
+            //                     ->where('id_qualite', '=', $request->qualite)
+            //                     ->where('ANNEE', '=', $year);
+            $existing_rows = Rhsd::where('id_domaine', '=', $request->domaine)
                                 ->where('id_qualite', '=', $request->qualite)
                                 ->where('ANNEE', '=', $year);
 
-            if($validated_rhs->count() > 0){
-                $validated_rh = $validated_rhs->first();
+            $this_year = now()->format('Y');
+            if($year != $this_year){
+                Session::flash('error',__('parametre.years_dont_match'));
+                return redirect()->back();
+            }
+            if($existing_rows->count() > 0){
+                $validated_rh = $existing_rows->first();
                 if($validated_rh->OBJECTIF != $request->objectif){
                     Session::flash('error',__('rhsd.different_obj_exists')." ".__('rhsd.supprimez_ligne'));
                     return redirect()->back();
                 }
             }
+            
             
             $ecart = $request->realisation - $request->objectif;
             Rhsd::create([
@@ -115,7 +123,6 @@ class RhsdController extends Controller
         $rh = Rhsd::select('id','OBJECTIF','REALISATION','ANNEE', 'ETAT','REJET','id_qualite','id_domaine','id_user','Description','Motif', 'updated_at as date');
         $uss = User::where('id', Auth::id())->first();
         $userRole = $uss->roles->pluck('name')->first();
-        
         $rh = $rh->where('id_domaine', '=', $rh_selected->id_domaine)
                 ->where('ANNEE', '=', $rh_selected->ANNEE)
                 ->where('id_qualite', '=', $rh_selected->id_qualite);
@@ -234,7 +241,7 @@ class RhsdController extends Controller
                                                          'fullDate' => $data['fullDate']
                                                         ]);
     }
-    public function edit_goal(Request $request){
+    public function edit_goal(Request $request){ // return 
 
         $rhsd = Rhsd::find($request->id);
         if(!$rhsd){
@@ -259,9 +266,10 @@ class RhsdController extends Controller
         return redirect()->route('rhs.show', $request->id);
     }
     public function get_select_token($builder, $signer, $secret){
+        $etat = (new UserValidationController)->get_supposed_states('public');
         $token = ($builder)
-            ->set('resource', [ 'dashboard' => 2 ])
-            ->set('params', ['param' => ''])
+            ->set('resource', [ 'dashboard' => 130 ])
+            ->set('params', ['etat' => $etat[0]])
             ->sign($signer, $secret)
             ->getToken();
 
@@ -270,7 +278,7 @@ class RhsdController extends Controller
     public function get_region_token($builder, $signer, $secret, $region_id){
         $etat = (new UserValidationController)->get_supposed_states('public');
         $token = ($builder)
-            ->set('resource', [ 'dashboard' => 129 ])
+            ->set('resource', [ 'dashboard' => 33 ])
             ->set('params', ['region' => $region_id, 'etat' => $etat[0]])
             ->sign($signer, $secret)
             ->getToken();
@@ -280,7 +288,7 @@ class RhsdController extends Controller
     public function get_province_token($builder, $signer, $secret, $domaine){
         $etat = (new UserValidationController)->get_supposed_states('public');
         $token = ($builder)
-            ->set('resource', [ 'dashboard' => 34 ])
+            ->set('resource', [ 'dashboard' => 129 ])
             ->set('params', ['domaine' => $domaine, 'etat' => $etat[0]])
             ->sign($signer, $secret)
             ->getToken();

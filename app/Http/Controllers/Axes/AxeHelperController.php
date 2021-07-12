@@ -38,17 +38,13 @@ class AxeHelperController extends Controller
                 
         }
     }
-    public function index($table, $request){ // WORKS FOR: BUDGETCONTROLLER,
+    public function index($table, $request){                                    // WORKS FOR: BUDGETCONTROLLER,
         $helper = $this->get_helper($table);
         $domaine = $this->define_domaine($request);                             // old('province') ? old('province') : session()->domaine_in
-        // dd($domaine);
         $year = $this->define_year($request);                                   // same for year
-        
-        $data_v = $helper->get_query($domaine, $year);                                    // query for public state
-        
+        $data_v = $helper->get_query($domaine, $year);                          // query for public state
         $years = $this->get_years_array($data_v);                               // fill the years array
         $dp = $this->get_domaine_by_id($request->session()->get('domaine_id')); // get the dp
-
         $metabase = new MetabaseController();
         if(Auth::user()->hasPermissionTo('view-select')){
             $frame = $this->load_select_frame($metabase, $helper);
@@ -64,7 +60,7 @@ class AxeHelperController extends Controller
             $frame = $this->load_region_frame($metabase, $helper, $dp->dr_id);
 
         }elseif(Auth::user()->hasPermissionTo('view-province')){
-            $frame = $this->load_province_frame($metabase, $helper, $request->session()->get('domaine_id'));
+            $frame = $this->load_province_frame($metabase, $helper, $dp->id);
         }
         $count = $this->get_count_achieved($table, $data_v);                         // get "achieved / total goals"
 
@@ -213,5 +209,8 @@ class AxeHelperController extends Controller
             $ecart = $bdg->REALISATION - $bdg->OBJECTIF;
             $bdg->update(['ECART' => $ecart]);
         }
+    }
+    public function get_ecart($realisation, $objectif){ // + objectif atteint, - pas encore
+        return ($realisation - $objectif);
     }
 }

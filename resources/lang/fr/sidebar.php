@@ -69,5 +69,4 @@ return [
     'validation' => 'Validation',
     'validation_tables' => 'Tables de validation',
     'archives' => 'Archives'
-
 ];

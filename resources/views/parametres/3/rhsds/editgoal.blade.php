@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label for="inputName" class="control-label">@lang('rhsd.nom_axe')</label>
                                     <select name="axe" class="form-control SlectBox" disabled>
-                                        <option value=""  >@lang('rhsd.choi_axe')</option>
+                                        <option value=""  >@lang('parametre.choi_axe')</option>
                                         @if(isset($axes) && $axes->count() > 0)
                                             @foreach($axes as $axe)
                                             @if($axe->id === $rhsd->id_axe)

@@ -61,12 +61,13 @@
                                             @canany(['view-region', 'view-select'])
                                                 <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                             @endcanany
-                                            <th class="border-bottom-0">@lang('rhsd.nom_qualite')</th>
+                                            {{-- <th class="border-bottom-0">@lang('rhsd.nom_qualite')</th>
                                             <th class="border-bottom-0">@lang('parametre.last_modif')</th>
                                             <th class="border-bottom-0">@lang('parametre.annee')</th>
                                             <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
                                             <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
-                                            <th class="border-bottom-0">@lang('rhsd.user')</th>
+                                            <th class="border-bottom-0">@lang('rhsd.user')</th> --}}
+                                            @yield('table_headers')
                                             @canany(['edit-basethree','view-rejets','add-on','follow-info','delete-basethree'])
                                                 <th class="border-bottom-0">@lang('parametre.action')</th>
                                             @endcanany
@@ -85,9 +86,7 @@
                                             @canany(['view-region', 'view-select'])
                                                 <td>{{$rhsd->ty}} - {{$rhsd->domaine}}</td>
                                             @endcanany
-                                            {{-- <td>{{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y h:m')}}</td> --}}
-                                            {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($rhsd->updated_at)}}</td> --}}
-                                            <td>{{$rhsd->qualite}}</td>
+                                            {{-- <td>{{$rhsd->qualite}}</td>
                                             <td>
                                                 {{\Carbon\Carbon::parse($rhsd->date)->format('d/m/y')}} 
                                                 @lang('parametre.at') 
@@ -96,7 +95,8 @@
                                             <td>{{$rhsd->ANNEE}}</td>
                                             <td>{{$rhsd->OBJECTIF}}</td>
                                             <td>{{$rhsd->REALISATION}}</td>
-                                            <td>{{$rhsd->username}}</td>
+                                            <td>{{$rhsd->username}}</td> --}}
+                                            @yield('table_rows')
                                             @canany(['edit-basethree','view-rejets', 'add-on','follow-info','delete-basethree'])
                                                 <td class="d-inline-flex text-center align-middle">
                                                     <div class="dropdown">

@@ -2,7 +2,7 @@ $(function(e) {
 	//file export datatable
 	var table = $('#example').DataTable({
 		lengthChange: false,
-		buttons: ['excel', 'pdf', 'colvis'],
+		buttons: ['colvis', 'copy', 'excel', 'pdf', 'print'],
 		responsive: false,
 		language: {
 			searchPlaceholder: 'Search...',
@@ -40,7 +40,7 @@ $(function(e) {
 		}
 	});
 	$('#example2').DataTable({
-		responsive: true,
+		responsive: false,
 		language: {
 			searchPlaceholder: 'Search...',
 			sSearch: '',

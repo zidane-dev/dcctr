@@ -25,8 +25,6 @@
                             <input type="text" class="form-control" id="inputName" name="champ_ar" dir="rtl"
                                    title="@lang($class.'.form.title')" value="{{$data->data_ar}}">
                         </div>
-
-
                            <br>
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">@lang('formone.btn_add_edit')</button>

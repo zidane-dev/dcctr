@@ -124,13 +124,15 @@
                                         </td>
                                         @endhasanyrole
                                         <td>
-                                            @if($rhsd->ETAT == 6)
+                                            @if($rhsd->ETAT == 7)
                                                 <label class="badge badge-success">@lang('parametre.validated')</label>
                                             @elseif($rhsd->REJETSD == 1)
                                                 <label class="badge badge-danger">@lang('parametre.rejete')</label>
                                             @else
-                                                @if($rhsd->ETAT > 3)
-                                                    <label class="badge badge-secondary">@lang('parametre.validated r')</label>
+                                                @if($rhsd->ETAT == 3 && $rhsd->domaine->type == 'P')
+                                                    <label class="badge badge-secondary">@lang('parametre.validated_p')</label>
+                                                @elseif($rhsd->ETAT>=4)
+                                                    <label class="badge badge-secondary">@lang('parametre.validated_r')</label>
                                                 @else
                                                     <label class="badge badge-secondary">@lang('parametre.encours')</label>
                                                 @endif

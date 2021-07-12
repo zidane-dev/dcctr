@@ -63,11 +63,6 @@
                         <img width="100%" height="300px" src="{{asset('assets/img/svgicons/no-data.svg')}}">
                     </div>
                     @endif
-                @else
-                <div>
-                    <img width="100%" height="300px" src="{{asset('assets/img/svgicons/no-data.svg')}}">
-                </div>
-                @endcan                         
             </div>
         </div>
     </div>

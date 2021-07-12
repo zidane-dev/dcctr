@@ -14,7 +14,7 @@ return [
     'nom_ecart'                         => 'Écart',
     'par'                               => 'Par',
     'dots'                              => '...',
-    'etats actuels'                     => 'États actuels de validation',
+    'etats actuels'                     => 'Aperçu sur les niveaux de validation',
     'vue graphique'                     => 'Vue graphique',
     'moyenne'                           => 'Moyenne',
     'pour lannee'                       => 'pour l\'année',
@@ -32,7 +32,7 @@ return [
     ################## Formulaires
     'choi_axe'                          => "Choisissez l'axe.",
     ################## Actions & Boutons
-    'submit_to_validation'              => 'Soumettre pour validation',
+    'submit_to_validation'              => 'Soumettre pour Validation',
     'envoyer'                           => 'Envoyer',
     'changeObjectif'                    => 'Changer l\'objectif',
     'action'                            => 'Action',
@@ -41,9 +41,13 @@ return [
     'follow_line'                       => 'Suivre cette entrée',
     'btn_add_edit'                      => 'Sauvegarder',
     'ajout'                             => 'Ajout',
-    'modal validation close'            => 'Fermer',
-    'modal validation confirm'          => 'Confirmer',
+    'modal_validation_close'            => 'Fermer',
+    'modal_validation_confirm'          => 'Confirmer',
     'correct'                           => 'Corriger',
+    'nouveau_objectif'                  => 'Définition d\'un nouvel Objectif',
+    ################## Actions & Boutons
+    'warning_add'                       => 'Attention ! Après soumission, aucune modification ne pourra être effectuée à votre niveau.',
+    'btn_alimenter'                     => 'Soumettre la réalisation',
     ################## Rejets
     'cancel rejet'                      => 'Annuler le rejet',
     'view_rejet'                        => 'Justificatifs du rejet',
@@ -61,10 +65,14 @@ return [
     'ligne_publiee'                     => 'La ligne est maintenant publiée.',
     'lignes_publiees'                   => 'Les lignes sont maintenant publiées.',
     'validated'                         => 'Validé',
-    'validated r'                       => 'V. Région',
+    'validated_r'                       => 'V. Région',
+    'validated_p'                       => 'V. Province',
     'encours'                           => 'En cours',
+    'total_lignes'                      => 'Somme des lignes en cours de validation',
+    'au_niveau'                         => 'au niveau de votre',
     ################## Validation Erreurs
     'erreur_validation'                 => 'Erreur lors de la mise à jour de l\'état.',
+    'years_dont_match'                  => 'Vous ne pouvez ajouter d\'objectifs hors de l\'année courante.',
     ################## Filtres
     'filtrer par'                       => 'Filtrer par :',
     'sd'                                => 'Services Déconcentrés',

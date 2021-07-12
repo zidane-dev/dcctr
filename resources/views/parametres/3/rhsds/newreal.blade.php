@@ -10,11 +10,11 @@
     @endif
 
 @section('title')
-    @lang('rhsd.edit rhsd')
+    @lang('rhsd.alimenter')
 @stop
 @endsection
 
-@include('parametres.partials_1.breadcrumb', ['sidebar'=> 'sidebar.rhsds', 'page' => 'rhsd.edit rhsd'])
+@include('parametres.partials_1.breadcrumb', ['sidebar'=> 'sidebar.rhsds', 'page' => 'rhsd.alimenter'])
 
 @section('content')
     <!-- row -->
@@ -110,7 +110,7 @@
                         </div>
                         <br>
                         <div class="d-flex justify-content-center pb-4">
-                            <button type="submit" class="btn btn-primary px-2 my-2">@lang('formone.btn_add_on')</button>
+                            <button type="submit" class="btn btn-primary px-2 my-2">@lang('parametre.btn_alimenter')</button>
                         </div>
                     </form>
                 </div>

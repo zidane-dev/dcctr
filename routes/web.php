@@ -39,24 +39,28 @@ Route::group(['middleware' => 'auth'],function (){
         Route::get('/logout'                , 'HomeController@logout')          ->name('dashboard.logout');
         
         ####################### Parametres 1 & 2
-
-        Route::group(['namsepace' => 'Parametres', 'middleware'=>['role:s-a']], function() {
-            Route::resource('axes'              , 'AxeController'          )->except(['show']);
-            Route::resource('regions'           , 'DrController'           )->except(['show']);
-            Route::resource('indicateurs'       , 'IndicateurController'   )->except(['show']);
-            Route::resource('qualites'          , 'QualiteController'      )->except(['show']);
-            Route::resource('secteurs'          , 'SecteurController'      )->except(['show']);
-            Route::resource('structures'        , 'StructureController'    )->except(['show']);
-            Route::resource('ressources'        , 'RessourceController'    )->except(['show']);
-            Route::resource('unites'            , 'UniteController'        )->except(['show']);
+        Route::group(['middleware'=>['permission:administrate']], function(){
+            Route::resource('archives'              , 'ArchiveController');
             
-            // Route::resource('typecredits'    , 'TypeCreditController')->except(['show']);
+            // Route::get('assign', 'PermissionController@index')->name('permission.index');
             
-            Route::resource('attributions'      , 'AttributionController'  )->except(['show']);
-            Route::resource('dpcis'             , 'DpciController'         )->except(['show']);
-            Route::resource('objectifs'         , 'ObjectifController'     )->except(['show']);
-            Route::resource('depenses'          , 'DepenseController'      )->except(['show']);
+            Route::group(['namespace' => 'Parametres'], function() {
+                Route::resource('axes'              , 'AxeController'          )->except(['show']);
+                Route::resource('regions'           , 'DrController'           )->except(['show']);
+                Route::resource('indicateurs'       , 'IndicateurController'   )->except(['show']);
+                Route::resource('qualites'          , 'QualiteController'      )->except(['show']);
+                Route::resource('secteurs'          , 'SecteurController'      )->except(['show']);
+                Route::resource('structures'        , 'StructureController'    )->except(['show']);
+                Route::resource('ressources'        , 'RessourceController'    )->except(['show']);
+                Route::resource('unites'            , 'UniteController'        )->except(['show']);
+                // Route::resource('typecredits'     , 'TypeCreditController')->except(['show']);
+                Route::resource('attributions'      , 'AttributionController'  )->except(['show']);
+                Route::resource('dpcis'             , 'DpciController'         )->except(['show']);
+                Route::resource('objectifs'         , 'ObjectifController'     )->except(['show']);
+                Route::resource('depenses'          , 'DepenseController'      )->except(['show']);
+            });
         });
+
         
         ####################### Parametres 3
         Route::group(['prefix' => 'axe', 'namespace'=>'Axes'], function(){
@@ -80,10 +84,13 @@ Route::group(['middleware' => 'auth'],function (){
        
         Route::resource('users'                 , 'UserController');
         Route::get('/rights'                    , 'TestController@index')           ->name('rights');
+        Route::get('/rightsofrole/{id}'              , 'TestController@assign_to_role')           ->name('rights_role');
+        Route::get('/rightsofuser/{id}'              , 'TestController@assign_to_user')           ->name('rights_user');
         
-        ####################### Archives
-        
-        Route::resource('archives'              , 'ArchiveController');
+        ####################### Uploads
+        Route::group(['prefix' => 'uploads', 'namespace'=>'Rapports'], function(){
+            Route::resource('documents', 'ReportController')->only(['index', 'create', 'store', 'destroy']);
+        });
 
         ############################Validation
         

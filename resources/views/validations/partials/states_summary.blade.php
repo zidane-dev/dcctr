@@ -10,7 +10,8 @@
                         <div class="col w-100 inline-block" >
                             <div class="card" style="height: 180px">
                                 <div class="card-title mt-2" >
-                                    @lang('roles.Etat '.($loop->iteration-1))(@lang('parametre.etat') {{$loop->iteration-1 }})</div>
+                                    @lang('roles.etat_'.($loop->iteration-1))
+                                </div>
                                 <div class="card-body">
                                     <h2>{{$count}}</h2>
                                 </div>
@@ -19,18 +20,22 @@
                     @elsecan('view-region')
                         <div class="col w-100 inline-block" >
                             <div class="card" style="height: 180px">
-                                <div class="card-title mt-2" ><h2>{{$count}}</h2></div>
+                                <div class="card-title mt-2" >
+                                    <h2>{{$count}}</h2>
+                                </div>
                                 <div class="card-body">
-                                    @lang('roles.Etat '.($loop->iteration-1))(@lang('parametre.etat') {{$loop->iteration-1}})
+                                    @lang('roles.etat_'.($loop->iteration-1))
                                 </div>
                             </div>
                         </div>
                     @elsecan('view-select')
                         <div class="col w-100 inline-block" >
                             <div class="card" style="height: 180px">
-                                <div class="card-title mt-2" ><h2>{{$count}}</h2></div>
+                                <div class="card-title mt-2" >
+                                    <h2>{{$count}}</h2>
+                                </div>
                                 <div class="card-body">
-                                    @lang('roles.Etat '.($loop->iteration-1))(@lang('parametre.etat') {{$loop->iteration-1 }})
+                                    @lang('roles.etat_'.($loop->iteration-1))
                                 </div>
                             </div>
                         </div>
@@ -39,11 +44,13 @@
             </div>
         </div>
         <div>
-            @lang('rhsd.total lignes')
+            <span class="font-italic">
+            @lang('parametre.total_lignes')
             @canany(['sd', 'ac'])
-                @lang('rhsd.de votre') {{Auth::user()->domaine->type}} 
+                @lang('parametre.au_niveau') {{Auth::user()->domaine->type}} 
             @endcanany
-            : {{$rows_count->rows}}
+            </span>
+            <span class="font-weight-bold">: {{$rows_count->rows}} </span>
         </div>
     </div>
 </div>

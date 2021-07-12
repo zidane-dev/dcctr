@@ -17,11 +17,7 @@ class UniteController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['permission:access-unites']);
-        $this->middleware(['permission:list-unites'])->only('index');
-        $this->middleware(['permission:create-unites'])->only(['create', 'store']);
-        $this->middleware(['permission:edit-unites'])->only(['edit', 'update']);
-        $this->middleware(['permission:delete-unites'])->only('destroy');
+     
     }
 
     public function index()

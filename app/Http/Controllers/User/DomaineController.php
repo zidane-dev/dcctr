@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Dpci;
 use App\Models\Dr;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DomaineController extends Controller
