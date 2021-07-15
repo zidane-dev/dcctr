@@ -133,13 +133,6 @@
                                     </span>
                                 </a>
                             </li>
-                            <!--Type Credit-->
-                            {{-- <li class="sub-slide">
-                                <a class="side-menu__item"  href="{{route('typecredits.index')}}">
-                                    <i class="fas fa-ellipsis-h custom_style_icon"> </i>
-                                    <span class="side-menu__label"> @lang('sidebar.typeCredits') </span>
-                                </a>
-                            </li> --}}
                             <!-- Qualites -->
                             <li class="sub-slide">
                                 <a class="side-menu__item"  href="{{route('qualites.index')}}">
@@ -227,7 +220,20 @@
                     {{-- <li><a class="slide-item" href="{{route('roles.index')}}">Rôles des utilisateurs</a></li> --}}
                 </ul>
             </li>
-
+            <li class="slide">
+                <a class="side-menu__item" href="{{route('show.session')}}">
+                    <i class="fas fa-users custom_style_icon"></i>
+                    <span class="side-menu__label">
+                    SESSION
+                </span>
+                </a>
+                <a class="side-menu__item" href="{{route('show.requete')}}">
+                    <i class="fas fa-users custom_style_icon"></i>
+                    <span class="side-menu__label">
+                    REQUETE
+                </span>
+                </a>
+            </li>
         @endcan
             <!------------------------------------------------------------------------------------------------->
             <!-- Public -->
@@ -321,11 +327,9 @@
                     </li>
                 </ul>
             </li>
-            
-             <!-- Validation -->
-            
-             <li class="side-item side-item-category">@lang('sidebar.validation')</li>
-             <li class="slide">
+            <!-- Validation -->
+            <li class="side-item side-item-category">@lang('sidebar.validation')</li>
+            <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="">
                     <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
@@ -414,22 +418,10 @@
                             </span>
                         </a>
                     </li>
-                    {{-- <li class="slide">
-                        <a class="side-menu__item" href="{{route('show.session')}}">
-                            <i class="fas fa-users custom_style_icon"></i>
-                            <span class="side-menu__label">
-                            SESSION
-                        </span>
-                        </a>
-                        <a class="side-menu__item" href="{{route('show.requete')}}">
-                            <i class="fas fa-users custom_style_icon"></i>
-                            <span class="side-menu__label">
-                            REQUETE
-                        </span>
-                        </a>
-                    </li> --}}
-                 </ul>
-             </li>
+                    
+                </ul>
+            </li>
+            
         </ul>
     </div>
 </aside>

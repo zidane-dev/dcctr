@@ -9,7 +9,7 @@ class Structure extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['structure'];
+    protected $fillable = ['structure_fr', 'structure_ar'];
 
     public function domaines(){
         return $this->hasMany('App\Model\Dpci', 'structure_id');

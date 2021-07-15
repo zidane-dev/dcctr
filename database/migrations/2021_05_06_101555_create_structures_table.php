@@ -15,7 +15,8 @@ class CreateStructuresTable extends Migration
     {
         Schema::create('structures', function (Blueprint $table) {
             $table->id();
-            $table->string('structure', 200)->unique('');
+            $table->string('structure_fr', 200)->unique();
+            $table->string('structure_ar', 200)->unique();
             $table->softDeletes();
             $table->timestamps();
         });

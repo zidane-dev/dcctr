@@ -2,7 +2,7 @@
 return [
     ################################  index
     'add' => 'Nouvelle structure',
-    'nom_structure' => 'Structure',
+    'nom' => 'Structure',
     'modal supprimer' => "Supprimer la structure",
 
     ################################  create et edit  la structure

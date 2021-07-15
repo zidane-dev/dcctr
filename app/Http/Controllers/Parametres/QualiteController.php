@@ -13,11 +13,9 @@ class QualiteController extends Controller
 {
     public $class = "qualites";
     public function __construct(){
-        $this->middleware(['permission:access-qualites']);
-        $this->middleware(['permission:list-qualites'])->only('index');
-        $this->middleware(['permission:create-qualites'])->only(['create', 'store']);
-        $this->middleware(['permission:edit-qualites'])->only(['edit', 'update']);
-        $this->middleware(['permission:delete-qualites'])->only('destroy');
+        $this->middleware(['permission:administrate'])->only(['index', 'create', 'store']);
+        $this->middleware(['permission:edit-baseone'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete-baseone'])->only('destroy');
     }
     public function index()
     {
@@ -25,7 +23,7 @@ class QualiteController extends Controller
         $data = Qualite::select('id','qualite_'.LaravelLocalization::getCurrentLocale().' as name')
                         ->orderBy('id','ASC')
                         ->cursor();
-        return view('parametres.1.qualites.index', compact('data', 'class'));
+        return view('parametres.1.baseone.index', compact('data', 'class'));
     }
 
     public function create()

@@ -15,4 +15,7 @@ class Level extends Model
     public function attprocs(){
         return $this->hasMany('App\Models\AttProc', 'id_level');
     }
+    public function dpcis(){
+        return $this->hasMany('App\Models\Dpci', 'level_id');
+    }
 }

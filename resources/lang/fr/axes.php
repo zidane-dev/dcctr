@@ -9,12 +9,12 @@ return [
     "champ_ar" => "اسم المحور ",
     "form.title" => "Veuillez saisir le nom d'Axe ",
     ################################  Request Validation
-    "axe_fr required" => "Le champ axe en francais est obligatoire",
-    "axe_fr max" => "L'axe en francais  ne doit pas dépasser 250 caractères",
-    "axe_fr unique" => "L'axe en francais  a déjà été enregistré",
-    "axe_ar required" => "Le champ axe en arabe est obligatoire",
-    "axe_ar max" => "L'axe en arabe ne doit pas dépasser 250 caractères",
-    "axe_ar unique" => "L'axe en arabe a déjà été enregistré",
+    "fr required" => "Le champ axe en francais est obligatoire",
+    "fr max" => "L'axe en francais  ne doit pas dépasser 250 caractères",
+    "fr unique" => "L'axe en francais  a déjà été enregistré",
+    "ar required" => "Le champ axe en arabe est obligatoire",
+    "ar max" => "L'axe en arabe ne doit pas dépasser 250 caractères",
+    "ar unique" => "L'axe en arabe a déjà été enregistré",
     "success_add" => "L'axe a été ajouté avec succès",
     ################################   edit axe
     "edit" => "Editer l'axe",

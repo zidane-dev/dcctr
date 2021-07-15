@@ -11,19 +11,21 @@ use App\Http\Requests\Parametres\DrRequest;
 
 class DrController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['permission:administrate'])->except(['index']);
+
+    public $class = 'regions';
+    public function __construct(){
+        $this->middleware(['permission:administrate'])->only(['index', 'create', 'store']);
+        $this->middleware(['permission:edit-baseone'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete-baseone'])->only('destroy');
     }
 
     public function index()
     {
-        // $class['classe']="drs";
-        // $class['nom']="region";
+        $class = $this->class;
         $data = Dr::select('id','region_'.LaravelLocalization::getCurrentLocale().' as name')
                         ->orderBy('id','ASC')
                         ->cursor();
-        return view('parametres.1.drs.index', ['data'=>$data, 'class'=>'regions',]);
+        return view('parametres.1.baseone.index', compact('data', 'class'));
     }
 
     public function create()

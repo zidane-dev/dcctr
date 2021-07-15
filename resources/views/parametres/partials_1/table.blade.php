@@ -22,9 +22,9 @@
                                         <tr>
                                             <th width="30xp" class="border-bottom-0">#</th>
                                             <th class="border-bottom-0">@lang($class.'.nom')</th>
-                                            @if(Auth::user()->can('edit-'.$class) || Auth::user()->can('delete-'.$class))
-                                            <th width="150xp" class="border-bottom-0">@lang('formone.action')</th>
-                                            @endif
+                                            @canany(['edit-baseone', 'delete-baseone'])
+                                                <th width="150xp" class="border-bottom-0">@lang('formone.action')</th>
+                                            @endcanany
                                         </tr>
                                     </thead>
                                     <tbody>

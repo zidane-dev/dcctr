@@ -12,8 +12,10 @@ use App\Http\Requests\Parametres\SecteurRequest;
 class SecteurController extends Controller
 {
     public $class = "secteurs";
-    public function __construct()
-    {
+    public function __construct(){
+        $this->middleware(['permission:administrate'])->only(['index', 'create', 'store']);
+        $this->middleware(['permission:edit-baseone'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete-baseone'])->only('destroy');
     }
     public function index()
     {
@@ -21,7 +23,7 @@ class SecteurController extends Controller
         $data = Secteur::select('id','secteur_'.LaravelLocalization::getCurrentLocale().' as name')
                         ->orderBy('id','ASC')
                         ->cursor();
-        return view('parametres.1.secteurs.index', compact('data', 'class'));
+        return view('parametres.1.baseone.index', compact('data', 'class'));
     }
 
     public function create()

@@ -27,7 +27,7 @@ return [
     "success in add" => "La dépense a été ajouté avec succès.",
     ################################   edit Province
     "edit" => "Editer la dépense",
-    "success in edit" => "La dépense a été modifiée avec succès.",
+    "success in edit" => "La dépense a  été modifiée avec succès.",
     ################################   supprimer Province
     "success in supprimer" => "La dépense a été supprimée avec succès.",
 ];

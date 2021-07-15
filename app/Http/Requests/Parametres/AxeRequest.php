@@ -58,16 +58,16 @@ class AxeRequest extends FormRequest
     public function messages()
     {
         return [
-            'champ_fr.required' => __('axes.axe_fr required'),
-            'champ_fr.max' => __('axes.axe_fr max'),
-            'champ_fr.unique' => __('axes.axe_fr unique'),
+            'champ_fr.required' => __('axes.fr required'),
+            'champ_fr.max'      => __('axes.fr max'),
+            'champ_fr.unique'   => __('axes.fr unique'),
 
-            'champ_ar.required' => __('axes.axe_ar required'),
-            'champ_ar.max' => __('axes.axe_ar max'),
-            'champ_ar.unique' => __('axes.axe_ar unique'),
+            'champ_ar.required' => __('axes.ar required'),
+            'champ_ar.max'      => __('axes.ar max'),
+            'champ_ar.unique'   => __('axes.ar unique'),
             ////////////////////////////////////////////////
             'champ_fr.not_regex' => __('formone.regex_fr'),
-            'champ_ar.regex' => __('formone.regex_ar'),
+            'champ_ar.regex'     => __('formone.regex_ar'),
         ];
     }
 }

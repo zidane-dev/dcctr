@@ -32,6 +32,10 @@ class Dpci extends Model
         return $this->hasMany('App\Models\AttProc','id_domaine');
     }
 
+    public function niveau(){
+        return $this->belongsTo('App\Models\Level', 'level_id');
+    }
+
     public function getTypeAttribute($val){
         
         if(LaravelLocalization::getCurrentLocale() === 'fr'){

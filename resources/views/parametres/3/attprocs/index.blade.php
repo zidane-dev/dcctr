@@ -18,14 +18,12 @@
     <!-- row -->
     <div class="row row-sm">
         <div class="col-xl-12">
+        @if($data_v[0]->count() > 0)
             <div id="attributions_card" class="card mg-b-20">
                 @include('layouts.errors_success')
                 <div class="card-header pb-0 ">
                     <div class="d-flex justify-content-center text-center">
                         <h3 class="col-5">
-                            @if($data_v[0]->count() > 0)
-                                @lang('axes.nom'): {{$data_v[0]->first()->axe->axe}}
-                            @endif
                         </h3>
                     </div>
                     <div class="row d-flex">
@@ -36,9 +34,7 @@
                         </div>
                         @include('parametres.partials.filter')
                     </div>
-
                 </div>
-                @if($data_v[0]->count() > 0)
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="example"  class="table key-buttons text-md-nowrap width-100" >
@@ -81,54 +77,51 @@
                         @cannot('view-select')
                             <div class="card-text p-2">
                                 <h4> @lang('attproc.vos_attributions') {{$count->a}} </h4>
-                            
                             </div>
                         @endcannot
-                    </div>  
-                @else
-                    @include('partials.emptylist')
-                @endif
+                    </div>
+                </div>  
             </div>
+        @else
+            @include('partials.emptylist')
+        @endif
 
+        @if($data_v[1]->count() > 0)
             <div id="delegations_card" class="card mg-b-20">
                 @include('layouts.errors_success')
                 <div class="card-header pb-0 ">
                     <div class="d-flex justify-content-center text-center">
                         <h3 class="col-5">
-                            @if($data_v[1]->count() > 0)
-                                @lang('axes.nom'): {{$data_v[1]->first()->axe->axe}}
-                            @endif
+                            @lang('axes.nom'): {{$data_v[1]->first()->axe->axe}}
                         </h3>
                     </div>
 
                 </div>
-                @if($data_v[1]->count() > 0)
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="example_copy"  class="table key-buttons text-md-nowrap width-100" >
                                 <thead>
-                                <tr>
-                                    <th width="25px" class="border-bottom-0">#</th>
+                                    <tr>
+                                        <th width="25px" class="border-bottom-0">#</th>
+                                        <th class="border-bottom-0">@lang('parametre.annee')</th>
                                     @cannot('view-province')
                                         <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                     @endcannot
-                                    <th class="border-bottom-0">@lang('parametre.annee')</th>
-                                    <th class="border-bottom-0">@lang('attproc.niveau')</th>
-                                    <th class="border-bottom-0">@lang('attproc.delegations')</th>
-                                    <th class="border-bottom-0">@lang('parametre.action')</th>
-                                    <th class="border-bottom-0">@lang('attproc.statut')</th>
-                                    <th class="border-bottom-0">@lang('parametre.last_update')</th>
-                                </tr>
+                                        <th class="border-bottom-0">@lang('attproc.niveau')</th>
+                                        <th class="border-bottom-0">@lang('attproc.delegations')</th>
+                                        <th class="border-bottom-0">@lang('parametre.action')</th>
+                                        <th class="border-bottom-0">@lang('attproc.statut')</th>
+                                        <th class="border-bottom-0">@lang('parametre.last_update')</th>
+                                    </tr>
                                 </thead>
-
                                 <tbody>
-                                @foreach($data_v[1] as $delegation)
+                                    @foreach($data_v[1] as $delegation)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$delegation->ANNEE}}</td>
-                                        @cannot('view-province')
-                                            <td>{{$delegation->domaine->ty}} - {{$delegation->domaine->domaine}}</td>
-                                        @endcannot
+                                    @cannot('view-province')
+                                        <td>{{$delegation->domaine->ty}} - {{$delegation->domaine->domaine}}</td>
+                                    @endcannot
                                         <td>{{$delegation->niveau->niveau}}</td>  
                                         <td>{{$delegation->attribution->attribution}}</td>
                                         <td>{{$delegation->action->action}}</td>  
@@ -137,7 +130,7 @@
                                             {{\Carbon\Carbon::parse($delegation->date)->format('H:i')}} 
                                         </td>
                                     </tr>
-                                @endforeach
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -147,14 +140,14 @@
                             </div>
                         @endcannot
                     </div>  
-                @else
-                    @include('partials.emptylist')
-                @endif
+                </div>
             </div>
+        @else
+            @include('partials.emptylist')
+        @endif
+        @include('parametres.partials.meta_frame')
 
-            @include('parametres.partials.meta_frame')
-            
-        </div>
+        
     </div>
 
     <!-- Suppression -->

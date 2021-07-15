@@ -32,21 +32,17 @@
     <div class="row row-sm">
 
         <div class="col-xl-12">
-            <div class="card mg-b-20">
-                @include('layouts.errors_success')
-                
-                <div class="card-header pb-0">
-                    <div class="text-center"><h2>Permissions by role</h2></div>
-                    <a href="" class="btn btn-primary" style="color: whitesmoke">
-                        <i class="fas fa-plus"></i> 
-                        Nouvelle permission ?
-                    </a>
+            @if($roles->count() > 0 && $permissions->count() > 0)
+                <div class="card mg-b-20">
+                    @include('layouts.errors_success')
                     
-                </div>
-                @if($roles->count() > 0 && $permissions->count() > 0)
+                    <div class="card-header pb-0">
+                        <div class="text-center"><h2>Table de contrôle</h2></div>
+                    </div>
+                    
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example2" class="table key-buttons text-md-nowrap " style="width:100%">
+                            <table id="example2" class="table key-buttons text-md-nowrap" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th width="15px" class="border-bottom-0">#</th>
@@ -57,10 +53,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php $i = 1 ?>
                                 @foreach($roles as $role)
                                     <tr>
-                                        <td>{{$i++}}</td>
+                                        <td>{{$loop->iteration}}</td>
                                         <td class="text-center">
                                             <span class="badge badge-success">{{$role->name}}</span>
                                         </td>
@@ -85,7 +80,7 @@
                                                 data-effect="effect-scale" 
                                                 data-id="{{$role->id}}"
                                                 data-role_name="{{$role->name}}" 
-                                                data-all_permissions="{{$permissions}}"
+                                                data-role_permissions="{{$role->permissions->pluck('name')}}"
                                                 data-toggle="modal" href="#assign_modal">
                                                 <i class="las la-pen"></i>
                                             </a>
@@ -97,100 +92,86 @@
                             </table>
                         </div>
                     </div>
-            </div>
-            <div class="card mg-b-20">
-                @include('layouts.errors_success')
-                <div class="card-header pb-0">
-                    <div class="text-center"><h2>Roles & Permissions</h2></div>
-                    <a href="{{route('secteurs.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                        <i class="fas fa-plus"></i>
-                        Nouveau role ?
-                    </a>
                 </div>
-                
-                    <div class="card-body">
-                        <!-- Table -->
-                        <div class="table-responsive">
-                            <table id="example1" class="table key-buttons text-md-nowrap">
-                                <thead>
-                                <tr>
-                                    <th width="15px" class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">Role</th>
-                                    <th width="100px" class="border-bottom-0">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php $i = 1 ?>
-                                @forelse($roles as $role)
-                                    <tr>
-                                        <td>{{$i++}}</td>
-                                        <td>{{$role->name}}</td>
-                                        <td>
-                                            {{-- href="{{route('roles.edit',$role->id)}}"  --}}
-                                            <a class="btn btn-sm btn-info"  title="@lang('secteurs.title edit')" >
-                                                <i class="las la-pen"></i>
-                                            </a>
-                                            {{-- <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale" 
-                                                data-id="{{ $role->id }}"
-                                                data-role_name="{{ $role->name }}" 
-                                                data-all_permissions="{{$permissions}}"
-                                                data-toggle="modal" href="#assign_modal"
-                                                title="@lang('formone.title supprimer')">
-                                                <i class="las la-trash"></i>
-                                            </a> --}}
-                                        </td>
-                                    </tr>
-                                @empty
-                                    
-                                @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="table-responsive">
-                            <table id="example" class="table key-buttons text-md-nowrap">
-                                <thead>
-                                <tr>
-                                    <th width="15px" class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">Role</th>
-                                    <th width="100px" class="border-bottom-0">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php $i = 1 ?>
-                                @forelse($permissions as $permission)
-                                    <tr>
-                                        <td>{{$i++}}</td>
-                                        <td>{{$permission->name}}</td>
-                                        <td>
-                                            {{-- href="{{route('permissions.edit',$permission->id)}}" --}}
-                                            <a class="btn btn-sm btn-info" title="@lang('formone.title edit')">
-                                                <i class="las la-pen"></i>
-                                            </a>
-                                            {{-- <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale" 
-                                                data-id="{{ $permission->id }}"
-                                                data-permission_name="{{ $permission->name }}" 
-                                                data-toggle="modal" 
-                                                href="#supprimer_secteur"
-                                                title="@lang('formone.title supprimer')">
-                                                <i class="las la-trash"></i>
-                                            </a> --}}
-                                        </td>
-                                    </tr>
-                                @empty
-
-                                @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>                          
-                @else
-                    <div>
-                        <img width="100%" height="300px" src="{{asset('assets/img/svgicons/no-data.svg')}}">
+                <div class="card mg-b-20">
+                    @include('layouts.errors_success')
+                    <div class="card-header pb-0">
+                        <div class="text-center"><h2>Roles & Permissions</h2></div>
+                        <a href="{{route('secteurs.create')}}" class="btn btn-primary" style="color: whitesmoke">
+                            <i class="fas fa-plus"></i>
+                            Nouveau role ?
+                        </a>
                     </div>
-                @endif
-            </div>
-        </div>
+                    
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="row justify-content-center align-items-center">
+                                    <div class="col-4 font-weight-bold text-center mb-3">
+                                        <h3>Roles</h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @foreach($roles as $role)
+                                        <div  class="col-3">
+                                            
+                                            <div style="background: rgba(250, 233, 179, 0.842); border:1px solid rgba(116, 100, 48, 0.842)" 
+                                                class="row align-items-center p-2 m-1">
+                                                <div class="col-8 text-uppercase px-5 text-weight-bolder">
+                                                    {{$role->name}}
+                                                </div>
+                                                <div class="col-3">
+                                                    <a class="btn btn-sm btn-info"  title="@lang('secteurs.title edit')" >
+                                                        <i class="las la-pen"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="m-3">
+                                    Total de {{$roles->count()}} roles.
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="row justify-content-center align-items-center">
+                                    <div class="col-4 font-weight-bold text-center mb-3">
+                                        <h3>Permissions</h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @foreach($permissions as $permission)
+                                        <div  class="col-3">
+                                            
+                                            <div style="background: rgba(255, 248, 236, 0.815); border:1px solid rgba(116, 100, 48, 0.842)" 
+                                                class="row align-items-center p-2 m-1">
+                                                <div class="col-8">
+                                                    {{$permission->name}}
+                                                </div>
+                                                <div class="col-4 d-flex flex-row">
+                                                    <a class="btn btn-sm btn-info mr-1" title="@lang('formone.title edit')">
+                                                        <i class="las la-pen"></i>
+                                                    </a>
+                                                    <a  data-toggle="tooltip"
+                                                        title="@lang('permissions.'.$permission->name)">
+                                                        <i class="las la-info" style="color: rgb(55, 116, 167)"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="m-3">
+                                    Total de {{$permissions->count()}} permissions.
+                                </div>
+                            </div> 
+                        </div>                         
+                    </div>
+                </div>
+            @else
+                <div>
+                    <img width="100%" height="300px" src="{{asset('assets/img/svgicons/no-data.svg')}}">
+                </div>
+            @endif
     </div>
 
     @include('permissions.assign_role_modal')
@@ -220,13 +201,22 @@
     
     <script>
         $('#assign_modal').on('show.bs.modal', function(event) {
+            $(".modal-body input:checkbox").prop('checked', false);
             var button = $(event.relatedTarget)
             var id = button.data('id')
             var role_name = button.data('role_name')
-            var permissions = button.data('all_permissions')
+            var permissions = button.data('role_permissions')
             var modal = $(this)
+            console.log('id : '+id+', role : '+role_name+'.');
+            console.log('permissions : '+permissions);
             modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #id_role').val(id);
             modal.find('.modal-body #role_name').val(role_name);
+            $(".modal-body input:checkbox").each(function(){
+                if(permissions.includes($(this).attr('name_perm'))){
+                    $(this).prop('checked', true)
+                }
+            });
         })
     </script>
 @endsection

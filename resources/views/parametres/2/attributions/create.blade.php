@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    @lang('attributions.add attribution')
+    @lang('attributions.add')
 @stop
 @section('css')
     <!--- Internal Select2 css-->
@@ -20,7 +20,7 @@
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">@lang('sidebar.attributions')</h4>
                 <span class="text-muted mt-1 tx-14 mr-2 mb-0">
-                    /  @lang('attributions.add attribution') 
+                    /  @lang('attributions.add') 
                 </span>
             </div>
         </div>
@@ -44,13 +44,13 @@
                     <form action="{{route('attributions.store')}}" method="POST" autocomplete="off">
                         @csrf
                             <div class="form-group">
-                                <label for="inputName" class="control-label">@lang('attributions.nom_attribution_fr')</label>
+                                <label for="inputName" class="control-label">@lang('attributions.champ_fr')</label>
                                 <input type="text" class="form-control" id="inputName" name="attribution_fr" dir="ltr"
                                        title="@lang('attributions.form.title')" value="{{old('attribution_fr')}}">
                             </div>
 
                             <div class="form-group">
-                                <label for="inputName" class="control-label" >@lang('attributions.nom_attribution_ar')</label>
+                                <label for="inputName" class="control-label" >@lang('attributions.champ_ar')</label>
                                 <input type="text" class="form-control" id="inputName" name="attribution_ar" dir="rtl"
                                        title="@lang('attributions.form.title')" value="{{old('attribution_ar')}}">
                             </div>

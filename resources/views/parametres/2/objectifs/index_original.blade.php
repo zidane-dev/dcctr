@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') @lang('sidebar.liste structure')  @endsection
+@section('title') @lang('sidebar.liste objectif')  @endsection
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -16,10 +16,10 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">
-                    @lang('sidebar.structures')
+                    @lang('sidebar.objectifs')
                 </h4>
                 <span class="text-muted mt-1 tx-14 mr-2 mb-0">
-                    /  @lang('sidebar.liste structure')
+                    /  @lang('sidebar.liste objectif')
                 </span>
             </div>
         </div>
@@ -36,11 +36,11 @@
             <div class="card mg-b-20">
                 @include('layouts.errors_success')
                 <div class="card-header pb-0">
-                    <a href="{{route('structures.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                        <i class="fas fa-plus"></i> @lang('structures.add') 
-                    </a>
+                    @can('create-objectifs')
+                        <a href="{{route('objectifs.create')}}" class="btn btn-primary" style="color: whitesmoke"><i class="fas fa-plus"></i> @lang('objectifs.add') </a>
+                    @endcan
                 </div>
-                @if($structures->count() > 0)
+                @if($datas->count() > 0)
                     <div class="card-body">
                         <!-- Table -->
                         <div class="table-responsive">
@@ -48,23 +48,18 @@
                                 <thead>
                                 <tr>
                                     <th class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">@lang('structures.nom_structure')</th>
+                                    <th class="border-bottom-0">@lang('objectifs.nom_objectif')</th>
+                                    <th class="border-bottom-0">@lang('objectifs.nom_secteur')</th>
                                     <th class="border-bottom-0">@lang('formone.action')</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php $i = 0 ?>
-                                @forelse($structures as $structure)
+                                @forelse($datas as $data)
                                     <tr>
-                                        <td>{{$structure->id}}</td>
-                                        <td>{{$structure->structure}}</td>
-                                        <td>
-                                            <a class="btn btn-sm btn-info"  href="{{route('structures.edit',$structure->id)}}" title="@lang('structures.title edit')"><i class="las la-pen"></i></a>
-                                            <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale" data-id="{{ $structure->id }}"
-                                            data-structure_name="{{ $structure->structure }}" data-toggle="modal" href="#supprimer_structure" title="@lang('structures.title supprimer')">
-                                                <i class="las la-trash"></i>
-                                            </a>
-                                        </td>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$data->name}}</td>
+                                        <td>{{$data->secteur->secteur}}</td>
+                                        @include('parametres.2.partials.action')
                                     </tr>
                                 @empty
 
@@ -82,22 +77,22 @@
         </div>
     </div>
 
-    <div class="modal" id="supprimer_structure">
+    <div class="modal" id="supprimer_data">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">@lang('structures.modal supprimer')</h6>
+                    <h6 class="modal-title">@lang('objectifs.modal supprimer')</h6>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="structures/destroy" method="post">
+                <form action="objectifs/destroy" method="post">
                     @method('DELETE')
                     @csrf
                     <div class="modal-body">
                         <p>@lang('formone.modal validation supprision')</p><br>
                         <input type="hidden" name="id" id="id" value="">
-                        <input class="form-control" name="structure_name" id="structure_name" type="text" readonly>
+                        <input class="form-control" name="data_name" id="data_name" type="text" readonly>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('formone.modal validation close')</button>
@@ -131,13 +126,13 @@
     <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
 
     <script>
-        $('#supprimer_structure').on('show.bs.modal', function(event) {
+        $('#supprimer_data').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
             var id = button.data('id')
-            var structure_name = button.data('structure_name')
+            var obj_name = button.data('data_name')
             var modal = $(this)
             modal.find('.modal-body #id').val(id);
-            modal.find('.modal-body #structure_name').val(structure_name);
+            modal.find('.modal-body #data_name').val(obj_name);
         })
     </script>
 @endsection

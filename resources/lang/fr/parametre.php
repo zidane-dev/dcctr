@@ -70,6 +70,8 @@ return [
     'encours'                           => 'En cours',
     'total_lignes'                      => 'Somme des lignes en cours de validation',
     'au_niveau'                         => 'au niveau de votre',
+    ############### Badges
+    'none'                              => 'none',
     ################## Validation Erreurs
     'erreur_validation'                 => 'Erreur lors de la mise à jour de l\'état.',
     'years_dont_match'                  => 'Vous ne pouvez ajouter d\'objectifs hors de l\'année courante.',

@@ -7,53 +7,33 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="permissions/update" method="post">
-                @csrf
-                {{--
-                    <p>@lang('secteurs.modal validation supprision')</p><br>
-                    <input type="hidden" name="id" id="id" value="">
-                    <input class="form-control" name="secteur_name" id="secteur_name" type="text" readonly  >
-                --}}
-                <div class="modal-body">
-                    <input type="hidden" name="id" id="id" value="">
-                    <label for="role_name">@lang('roles.role')</label>
-                    <input class="form-control" name="role_name" id="role_name" type="text" readonly>
-                    {{var_dump($role->name)}}
-{{-- , $role->permissions->pluck('name') --}}
-                    @foreach ($permissions->chunk(3) as $permissions)
-                            <div class="row m-2" >
-                                @foreach ($permissions as $permission)
-                                    <div class="col-4 no-wrap">
-                                    <input type="checkbox" id="{{$permission->name}}" name="{{$permission->name}}" value="{{$permission->id}}"
-                                        @if (in_array($permission->name, $role->permissions->pluck('name')->all()))
-                                            checked
-                                        @endif
-                                    >
-                                    <label for="{{$permission->name}}"> {{$permission->name}}</label>
-                                    </div>
-                                @endforeach
+        <form action="{{route('rights.update')}}" method="POST">
+        @csrf
+        @method('PUT')
+            <div class="modal-body">
+                <input type="hidden" name="id" id="id" value="">
+                <label for="role_name">@lang('roles.permissions_of_role')</label>
+                <input class="form-control" name="role_name" id="role_name" type="text" readonly>
+                @foreach ($permissions->chunk(2) as $permissions)
+                    <div id="perm_div" class="row m-2" >
+                        @foreach ($permissions as $permission)
+                            <div class="col-6">
+                                <input type="checkbox"  
+                                        id="{{$permission->id}}" 
+                                        name="permission[]" 
+                                        name_perm={{$permission->name}}
+                                        value="{{$permission->name}}">
+                                <label for="{{$permission->id}}"> {{$permission->name}}</label>
                             </div>
-                    @endforeach
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('secteurs.modal validation close')</button>
-                    <button type="submit" class="btn btn-danger">@lang('secteurs.modal validation confirm')</button>
-                </div>
-            </form>
+                        @endforeach
+                    </div>
+                @endforeach
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('formone.modal validation close')</button>
+                <button type="submit" class="btn btn-danger">@lang('formone.modal validation confirm')</button>
+            </div>
+        </form>
         </div>
     </div>
 </div>
-
-{{-- @section('role_modal_js')
-    <script>
-        $('#assign_modal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget)
-            var id = button.data('id')
-            var role_name = button.data('role_name')
-            var permissions = button.data('all_permissions')
-            var modal = $(this)
-            modal.find('.modal-body #id').val(id);
-            modal.find('.modal-body #role_name').val(role_name);
-        })
-    </script>
-@endsection --}}

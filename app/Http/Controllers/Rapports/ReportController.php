@@ -62,5 +62,4 @@ class ReportController extends Controller
         $upload = Upload::find($id);
         Storage::delete($upload->filename);
     }
-
 }

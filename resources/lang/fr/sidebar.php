@@ -7,19 +7,19 @@ return [
     'public'        => 'Public',
     ########################### secteurs
     'secteurs' => 'Secteurs',
-    'liste secteur' => 'Liste des secteurs',
+    'liste_secteurs' => 'Liste des secteurs',
     ########################### structures
     'structures' => 'Structures',
-    'liste structure' => 'Liste des structures',
+    'liste_structures' => 'Liste des structures',
     ########################### indicateurs
     'indicateurs' => 'Indicateurs',
-    'liste indicateur' => 'Liste des indicateurs',
+    'liste_indicateurs' => 'Liste des indicateurs',
     ########################### unites
     'unites' => 'Unités',
-    'liste unite' => 'Liste des unités',
+    'liste_unites' => 'Liste des unités',
     ########################### objectifs
     'objectifs' => 'Objectifs',
-    'liste objectif' => 'Liste des objectifs',
+    'liste_objectifs' => 'Liste des objectifs',
     ########################### type credit
     'typeCredits' => 'Type Crédit',
     'liste typeCredit' => 'Liste des Type Crédits',
@@ -28,22 +28,22 @@ return [
     'liste action' => 'Liste des événements',
     ########################### Regions
     'regions' => 'Régions ',
-    'liste regions' => 'Liste des régions',
+    'liste_regions' => 'Liste des régions',
     ########################### qualites
     'qualites' => 'Qualité ',
-    'liste qualite' => 'Liste des qualités',
+    'liste_qualites' => 'Liste des qualités',
     ########################### attributions
     'attributions' => 'Attributions ',
-    'liste attribution' => 'Liste des attributions',
+    'liste_attributions' => 'Liste des attributions',
     ########################### Dpci
     'dpcis' => 'Domaines',
-    'liste dpci' => 'Liste des domaines',
+    'liste_dpcis' => 'Liste des domaines',
     ########################### Dépenses
     'depenses' => 'Dépenses',
-    'liste depenses' => 'Liste des Dépenses',
+    'liste_depenses' => 'Liste des Dépenses',
     ########################### Axes
     'axes' => 'Axes',
-    'liste axes' => 'Liste des Axes',
+    'liste_axes' => 'Liste des Axes',
     ########################### Ressources
     'ressources' => 'Ressources',
     'liste ressources' => 'Liste des Ressources',

@@ -1,10 +1,4 @@
 <?php
-
-    function fillSlug($string){
-        return $string;
-    }
-    $slug = fillSlug("Unite");
-    
 return [
     #### Index
     'add' => 'Nouveau',
@@ -28,12 +22,9 @@ return [
     'champ_ar required' => 'Le champ en arabe est obligatoire.',
     ##################################################
     // 'add champ' => $slug, // Add a NEW red badge
-    'add data' => "Nouveau ".$slug, // Add a NEW red badge
     // 'nom_champ' => $slug,
     // 'modal supprimer' => "Supprimer " . $slug,
     // // fichiers neutres x nombre de pronoms qu'il faut, switch case avant pour voyelles, tableau pour feminin masuclin
-    // 'nom_champ_fr' => "Nom d'RSSRCE  (FR)",
-    // 'nom_champ_ar' => "Nom d'RSSRCE  (AR)",
     // 'form.title' => "Veuillez saisir le nom de  d'RSSRCE ",
 
     'champ_fr required' => 'Le champ en français est obligatoire.',

@@ -12,20 +12,17 @@ use App\Http\Requests\Parametres\IndicateurRequest;
 class IndicateurController extends Controller
 {
     public $class = "indicateurs";
-    public function __construct()
-    {
-        $this->middleware(['permission:access-indicateurs']);
-        $this->middleware(['permission:list-indicateurs'])->only('index');
-        $this->middleware(['permission:create-indicateurs'])->only(['create', 'store']);
-        $this->middleware(['permission:edit-indicateurs'])->only(['edit', 'update']);
-        $this->middleware(['permission:delete-indicateurs'])->only('destroy');
+    public function __construct(){
+        $this->middleware(['permission:administrate'])->only(['index', 'create', 'store']);
+        $this->middleware(['permission:edit-baseone'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete-baseone'])->only('destroy');
     }
     public function index()
     {
         $data = Indicateur::select('id','indicateur_'.LaravelLocalization::getCurrentLocale().' as name')
                         ->orderBy('id','ASC')
                         ->cursor();
-        return view('parametres.1.indicateurs.index', ['data' => $data, 'class' => $this->class]);
+        return view('parametres.1.baseone.index', ['data' => $data, 'class' => $this->class]);
     }
 
     public function create()
