@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Axes\AxeHelperController;
 use App\Http\Controllers\Validation\UserValidationController;
+use App\Models\Secteur;
 use Exception;
 use Illuminate\Support\Facades\Session;
 
@@ -107,7 +108,13 @@ class AttProcController extends Controller
 
     public function create()
     {
-        //
+        // $secteurs = Secteur::with('attribution', function($a){
+        //     $a->select('id', 'attribution_'.LaravelLocalization::getCurrentLocale().' as attribution')
+        // })->select('id', 'secteur_'.LaravelLocalization::getCurrentLocale().' as attribution')->get();
+        
+        $secteurs = 
+        $secteurs = Secteur::all();
+        dd($secteurs->first()->attribution);
     }
     public function store(Request $request)
     {
