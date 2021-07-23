@@ -16,14 +16,14 @@ class UserSeeder extends Seeder
     {
 
         
-// Role::findByName('dcsasd');
-// Role::findByName('management');
-// Role::findByName('mlm');
-// Role::findByName('ss');
-// Role::findByName('d-r');
-// Role::findByName('d-p');
-// Role::findByName('cs');
-// Role::findByName('point focal');
+    // Role::findByName('dcsasd');
+    // Role::findByName('management');
+    // Role::findByName('mlm');
+    // Role::findByName('ss');
+    // Role::findByName('d-r');
+    // Role::findByName('d-p');
+    // Role::findByName('cs');
+    // Role::findByName('point focal');
 
         //USERS 1
 

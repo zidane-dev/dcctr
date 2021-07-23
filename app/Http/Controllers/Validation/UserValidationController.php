@@ -43,7 +43,7 @@ class UserValidationController extends Controller
             case 'd-p':         $supposedState = [2];           break;
             case 'ad':    
             case 'd-r':         $supposedState = [3];           break;
-            
+
             case 'dcs':         $supposedState = [4];           break;
             case 'dcd':         $supposedState = [5];           break;
             case 'dd':          $supposedState = [6];           break;

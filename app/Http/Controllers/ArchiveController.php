@@ -9,11 +9,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class ArchiveController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+    }
     public function index()
     {
         $rhsds = Rhsd::onlyTrashed();
@@ -28,39 +26,23 @@ class ArchiveController extends Controller
         return view('archives.param_arch', compact('rhsds', 'table_name'));
     }
 
-    public function create()
-    {
-        //
+    public function get_table_name($case){
+        switch($case){
+            case '' :
+                break;
+            case '' :
+                break;
+            default:
+        }
     }
 
-    public function store(Request $request)
-    {
-        //
+    public function get_table(){
+
     }
 
-    public function show($id)
-    {
-        //
-    }
 
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        dd($id);
     }
 }

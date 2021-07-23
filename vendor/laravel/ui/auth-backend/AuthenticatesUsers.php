@@ -1,7 +1,6 @@
-+-<?php
+<?php
 
 namespace Illuminate\Foundation\Auth;
-
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\RhsdController;
 use App\Http\Controllers\User\DomaineController;

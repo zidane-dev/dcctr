@@ -10,6 +10,7 @@
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 
 @endsection
+
 @section('page-header')
     @include('parametres.3.partials.breadcrumb_index')
 @endsection

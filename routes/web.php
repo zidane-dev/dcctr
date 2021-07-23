@@ -25,6 +25,7 @@ Auth::routes(['register' => false]);
 Route::post('/logout', 'HomeController@logout')->name('dashboard.logout');
 
 
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'],function (){
@@ -39,7 +40,7 @@ Route::group(['middleware' => 'auth'],function (){
         
         ####################### Parametres 1 & 2
         Route::group(['middleware'=>['permission:administrate']], function(){
-            Route::resource('archives'              , 'ArchiveController');
+            Route::resource('archives'              , 'ArchiveController')->only(['index', 'destroy']);
             
             // Route::get('assign', 'PermissionController@index')->name('permission.index');
             
@@ -52,7 +53,6 @@ Route::group(['middleware' => 'auth'],function (){
                 Route::resource('structures'        , 'StructureController'    )->except(['show']);
                 Route::resource('ressources'        , 'RessourceController'    )->except(['show']);
                 Route::resource('unites'            , 'UniteController'        )->except(['show']);
-                // Route::resource('typecredits'    , 'TypeCreditController'   )->except(['show']);
                 Route::resource('attributions'      , 'AttributionController'  )->except(['show']);
                 Route::resource('dpcis'             , 'DpciController'         )->except(['show']);
                 Route::resource('objectifs'         , 'ObjectifController'     )->except(['show']);
@@ -114,5 +114,6 @@ Route::group(['middleware' => 'auth'],function (){
         Route::get('session', 'TestController@session')->name('show.session');
         Route::get('request', 'TestController@requete')->name('show.requete');
     }); 
+
 }); 
 

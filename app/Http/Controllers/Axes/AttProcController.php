@@ -104,21 +104,15 @@ class AttProcController extends Controller
                         ->get();
         return $data;
     }
-    
 
     public function create()
     {
-        // $secteurs = Secteur::with('attribution', function($a){
-        //     $a->select('id', 'attribution_'.LaravelLocalization::getCurrentLocale().' as attribution')
-        // })->select('id', 'secteur_'.LaravelLocalization::getCurrentLocale().' as attribution')->get();
-        
-        $secteurs = 
         $secteurs = Secteur::all();
-        dd($secteurs->first()->attribution);
+        dd($secteurs->first()->attribution->first()->attribution_fr, $secteurs->first()->attribution->first()->secteur->secteur_fr);
     }
     public function store(Request $request)
     {
-        //
+        
     }
     public function show($id)
     {

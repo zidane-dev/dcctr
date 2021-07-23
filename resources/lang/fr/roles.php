@@ -22,4 +22,9 @@ return [
 
 
     'vos_validations'      =>   'Validations en attente',
+
+    #######################
+
+    '403_message'   => 'Vous n\'avez pas l\'accès à ce contenu.',
+    'retour_acceuil'=> 'Retour à l\'acceuil',
 ];

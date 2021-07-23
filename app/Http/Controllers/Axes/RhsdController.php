@@ -28,7 +28,7 @@ class RhsdController extends Controller
 
     public function __construct(){
         $this->middleware(['permission:administrate|ac|sd|dc']);
-        $this->middleware(['permission:add-basethree|add-on'])->only(['create', 'store']);
+        $this->middleware(['permission:sd|ac', 'permission:add-basethree|add-on'])->only(['create', 'store']);
         $this->middleware(['permission:edit-basethree|view-rejets'])->only(['edit', 'update']);
         $this->middleware(['permission:delete-basethree'])->only('destroy');
 
@@ -68,6 +68,7 @@ class RhsdController extends Controller
 
         return view('parametres.3.rhsds.create',compact('qualites','domaines','axes'));
     }
+    
     public function store(Request $request){
         if($request->isMethod('POST')){
             if($request->date_creation){
