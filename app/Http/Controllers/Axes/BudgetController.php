@@ -102,8 +102,11 @@ class BudgetController extends Controller
     public function update(Request $request, $id){
         //
     }
-    public function destroy($id){
-        //
+    public function destroy($request){
+        $bdg = Budget::find($request->budget_id);
+        $bdg->delete();
+        Session::flash('success', __('bdg.success_supprimer'));
+        return redirect()->route('budgets.index');
     }
     public function get_select_token($builder, $signer, $secret){
         $etat = (new UserValidationController)->get_supposed_states('public');

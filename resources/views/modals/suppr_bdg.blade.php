@@ -22,8 +22,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('formone.validation_close')</button>
-                    <button type="submit" class="btn btn-danger">@lang('formone.validation_confirm')</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('rhsd.modal_validation_close')</button>
+                    <button type="submit" class="btn btn-danger">@lang('rhsd.modal_validation_confirm')</button>
                 </div>
 
             </form>

@@ -22,6 +22,7 @@ return [
     'last_modif'                        => 'Dernière modification',
     'modif_at'                          => 'Modifié le',
     'validated_at'                      => 'Validé le',
+    'deleted_at'                        => 'Supprimé le',
     'at'                                => 'à',
     'etat'                              => 'Etat',
     'deleted_at'                        => 'Supprimé le',

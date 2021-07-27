@@ -11,8 +11,10 @@ return [
     "btn_add_edit" => "حفظ",
     ####### - (Index) Modal
     'modal validation supprision' => 'هل أنت متأكد من عملية الإزالة ؟',
-    'modal validation close' => 'الغاء',
-    'modal validation confirm' => 'تاكيد',
+    'modal validation close' => 'الغاء',    
+    'validation_close' => 'الغاء',
+    'modal validation confirm' => 'تاكيد',    
+    'validation_confirm' => 'تاكيد',
     ##### FormRequest
     'regex_fr' => 'Il faut remplir le champ français en français.',
     'regex_ar' => 'يجب إكمال الحقل باللغة العربية.',

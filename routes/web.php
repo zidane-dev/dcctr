@@ -35,12 +35,16 @@ Route::group(['middleware' => 'auth'],function (){
     'localeViewPath']], function(){
         ####################### General
         
-        Route::get('/dashboard'             , 'DashboardController@index')      ->name('dashboard.index');
-        Route::get('/logout'                , 'HomeController@logout')          ->name('dashboard.logout');
+        Route::get('/dashboard'                     , 'DashboardController@index')->name('dashboard.index');
+        Route::get('/logout'                        , 'HomeController@logout')    ->name('dashboard.logout');
         
         ####################### Parametres 1 & 2
         Route::group(['middleware'=>['permission:administrate']], function(){
             Route::resource('archives'              , 'ArchiveController')->only(['index', 'destroy']);
+            Route::get('archives/atts'              , 'ArchiveController@load_at')->name('archives.at');
+            Route::get('archives/rhs'               , 'ArchiveController@load_rh')->name('archives.rh');
+            Route::get('archives/rms'               , 'ArchiveController@load_bg')->name('archives.bg');
+            Route::post('archives/restore/rh'       , 'Axes\RhsdController@restore')   ->name('archives.rh.restore');
             
             // Route::get('assign', 'PermissionController@index')->name('permission.index');
             
@@ -64,10 +68,10 @@ Route::group(['middleware' => 'auth'],function (){
         Route::group(['prefix' => 'axe', 'namespace'=>'Axes'], function(){
             ###########################   SD / AC
             ############    RH
-            Route::get('index/{year?}'          , 'RhsdController@index'                     )->name('rhs.index');
-            Route::get('realisationrh/{id}'     , 'RhsdController@add_on'                    )->name('rhs.storereal');
-            Route::get('newobjrh/{id}'          , 'RhsdController@edit_goal'                 )->name('edit.rhsgoal');
-            Route::put('newobjrh/{id}/submit'   , 'RhsdController@update_goal'               )->name('update.rhsgoal');
+            Route::get('index/{year?}'          , 'RhsdController@index'      )->name('rhs.index');
+            Route::get('realisationrh/{id}'     , 'RhsdController@add_on'     )->name('rhs.storereal');
+            Route::get('newobjrh/{id}'          , 'RhsdController@edit_goal'  )->name('edit.rhsgoal');
+            Route::put('newobjrh/{id}/submit'   , 'RhsdController@update_goal')->name('update.rhsgoal');
             Route::resource('rhs'               , 'RhsdController');
             ############    ATT PROC
             Route::resource('attprocs'          , 'AttProcController');

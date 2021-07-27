@@ -10,7 +10,9 @@ return [
     ####### - (Index) Modal
     'modal validation supprision' => 'Êtes-vous sûr(e) de vouloir poursuivre cette action ?',
     'modal validation close' => 'Retour',
+    'validation_close' => 'Retour',
     'modal validation confirm' => 'Confirmer',
+    'validation_confirm' => 'Confirmer',
     #### Create et Edit
     'btn_add_edit' => 'Modifier',
     'btn_add' => 'Créer',

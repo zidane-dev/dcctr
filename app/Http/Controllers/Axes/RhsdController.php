@@ -72,9 +72,11 @@ class RhsdController extends Controller
     public function store(Request $request){
         if($request->isMethod('POST')){
             if($request->date_creation){
-                $year =Carbon::createFromFormat('yy',$request->date_creation)->format('Y');}
-            elseif($request->annee)
-                {$year = $request->annee;}
+                $year =Carbon::createFromFormat('yy',$request->date_creation)->format('Y');
+            }
+            elseif($request->annee){
+                $year = $request->annee;
+            } // check the store form
             
             // $public = (new UserValidationController)->get_supposed_states('public');
             // $validated_rhs = Rhsd::where('ETAT', $public)
@@ -97,7 +99,6 @@ class RhsdController extends Controller
                     return redirect()->back();
                 }
             }
-            
             
             $ecart = $request->realisation - $request->objectif;
             Rhsd::create([
@@ -193,10 +194,31 @@ class RhsdController extends Controller
     }
     public function destroy(Request $request){
         $rhsd = Rhsd::find($request->rhsd_id);
+        $rhsd->update([
+            'id_user'   =>  Auth::id()
+        ]);
         $rhsd->delete();
         Session::flash('success', __('rhsd.success_supprimer'));
         return redirect()->route('rhs.index');
     } 
+    public function restore(Request $request){
+        $rhsd = Rhsd::withTrashed()->where('id', $request->id)->first();
+        $rhsd->update([
+            'id_user' => Auth::id(),
+        ]);
+        $rhsd->restore();
+        Session::flash('success', __('rhsd.success_restore'));
+        return redirect()->back();
+    }
+    public function erase(Request $request){
+        $rhsd = Rhsd::find($request->rhsd_id);
+        if($rhsd->deleted_at != NULL){
+            $rhsd->forceDelete();
+        }
+        Session::flash('success', __('rhsd.success_erase'));
+        return redirect()->back();
+    }
+
     public function get_query($domaine=null, $year=null){ //for INDEX
         $public = (new UserValidationController)->get_supposed_states('public');
         $query = Rhsd::select('id',
