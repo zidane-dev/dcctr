@@ -102,16 +102,16 @@ class RhsdController extends Controller
             
             $ecart = $request->realisation - $request->objectif;
             Rhsd::create([
-                'id_qualite' => $request->qualite,
-                'id_domaine' => $request->domaine,
-                'id_axe' => $request->axe,
-                'ANNEE' => $year,
-                'OBJECTIF' => $request->objectif,
-                'REALISATION' => $request->realisation,
-                'ECART' => $ecart,
-                'ETAT' => 0,
-                'REJET' => 0,
-                'id_user' => Auth::id(),
+                'id_qualite'        => $request->qualite,
+                'id_domaine'        => $request->domaine,
+                'id_axe'            => $request->axe,
+                'ANNEE'             => $year,
+                'OBJECTIF'          => $request->objectif,
+                'REALISATION'       => $request->realisation,
+                'ECART'             => $ecart,
+                'ETAT'              => 0,
+                'REJET'             => 0,
+                'id_user'           => Auth::id(),
             ]);
 
             Session::flash('success',__('rhsd.success_add'));

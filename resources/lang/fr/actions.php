@@ -2,8 +2,8 @@
 return [
            ################################  index
            'add' => 'Ajouter un événement ',
-           'nom' => 'événement  ',
-           'modal supprimer' => "Supprimer l'événement ",
+           'nom' => 'Processus',
+           'modal supprimer' => "Supprimer le processus",
        
                   ################################  create et edit  l'action
            'champ_fr' => "Nom d'événement  (FR)",

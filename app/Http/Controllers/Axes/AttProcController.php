@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Axes\AxeHelperController;
+use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\Validation\UserValidationController;
+use App\Models\Action;
 use App\Models\Secteur;
 use Exception;
 use Illuminate\Support\Facades\Session;
@@ -108,12 +110,81 @@ class AttProcController extends Controller
     public function create()
     {
         $secteurs = Secteur::all();
-        dd($secteurs->first()->attribution->first()->attribution_fr, $secteurs->first()->attribution->first()->secteur->secteur_fr);
+        $attribution = $secteurs->first()->attribution->first();
+        $actions = Action::all();
+        return view('parametres.3.attprocs.create', compact('secteurs', 'actions'));
     }
     public function store(Request $request)
     {
+        // if($request->total_domaines == domaines[].length ) // useless
+        // dd($request->input());
         
+        switch($request->type){
+            case 'T' :
+                $axe = 1;
+                break;
+            case 'D' :
+                $axe = 2;
+            default:
+                throw new Exception('type transfert error');
+        }
+        $annee = $request->date_creation;
+        $niveau = $this->niveau_byTypeMaturite($request->type_domaine, $request->maturite);
+        $attribution = $request->attribution;
+        $domaines_id = $request->domaine;
+        $action = $request->action;
+
+        foreach($domaines_id as $domaine){
+            AttProc::create([
+                'id_axe'    => $axe,
+                'id_domaine'=> $domaine,
+                'id_attribution'=>$attribution,
+                'id_action' => $action,
+                'id_level'  => $niveau,
+                'ANNEE'     => $annee,
+                'ANNEERLS'  => NULL,
+                'STATUT'    => 1,
+                'ETAT'      => 0,           // need a validation for this
+                'REJET'     => 0,
+                'id_user'   => Auth::id(),
+            ]);
+        }
+
+        Session::flash('succes', __('att_procs.stored'));
+        (new BadgeController)->refresh_badges($request);
+
+        return redirect()->route('validation.att_procs');
+    }  
+  
+    public function store_recap(Request $request){
+        $niveau = $this->niveau_byTypeMaturite($request->domaine, $request->maturite);
+        $domaines = Dpci::where('type', $request->domaine)->where('level_id', $niveau)->get();
+        $locale = LaravelLocalization::getCurrentLocale();
+        return response()->json([
+            'domaine_list'      => $domaines,
+            'locale'            => $locale
+        ]);
     }
+    public function niveau_byTypeMaturite($type_domaine, $maturite){
+        switch($maturite){
+            case 'M':
+                $niveau = 1;
+                break;
+            case 'D':
+                $niveau = 3;
+                break;
+            case 'E':
+                $niveau = 5;
+                break;
+            default:
+                throw new Exception();
+        }
+        if($type_domaine == 'P'){
+            $niveau += 1;
+        }
+        return $niveau;
+    }
+
     public function show($id)
     {
         //

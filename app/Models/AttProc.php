@@ -9,6 +9,7 @@ class AttProc extends Model
 {
     use SoftDeletes;
     protected $fillable = ['id_axe',
+                            'id_domaine',
                             'id_attribution',
                             'id_action',
                             'id_level',

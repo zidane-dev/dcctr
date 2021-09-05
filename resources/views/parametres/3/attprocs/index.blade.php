@@ -24,7 +24,7 @@
                 <div class="card-header pb-0 ">
                     <div class="d-flex justify-content-center text-center">
                         <h3 class="col-5">
-                            ??
+                            @lang('axes.nom') 1: {{$data_v[0]->first()->axe->axe}}
                         </h3>
                     </div>
                     <div class="row d-flex">
@@ -40,44 +40,43 @@
                         <div class="table-responsive">
                             <table id="example"  class="table key-buttons text-md-nowrap width-100" >
                                 <thead>
-                                <tr>
-                                    <th width="25px" class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">@lang('parametre.annee')</th>
-                                    @cannot('view-province')
-                                        <th class="border-bottom-0">@lang('dpcis.nom')</th>
-                                        <th class="border-bottom-0">@lang('attproc.niveau')</th>
-                                    @endcannot
-                                    <th class="border-bottom-0">@lang('attproc.transferts')</th>
-                                    <th class="border-bottom-0">@lang('parametre.action')</th>
-                                    <th class="border-bottom-0">@lang('attproc.statut')</th>
-                                    <th class="border-bottom-0 no-wrap">@lang('parametre.last_update')</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                @foreach($data_v[0] as $attribution)
                                     <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$attribution->ANNEE}}</td>
+                                        <th width="25px" class="border-bottom-0">#</th>
+                                        <th class="border-bottom-0">@lang('parametre.annee')</th>
                                         @cannot('view-province')
-                                            <td>{{$attribution->domaine->ty}} - {{$attribution->domaine->domaine}}</td>
-                                            <td>{{$attribution->niveau->niveau}}</td>                                        
+                                            <th class="border-bottom-0">@lang('dpcis.nom')</th>
+                                            <th class="border-bottom-0">@lang('att_procs.niveau')</th>
                                         @endcannot
-                                        <td>{{$attribution->attribution->attribution}}</td>
-                                        <td>{{$attribution->action->action}}</td>                                        
-                                        <td>{{$attribution->STATUT}}</td>
-                                        <td>{{\Carbon\Carbon::parse($attribution->date)->format('d/m/y')}} @lang('parametre.at') 
-                                            {{\Carbon\Carbon::parse($attribution->date)->format('H:i')}} 
-                                        </td>
-                                        
+                                        <th class="border-bottom-0">@lang('att_procs.transferts')</th>
+                                        <th class="border-bottom-0">@lang('parametre.action')</th>
+                                        <th class="border-bottom-0">@lang('att_procs.statut')</th>
+                                        <th class="border-bottom-0 no-wrap">@lang('parametre.last_update')</th>
                                     </tr>
-                                @endforeach
+                                </thead>
+                                <tbody>
+                                    @foreach($data_v[0] as $attribution)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$attribution->ANNEE}}</td>
+                                            @cannot('view-province')
+                                                <td>{{$attribution->domaine->ty}} - {{$attribution->domaine->domaine}}</td>
+                                                <td>{{$attribution->niveau->niveau}}</td>                                        
+                                            @endcannot
+                                            <td>{{$attribution->attribution->attribution}}</td>
+                                            <td>{{$attribution->action->action}}</td>                                        
+                                            <td>{{$attribution->STATUT}}</td>
+                                            <td>{{\Carbon\Carbon::parse($attribution->date)->format('d/m/y')}} @lang('parametre.at') 
+                                                {{\Carbon\Carbon::parse($attribution->date)->format('H:i')}} 
+                                            </td>
+                                            
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                         @cannot('view-select')
                             <div class="card-text p-2">
-                                <h4> @lang('attproc.vos_attributions') {{$count->a}} </h4>
+                                <h4> @lang('att_procs.vos_attributions') {{$count->a}} </h4>
                             </div>
                         @endcannot
                     </div>
@@ -93,7 +92,7 @@
                 <div class="card-header pb-0 ">
                     <div class="d-flex justify-content-center text-center">
                         <h3 class="col-5">
-                            @lang('axes.nom'): {{$data_v[1]->first()->axe->axe}}
+                            @lang('axes.nom') 2: {{$data_v[1]->first()->axe->axe}}
                         </h3>
                     </div>
 
@@ -108,10 +107,10 @@
                                     @cannot('view-province')
                                         <th class="border-bottom-0">@lang('dpcis.nom')</th>
                                     @endcannot
-                                        <th class="border-bottom-0">@lang('attproc.niveau')</th>
-                                        <th class="border-bottom-0">@lang('attproc.delegations')</th>
+                                        <th class="border-bottom-0">@lang('att_procs.niveau')</th>
+                                        <th class="border-bottom-0">@lang('att_procs.delegations')</th>
                                         <th class="border-bottom-0">@lang('parametre.action')</th>
-                                        <th class="border-bottom-0">@lang('attproc.statut')</th>
+                                        <th class="border-bottom-0">@lang('att_procs.statut')</th>
                                         <th class="border-bottom-0">@lang('parametre.last_update')</th>
                                     </tr>
                                 </thead>
@@ -137,7 +136,7 @@
                         </div>
                         @cannot('view-select')
                             <div class="card-text p-2">
-                                <h4> @lang('attproc.vos_delegations') {{$count->b}} </h4>
+                                <h4> @lang('att_procs.vos_delegations') {{$count->b}} </h4>
                             </div>
                         @endcannot
                     </div>  

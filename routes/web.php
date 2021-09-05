@@ -62,6 +62,12 @@ Route::group(['middleware' => 'auth'],function (){
                 Route::resource('objectifs'         , 'ObjectifController'     )->except(['show']);
                 Route::resource('depenses'          , 'DepenseController'      )->except(['show']);
             });
+
+            Route::resource('users'                 , 'UserController');
+            Route::get('/rights'                    , 'TestController@index')                    ->name('rights');
+            Route::get('/rightsofrole/{id}'         , 'TestController@assign_to_role')           ->name('rights_role');
+            Route::get('/rightsofuser/{id}'         , 'TestController@assign_to_user')           ->name('rights_user');
+            Route::put('/permissions/update'        , 'TestController@update_permissions')       ->name('rights.update');
         });
 
         ####################### Parametres 3
@@ -80,15 +86,13 @@ Route::group(['middleware' => 'auth'],function (){
             ############    INDICPERFS
             ##########################   DC
             Route::get('regs'                   , 'AxeHelperController@get_domaineGroupByReg')->name('subReg');
-            Route::get('/dc/index'              , 'AxeHelperController@indexByQuery'         )->name('indexByQuery');
+            Route::get('secs'                   , 'AxeHelperController@get_attributionsBySec')->name('subSec');
+            Route::get('recap'                  , 'AttProcController@store_recap')->name('attprocs.store_recap');
+            Route::get('/dc/index'              , 'AxeHelperController@indexByQuery'       )->name('indexByQuery');
         });
         ####################### Users
        
-        Route::resource('users'                 , 'UserController');
-        Route::get('/rights'                    , 'TestController@index')                    ->name('rights');
-        Route::get('/rightsofrole/{id}'         , 'TestController@assign_to_role')           ->name('rights_role');
-        Route::get('/rightsofuser/{id}'         , 'TestController@assign_to_user')           ->name('rights_user');
-        Route::put('/permissions/update'        , 'TestController@update_permissions')       ->name('rights.update');
+        
         ####################### Uploads
         Route::group(['prefix' => 'uploads', 'namespace'=>'Rapports'], function(){
             Route::resource('documents', 'ReportController')->only(['index', 'create', 'store', 'destroy']);

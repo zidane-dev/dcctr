@@ -28,7 +28,7 @@ class CreateAttProcsTable extends Migration
             $table->foreign('id_level')->references('id')->on('levels');
             
             $table->decimal('ANNEE',4,0);
-            $table->decimal('ANNEERLS',4,0);
+            $table->decimal('ANNEERLS',4,0)->nullable();
 
             $table->boolean('STATUT')->default(0);
             $table->tinyInteger('ETAT');

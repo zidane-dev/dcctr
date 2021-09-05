@@ -17,4 +17,7 @@ class Secteur extends Model
     public function objectif(){
         return $this->hasMany('App\Models\Objectif', 'secteur_id');
     }
+    public function get_attributions($secteur){
+        return $secteur->attribution;
+    }
 }

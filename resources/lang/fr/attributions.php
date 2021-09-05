@@ -2,7 +2,7 @@
 return [
     ################################  index
     'add' => 'Nouvelle attribution',
-    'nom_attribution' => 'Attribution',
+    'nom' => 'Attribution',
     "nom_secteur" => "Secteur",
     'modal supprimer' => "Supprimer l'attribution ",
 

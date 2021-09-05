@@ -32,6 +32,11 @@ return [
     'objectifs atteints'                => 'Objectifs atteints.',
     ################## Formulaires
     'choi_axe'                          => "Choisissez l'axe.",
+    'next'                              => 'Suivant',
+    'previous'                          => 'Précédent',
+    'cancel'                            => 'Annuler',
+    'selec-advanced'                    => 'Sélection avancée',
+
     ################## Actions & Boutons
     'submit_to_validation'              => 'Soumettre pour Validation',
     'envoyer'                           => 'Envoyer',
@@ -46,6 +51,7 @@ return [
     'modal_validation_confirm'          => 'Confirmer',
     'correct'                           => 'Corriger',
     'nouveau_objectif'                  => 'Définition d\'un nouvel Objectif',
+    'new_attribution'                   => 'Nouvelle Attribution',
     ################## Actions & Boutons
     'warning_add'                       => 'Attention ! Après soumission, aucune modification ne pourra être effectuée à votre niveau.',
     'btn_alimenter'                     => 'Soumettre la réalisation',

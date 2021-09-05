@@ -45,8 +45,7 @@
                     var id, type, nom;
                     for(var i = 0; i<data['provinces'].length; i++){
                         if(i==0){
-                        $('#selectProvince').append('<option value="" selected disabled></option>');
-                            
+                            $('#selectProvince').append('<option value="" selected disabled>No value available</option>');
                         }
                         id = data["provinces"][i]['id'];
                         type = data["provinces"][i]['t'];
