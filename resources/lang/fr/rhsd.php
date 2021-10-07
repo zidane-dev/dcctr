@@ -12,8 +12,10 @@ return [
        'modal supprimer'                     => "Supprimer la Ressource",
        'modal validation supprision'         => 'êtes-vous sûr du processus de suppression ?',
        'rejet confirmation'                  => 'Vous êtes sur le point de rejeter ces elements :',
-       'total lignes'                        => 'Total des lignes courantes',
-       'de votre'                            => 'de votre',
+       ################################  Ajouter
+       ################  Nouveau
+       ################  Sur
+       'alimenter'                           => 'Alimentation d\'une qualité',
        ################################  create et edit rhsd
        'date_creation'                       => 'Date de création',
        'choi_qualite'                        => 'Sélectionnez la qualité.',
@@ -26,9 +28,9 @@ return [
        'objectif required'                   => "Le champ Objectif  est obligatoire.",
        'objectif numeric'                    => "L'objectif doit être un nombre.",
        'objectif gte'                        => "L'objectif doit être supérieur ou égal à 0.",
-       'realisation required'                => "Le champ realisation  est obligatoire.",
-       'realisation numeric'                 => "La realisation doit être un nombre.",
-       'realisation gte'                     => "La realisation  doit être supérieur ou égal à 0.",
+       'realisation required'                => "Le champ réalisation est obligatoire.",
+       'realisation numeric'                 => "La réalisation doit être un nombre.",
+       'realisation gte'                     => "La réalisation  doit être supérieur ou égal à 0.",
        'ecart numeric'                       => "Ecart doit être un nombre.",
        'success_add'                         => "La Ressource Humaine  a été ajouté avec succès",
        ################################   edit rhsd

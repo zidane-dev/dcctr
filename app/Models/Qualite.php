@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Qualite extends BaseOne
 {
     use SoftDeletes;
+
     protected $fillable = ['qualite_fr', 'qualite_ar'];
     
     public function rhsds(){

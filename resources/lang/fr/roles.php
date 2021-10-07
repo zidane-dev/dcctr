@@ -1,19 +1,30 @@
 <?php
 return [
       
-    'Etat 0' => 'Point focal',
-    'Etat 1' => 'Chef Service',
-    'Etat 2' => 'Dir. Provincial',
-    'Etat 3' => 'Dir. Regional',
-    'Etat 4' => 'Chef service - DCSASD',
-    'Etat 5' => 'Chef de division - DCSASD',
-    'Etat 6' => 'Top Management (Dir. DCSASD, MLM, R)',
+    'etat_0' => 'Points Focaux',
+    'etat_1' => 'Chefs de Service',
+    'etat_2' => 'Directeur Provincial',
+    'etat_3' => 'Directeur Régional',
+    'etat_4' => 'Chef service de la Coordination',
+    'etat_5' => 'Chef de division de la Coordination',
+    'etat_6' => 'Directeur Général de la Coordination',
 
     '0' => 'INITIAL',
-    '1' => 'INITIAL',
-    '2' => 'PROVINCE',
-    '3' => 'REGION',
+    '1' => 'VERIFICATION',
+    '2' => 'GOUVERNEUR',
+    '3' => 'CHEF-LIEU',
     '4' => 'DCSASD CS',
     '5' => 'DCSASD CD',
-    '6' => 'Public',
+    '6' => 'DCSASD ',
+
+    #####################Modal
+    'role' => 'Role ',
+
+
+    'vos_validations'      =>   'Validations en attente',
+
+    #######################
+
+    '403_message'   => 'Vous n\'avez pas l\'accès à ce contenu.',
+    'retour_acceuil'=> 'Retour à l\'acceuil',
 ];

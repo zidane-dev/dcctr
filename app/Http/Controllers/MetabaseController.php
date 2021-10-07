@@ -38,5 +38,4 @@ class MetabaseController extends Controller
             return "{$metabaseSiteUrl}/embed/dashboard/{$token}#bordered=false&titled=false&refresh=30&night";
         return "{$metabaseSiteUrl}/embed/dashboard/{$token}#bordered=false&titled=false&refresh=30";
     }
-
 }

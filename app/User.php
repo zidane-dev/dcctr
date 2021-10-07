@@ -42,6 +42,11 @@ class User extends Authenticatable
 
     ############################################
 
+    public function get_user($id){
+        return User::find($id);
+    }
+    ############################################
+
     public function domaine(){
         return $this->belongsTo('App\Models\Dpci', 'domaine_id');
     }
@@ -54,8 +59,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\AttProc', 'id_user');
     }
 
-    public function userable()
-    {
-        return $this->morphTo();
+    public function uploads(){
+        return $this->hasMany('App\Models\Upload', 'id_user');
     }
 }

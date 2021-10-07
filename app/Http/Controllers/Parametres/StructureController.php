@@ -7,23 +7,26 @@ use Illuminate\Http\Request;
 use App\Models\Structure;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Parametres\StructureRequest;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class StructureController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['permission:access-structures']);
-        $this->middleware(['permission:list-structures'])->only('index');
-        $this->middleware(['permission:create-structures'])->only(['create', 'store']);
-        $this->middleware(['permission:edit-structures'])->only(['edit', 'update']);
-        $this->middleware(['permission:delete-structures'])->only('destroy');
+    //Doesn't support arabic yet. 
+    // (did add the migration field.)
+
+    public $class = 'structures';
+    public function __construct(){
+        $this->middleware(['permission:administrate'])->only(['index', 'create', 'store']);
+        $this->middleware(['permission:edit-baseone'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete-baseone'])->only('destroy');
     }
     public function index()
     {
-        $structures = Structure::select('id','structure')
+        $class = $this->class;
+        $data = Structure::select('id','structure_'.LaravelLocalization::getCurrentLocale().' as name')
                         ->orderBy('id','ASC')
                         ->cursor();
-        return view('parametres.1.structures.index', compact('structures'));
+        return view('parametres.1.baseone.index', compact('data', 'class'));
     }
 
     public function create()

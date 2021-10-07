@@ -6,7 +6,7 @@
 @endsection
 
 @section('title')
-    @lang('drs.add dr')
+    @lang('regions.add')
 @stop
 
 @section('page-header')
@@ -16,7 +16,7 @@
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">@lang('sidebar.regions')</h4>
                 <span class="text-muted mt-1 tx-14 mr-2 mb-0">
-                    /  @lang('drs.add dr') 
+                    /  @lang('regions.add') 
                 </span>
             </div>
         </div>
@@ -40,15 +40,15 @@
                     <form action="{{route('regions.store')}}" method="POST" autocomplete="off">
                         @csrf
                             <div class="form-group">
-                                <label for="inputName" class="control-label">@lang('drs.nom_region_fr')</label>
+                                <label for="inputName" class="control-label">@lang('regions.champ_fr')</label>
                                 <input type="text" class="form-control" id="inputName" name="region_fr" dir="ltr"
-                                       title="@lang('drs.form.title')" value="{{old('dr_fr')}}">
+                                       title="@lang('regions.form.title')" value="{{old('dr_fr')}}">
                             </div>
 
                             <div class="form-group">
-                                <label for="inputName" class="control-label">@lang('drs.nom_region_ar')</label>
+                                <label for="inputName" class="control-label">@lang('regions.champ_ar')</label>
                                 <input type="text" class="form-control" id="inputName" name="region_ar" dir="rtl"
-                                       title="@lang('drs.form.title')" value="{{old('dr_ar')}}">
+                                       title="@lang('regions.form.title')" value="{{old('dr_ar')}}">
                             </div>
 
                            <br>

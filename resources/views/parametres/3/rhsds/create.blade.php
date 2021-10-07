@@ -28,6 +28,9 @@
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 @include('layouts.errors_success')
+                <div class="card-header text-center">
+                    <h2>@lang('parametre.nouveau_objectif')</h2>
+                </div>
                 <div class="card-body">
                     <form action="{{ route('rhs.store') }}" method="post" enctype="multipart/form-data"
                           autocomplete="off">
@@ -55,7 +58,9 @@
                                         @if(isset($domaines) && $domaines->count() > 0)
                                             @foreach($domaines as $domaine)
                                             @if($domaine->id === Auth::user()->domaine_id)
-                                                <option selected="selected"  value="{{$domaine->id}}" {{ (collect(old('domaine'))->contains($domaine->id)) ? 'selected':'' }}>{{$domaine->domaine}} - {{$domaine->type}}.</option>
+                                                <option selected="selected"  value="{{$domaine->id}}" {{ (collect(old('domaine'))->contains($domaine->id)) ? 'selected':'' }}>
+                                                    {{$domaine->domaine}} - {{$domaine->type}}.
+                                                </option>
                                             @endif
                                             @endforeach
                                         @endif
@@ -104,6 +109,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="text-center font-weight-light font-italic">@lang('parametre.warning_add')</div>
                         <br>
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">@lang('parametre.submit_to_validation')</button>

@@ -21,34 +21,7 @@
             </div>
         </div>
         <div class="main-header-right">
-            <ul class="nav">
-                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                    <li class="">
-                        <div class=" nav-itemd-none d-md-flex">
-                            @if($localeCode === "ar")
-                                <a hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL("ar", null, [], true) }}" class="d-flex  nav-item nav-link pl-0 country-flag1">
-                                    <span class="avatar country-Flag mr-0 align-self-center bg-transparent">
-                                        <img src="{{URL::asset('assets/img/flags/morocco.png')}}" alt="img" style="height:22px !important;">
-                                    </span>
-                                    <div class="my-auto">
-                                        <strong class="mr-2 ml-2 my-auto"> {{ $properties['native'] }}</strong>
-                                    </div>
-                                </a>
-
-                                <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL("fr", null, [], true) }}" class="d-flex  nav-item nav-link pl-0 country-flag1">
-                                    <span class="avatar country-Flag mr-0 align-self-center bg-transparent">
-                                        <img src="{{URL::asset('assets/img/flags/french_flag.jpg')}}" alt="img" style="height: 16px !important;">
-                                    </span>
-                                    <div class="my-auto">
-                                        <strong class="mr-2 ml-2 my-auto"> {{ $properties['native'] }}</strong>
-                                    </div>
-                                </a>
-                            @endif
-                        </div>
-                    </li>
-                @endforeach
-
-            </ul>
+            
             <div class="nav nav-item  navbar-nav-right ml-auto">
                 <div class="nav-link" id="bs-example-navbar-collapse-1">
                     <form class="navbar-form" role="search">
@@ -70,7 +43,7 @@
                 </div>
                 <div class="dropdown main-profile-menu nav nav-item nav-link">
                     <a class="profile-user d-flex" href=""><img alt="" src="{{URL::asset('assets/img/faces/6.jpg')}}"></a>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu multi-level" aria-labelledby="dropdownMenuButton">
                         <div class="main-header-profile bg-primary p-3">
                             <div class="d-flex wd-100p">
                                 <div class="main-img-user"><img alt="" src="{{URL::asset('assets/img/faces/6.jpg')}}" class=""></div>
@@ -80,14 +53,38 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>@lang('header.profile')</a>
-
-                        <a class="dropdown-item" href=""
-                           onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i
-                                class="bx bx-log-out"></i> @lang('header.logout')</a>
-                        <form id="logout-form" action="{{route('dashboard.logout')}}" method="get" style="display: none;">
-                            @csrf
-                        </form>
+                            <a class="dropdown-item" href="">
+                                <i class="bx bx-user-circle"></i>
+                                @lang('header.profile')
+                            </a>
+                            <a class="dropdown-item" href=""
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="bx bx-log-out"></i> 
+                                @lang('header.logout')
+                            </a>
+                            <form id="logout-form" action="{{route('dashboard.logout')}}" method="get" style="display: none;">
+                                @csrf
+                            </form>
+                            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                @if($localeCode === "ar")
+                                    <a class="dropdown-item" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL("ar", null, [], true) }}">
+                                        <span class="pl-0 country-flag1"  >
+                                            <span class="avatar country-Flag mr-0 align-self-center bg-transparent">
+                                                <img src="{{URL::asset('assets/img/flags/morocco.png')}}" alt="img" style="height:22px !important;">
+                                            </span>
+                                        </span>
+                                        @lang('header.arabic')
+                                    </a>
+                                    <a class="dropdown-item" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL("fr", null, [], true) }}">
+                                        <span class="pl-0 country-flag1" rel="alternate"  >
+                                            <span class="avatar country-Flag mr-0 align-self-center bg-transparent">
+                                                <img src="{{URL::asset('assets/img/flags/french_flag.jpg')}}" alt="img" style="height: 16px !important;">
+                                            </span>
+                                        </span>
+                                        @lang('header.french')
+                                    </a>
+                                @endif
+                            @endforeach
                     </div>
                 </div>
 

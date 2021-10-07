@@ -3,6 +3,7 @@ return [
     ################################  index
     "add" => "Ajouter un domaine",
     "nom" => "Domaine",
+    "province"  => "Province",
     "type" => "Type",
     "niveau"=> "Niveau",
     "modal supprimer" => "Supprimer la Province",

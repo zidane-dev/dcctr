@@ -14,11 +14,9 @@ class DepenseController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['permission:access-depenses']);
-        $this->middleware(['permission:list-depenses'])->only('index');
-        $this->middleware(['permission:create-depenses'])->only(['create', 'store']);
-        $this->middleware(['permission:edit-depenses'])->only(['edit', 'update']);
-        $this->middleware(['permission:delete-depenses'])->only('destroy');
+        $this->middleware(['permission:administrate'])->only(['index', 'create', 'store']);
+        $this->middleware(['permission:edit-baseone'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete-baseone'])->only('destroy');
     }
 
     public $class = "depenses";

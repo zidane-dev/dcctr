@@ -17,243 +17,161 @@
     <div class="row row-sm">
         <div class="col-xl-12">
             {{-- ATTRIBUTIONS --}}
+            @if($data->count() == 0)
             <div class="card mg-b-20">
                 @include('layouts.errors_success')
                 <div class="card-header pb-0">
-                    @if($datas[0]->count() > 0)
-                        <h3 class="text-center">@lang('axes.nom'): {{$axes[0]->axe}}</h3>
-                        <a href="{{route('dashboard.index')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
-                        </a>
-                        @can('add-basethree')
-                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-plus"></i> @lang('att.add') 
-                        </a>
-                        @endcan
-                        @can('validate')
-                        <button type="button" class="btn btn-primary" id="btn_update_state" >
-                            @lang('parametre.envoyer')
-                        </button>
-                        @endcan
-                        @can('reject')
-                        <button type="button" class="btn btn-primary" id="btn_reject" >
-                            @lang('parametre.rejeter')
-                        </button>
-                        @endcan
-                    @else
-                        <a href="{{route('dashboard.index')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
-                        </a>
-                        @can('add-basethree')
-                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-plus"></i> @lang('att.add') 
-                        </a>
-                        @endcan
+                    <h3 class="text-center">@lang('axes.nom'): {{$axes[0]->axe}}</h3>
+                    <a href="{{route('dashboard.index')}}" class="btn btn-primary" style="color: whitesmoke">
+                        <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
+                    </a>
+                    @if(Auth::user()->hasAllPermissions(['add-basethree', 'dc']))
+                    <a href="{{route('attprocs.create')}}" class="btn btn-primary" style="color: whitesmoke">
+                        <i class="fas fa-plus"></i> @lang($table.'.add') 
+                    </a>
                     @endif
+                    @can('validate')
+                    <button type="button" class="btn btn-primary" id="btn_update_state" >
+                        @lang('parametre.envoyer')
+                    </button>
+                    @endcan
+                    @can('reject')
+                    <button type="button" class="btn btn-primary" id="btn_reject" >
+                        @lang('parametre.rejeter')
+                    </button>
+                    @endcan
+                    <a href="{{route('dashboard.index')}}" class="btn btn-primary" style="color: whitesmoke">
+                        <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
+                    </a>
+                    @can('add-basethree')
+                    <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
+                        <i class="fas fa-plus"></i> @lang('att.add') 
+                    </a>
+                    @endcan
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="table key-buttons text-md-nowrap">
+                            <thead>
+                                <tr>
+                                    <th width="10px"><input type="checkbox" name="select_all" id="example-select-all" onclick="CheckAll('box1',this)" class="text-center align-middle"> </th>
+                                    <th width="25px" class="border-bottom-0">#</th>
+                                    <th class="border-bottom-0">
+                                        @lang('att_procs.nom')
+                                        <a title="T: Transfert. D: Delegation"><i class="fas fa-info"></i></a>
+                                    </th>
+
+                                    @canany(['view-region', 'view-select'])
+                                        <th class="border-bottom-0">@lang('dpcis.nom')</th>
+                                    @endcanany
+                                    @cannot('view-province')
+                                        <th class="border-bottom-0">@lang('attproc.niveau')</th>
+                                    @endcannot
+                                    <th class="border-bottom-0">@lang('parametre.annee')</th>
+                                    <th class="border-bottom-0">@lang('attproc.attribution')</th>
+                                    <th class="border-bottom-0">@lang('parametre.action')</th>
+                                    <th class="border-bottom-0">@lang('attproc.statut')</th>
+                                    <th class="border-bottom-0">@lang('parametre.user')</th>
+                                    <th class="border-bottom-0">@lang('parametre.last_modif')</th>
+                                    @canany(['edit-basethree','view-rejets','add-on','follow-info','delete-basethree'])
+                                        <th class="border-bottom-0">@lang('parametre.action')</th>
+                                    @endcanany
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($data as $att)
+                                <tr @if($att->REJET == 1) style="background-color: #f5b4b4 !important;}" @endif  
+                                    @if($att->ETAT == 6) style="background-color: #9ae88b  !important;}" @endif>
+                                    <td class="text-center align-middle">
+                                        @if( $att->ETAT < 6 AND $att->REJET == 0)
+                                            <input type="checkbox" value="{{$att->id}}" class="box1">
+                                        @endif
+                                    </td>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>
+                                        @if($att->id_axe == 1)
+                                            @lang('att_procs.attribution')
+                                        @elseif($att->id_axe == 2)
+                                            @lang('att_procs.delegation')
+                                        @endif
+                                    </td>
+                                    @canany(['view-region', 'view-select'])
+                                        <td>{{$att->ty}} - {{$att->domaine}}</td>
+                                    @endcanany
+                                    {{-- <td>{{\Carbon\Carbon::parse($att->date)->format('d/m/y h:m')}}</td> --}}
+                                    {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($att->updated_at)}}</td> --}}
+                                    @cannot('view-province')
+                                        <td>{{$att->level}}</td>
+                                    @endcannot
+                                    <td>{{$att->ANNEE}}</td>
+                                    <td>{{$att->attribution}}</td>
+                                    <td>{{$att->action}}</td>
+                                    <td>{{$att->STATUT}}</td>
+                                    <td>{{$att->username}}</td>
+                                    <td>
+                                        {{\Carbon\Carbon::parse($att->date)->format('d/m/y')}} 
+                                        @lang('parametre.at') 
+                                        {{\Carbon\Carbon::parse($att->date)->format('H:i')}} 
+                                    </td>
+                                    @canany(['edit-basethree','view-rejets', 'add-on','follow-info','delete-basethree'])
+                                        <td class="d-inline-flex text-center align-middle">
+                                            <div class="dropdown">
+                                                <button aria-expanded = "false" 
+                                                        aria-haspopup = "true"
+                                                        class = "btn ripple btn-primary btn-sm" 
+                                                        data-toggle = "dropdown"
+                                                        type = "button">
+                                                            @lang('parametre.actions')
+                                                        <i class="fas fa-caret-down"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    @can('edit-basethree') 
+                                                        <a class="dropdown-item" href="{{route('rhs.edit',$att->id)}}">
+                                                            <i class="fas fa-edit" style="color: #239a8a"></i>
+                                                            &nbsp;&nbsp;@lang('parametre.edit')
+                                                        </a>
+                                                    @endcan
+                                                    @can('add-on')
+                                                        <a class="dropdown-item" href="{{route('rhs.storereal',$att->id)}}">
+                                                            <i class="fas fa-plus-circle"></i>
+                                                            &nbsp;&nbsp;@lang('att.ajoutSur')
+                                                        </a>
+                                                    @endcan
+                                                    @can('follow-info')
+                                                        <a class="dropdown-item" href="{{route('rhs.show',$att->id)}}">
+                                                            <i class="fas fa-info"></i>
+                                                            &nbsp;&nbsp;@lang('parametre.follow_line')
+                                                        </a>
+                                                    @endcan
+                                                    @if ($att->REJET == 1)
+                                                        @can('view-rejets')
+                                                            <a class="dropdown-item" href="{{--route('rhs.storereal',$att->id)--}}">
+                                                                <i class="fas fa-plus-circle"></i>
+                                                                &nbsp;&nbsp;@lang('parametre.view_rejet')
+                                                            </a>
+                                                        @endcan
+                                                    @endif
+                                                    @can('delete-basethree')
+                                                        <a class="dropdown-item"  href="javascript:void(0)" data-id="{{ $att->id }}"
+                                                        data-toggle="modal" data-target="#modalattSUP">
+                                                            <i class="text-danger fas fa-trash-alt"></i>
+                                                            &nbsp;&nbsp;@lang('att.supprimer')
+                                                        </a>
+                                                    @endcan
+                                                </div>
+                                            </div>
+                                        </td>
+                                    @endcanany
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    @if($datas[0]->count() > 0)
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example1" class="table key-buttons text-md-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th width="10px"><input type="checkbox" name="select_all" id="example-select-all" onclick="CheckAll('box1',this)" class="text-center align-middle"> </th>
-                                            <th width="25px" class="border-bottom-0">#</th>
-                                            @canany(['view-region', 'view-select'])
-                                                <th class="border-bottom-0">@lang('dpcis.nom')</th>
-                                            @endcanany
-                                            @cannot('view-province')
-                                                <th class="border-bottom-0">@lang('attproc.niveau')</th>
-                                            @endcannot
-                                            <th class="border-bottom-0">@lang('parametre.annee')</th>
-                                            <th class="border-bottom-0">@lang('attproc.attribution')</th>
-                                            <th class="border-bottom-0">@lang('parametre.action')</th>
-                                            <th class="border-bottom-0">@lang('attproc.statut')</th>
-                                            <th class="border-bottom-0">@lang('parametre.user')</th>
-                                            <th class="border-bottom-0">@lang('parametre.last_modif')</th>
-                                            @canany(['edit-basethree','view-rejets','add-on','follow-info','delete-basethree'])
-                                                <th class="border-bottom-0">@lang('parametre.action')</th>
-                                            @endcanany
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($datas[0] as $att)
-                                        <tr @if($att->REJET == 1) style="background-color: #f5b4b4 !important;}" @endif  
-                                            @if($att->ETAT == 6) style="background-color: #9ae88b  !important;}" @endif>
-                                            <td class="text-center align-middle">
-                                                @if( $att->ETAT < 6 AND $att->REJET == 0)
-                                                    <input type="checkbox" value="{{$att->id}}" class="box1">
-                                                @endif
-                                            </td>
-                                            <td>{{$loop->iteration}}</td>
-                                            @canany(['view-region', 'view-select'])
-                                                <td>{{$att->ty}} - {{$att->domaine}}</td>
-                                            @endcanany
-                                            {{-- <td>{{\Carbon\Carbon::parse($att->date)->format('d/m/y h:m')}}</td> --}}
-                                            {{-- <td>{{\Carbon\Carbon::now()->diffForHumans($att->updated_at)}}</td> --}}
-                                            @cannot('view-province')
-                                                <td>{{$att->level}}</td>
-                                            @endcannot
-                                            <td>{{$att->ANNEE}}</td>
-                                            <td>{{$att->attribution}}</td>
-                                            <td>{{$att->action}}</td>
-                                            <td>{{$att->STATUT}}</td>
-                                            <td>{{$att->username}}</td>
-                                            <td>
-                                                {{\Carbon\Carbon::parse($att->date)->format('d/m/y')}} 
-                                                @lang('parametre.at') 
-                                                {{\Carbon\Carbon::parse($att->date)->format('H:i')}} 
-                                            </td>
-                                            @canany(['edit-basethree','view-rejets', 'add-on','follow-info','delete-basethree'])
-                                                <td class="d-inline-flex text-center align-middle">
-                                                    <div class="dropdown">
-                                                        <button aria-expanded = "false" 
-                                                                aria-haspopup = "true"
-                                                                class = "btn ripple btn-primary btn-sm" 
-                                                                data-toggle = "dropdown"
-                                                                type = "button">
-                                                                    @lang('parametre.actions')
-                                                                <i class="fas fa-caret-down"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu">
-                                                            @can('edit-basethree') 
-                                                                <a class="dropdown-item" href="{{route('rhs.edit',$att->id)}}">
-                                                                    <i class="fas fa-edit" style="color: #239a8a"></i>
-                                                                    &nbsp;&nbsp;@lang('parametre.edit')
-                                                                </a>
-                                                            @endcan
-                                                            @can('add-on')
-                                                                <a class="dropdown-item" href="{{route('rhs.storereal',$att->id)}}">
-                                                                    <i class="fas fa-plus-circle"></i>
-                                                                    &nbsp;&nbsp;@lang('att.ajoutSur')
-                                                                </a>
-                                                            @endcan
-                                                            @can('follow-info')
-                                                                <a class="dropdown-item" href="{{route('rhs.show',$att->id)}}">
-                                                                    <i class="fas fa-info"></i>
-                                                                    &nbsp;&nbsp;@lang('parametre.follow_line')
-                                                                </a>
-                                                            @endcan
-                                                            @if ($att->REJET == 1)
-                                                                @can('view-rejets')
-                                                                    <a class="dropdown-item" href="{{--route('rhs.storereal',$att->id)--}}">
-                                                                        <i class="fas fa-plus-circle"></i>
-                                                                        &nbsp;&nbsp;@lang('parametre.view_rejet')
-                                                                    </a>
-                                                                @endcan
-                                                            @endif
-                                                            @can('delete-basethree')
-                                                                <a class="dropdown-item"  href="javascript:void(0)" data-id="{{ $att->id }}"
-                                                                data-toggle="modal" data-target="#modalattSUP">
-                                                                    <i class="text-danger fas fa-trash-alt"></i>
-                                                                    &nbsp;&nbsp;@lang('att.supprimer')
-                                                                </a>
-                                                            @endcan
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            @endcanany
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    @else
-                        @include('partials.emptylist')
-                    @endif
+                </div>
             </div>
-            {{-- DELEGATIONS --}}
-            <div class="card mg-b-20"> 
-                <div class="card-header pb-0">
-                    @if($datas[1]->count() > 0)
-                        <h3 class="text-center">@lang('axes.nom'): {{$axes[1]->axe}}</h3>
-                        <a href="{{route('dashboard.index')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
-                        </a>
-                        @can('add-basethree')
-                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-plus"></i> @lang('bdg.add') 
-                        </a>
-                        @endcan
-                        @can('validate')
-                        <button type="button" class="btn btn-primary" id="btn_update_state" >
-                            @lang('parametre.envoyer')
-                        </button>
-                        @endcan
-                        @can('reject')
-                        <button type="button" class="btn btn-primary" id="btn_reject" >
-                            @lang('parametre.rejeter')
-                        </button>
-                        @endcan
-                    @else
-                        <a href="{{route('dashboard.index')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-arrow-left"></i> @lang('formone.retour') 
-                        </a>
-                        @can('add-basethree')
-                        <a href="{{route('rhs.create')}}" class="btn btn-primary" style="color: whitesmoke">
-                            <i class="fas fa-plus"></i> @lang('bdg.add') 
-                        </a>
-                        @endcan
-                    @endif
-                    </div>
-                    @if($datas[1]->count() > 0)
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example1" class="table key-buttons text-md-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th width="10px"><input type="checkbox" name="select_all" id="example-select-all" onclick="CheckAll('box1',this)" class="text-center align-middle"> </th>
-                                            <th width="25px" class="border-bottom-0">#</th>
-                                            @canany(['view-region', 'view-select'])
-                                                <th class="border-bottom-0">@lang('dpcis.nom')</th>
-                                            @endcanany
-                                            <th class="border-bottom-0">@lang('attprocs.delegation')</th>
-                                            <th class="border-bottom-0">@lang('parametre.last_modif')</th>
-                                            <th class="border-bottom-0">@lang('parametre.annee')</th>
-                                            <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
-                                            <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
-                                            <th class="border-bottom-0">@lang('bdg.user')</th>
-                                            @canany(['edit-basethree','view-rejets','add-on','follow-info','delete-basethree'])
-                                                <th class="border-bottom-0">@lang('parametre.action')</th>
-                                            @endcanany
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($datas[1] as $del)
-                                        <tr @if($del->REJET == 1) style="background-color: #f5b4b4 !important;}" @endif  
-                                            @if($del->ETAT == 6) style="background-color: #9ae88b  !important;}" @endif>
-                                            <td class="text-center align-middle">
-                                                @if( $del->ETAT < 6 AND $del->REJET == 0)
-                                                    <input type="checkbox" value="{{$del->id}}" class="box1">
-                                                @endif
-                                            </td>
-                                            <td>{{$loop->iteration}}</td>
-                                            @canany(['view-region', 'view-select'])
-                                                <td>{{$del->ty}} - {{$del->domaine}}</td>
-                                            @endcanany
-                                            <td>
-                                                {{\Carbon\Carbon::parse($del->date)->format('d/m/y')}} 
-                                                @lang('parametre.at') 
-                                                {{\Carbon\Carbon::parse($del->date)->format('H:i')}} 
-                                            </td>
-                                            <td>{{$att->attribution}}</td>
-                                            <td>{{$att->action}}</td>
-                                            <td>{{$att->level}}</td>
-                                            <td>{{$att->ANNEE}}</td>
-                                            <td>{{$att->STATUT}}</td>
-                                            <td>{{$att->username}}</td>
-                                            
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    @else
-                        @include('partials.emptylist')
-                    @endif
-            </div>
+            @else
+                @include('partials.emptylist')
+            @endif
             @can('view-etats')
                 <div class="card mg-b-20">
                     <div class="card-header pb-0">

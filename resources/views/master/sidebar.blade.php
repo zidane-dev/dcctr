@@ -60,8 +60,10 @@
                     </span>
                     <i class="angle fe fe-chevron-down"></i>
                 </a>
+                    <!-- Parametres -->
                 <ul class="slide-menu">
                     <!------------------------------------------------------------------------------------------------->
+                    <!-- Parametres 1 -->
                     <li class="sub-slide">
                         <a class="sub-side-menu__item" data-toggle="sub-slide" href="">
                             
@@ -131,13 +133,6 @@
                                     </span>
                                 </a>
                             </li>
-                            <!--Type Credit-->
-                            {{-- <li class="sub-slide">
-                                <a class="side-menu__item"  href="{{route('typecredits.index')}}">
-                                    <i class="fas fa-ellipsis-h custom_style_icon"> </i>
-                                    <span class="side-menu__label"> @lang('sidebar.typeCredits') </span>
-                                </a>
-                            </li> --}}
                             <!-- Qualites -->
                             <li class="sub-slide">
                                 <a class="side-menu__item"  href="{{route('qualites.index')}}">
@@ -150,6 +145,7 @@
                         </ul>
                     </li>
                     <!------------------------------------------------------------------------------------------------->
+                    <!-- Parametres 2 -->
                     <li class="sub-slide">
                         <a class="sub-side-menu__item" data-toggle="sub-slide" href="">
                             <span class="sub-side-menu__label">
@@ -194,74 +190,7 @@
                     </li>
                 </ul>
             </li>
-        @endcan
-            <!------------------------------------------------------------------------------------------------->
-
-            <!-- SIDEBAR.AXES -->
-
-            <li class="side-item side-item-category">@lang('sidebar.public')</li>
-            <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="">
-                    <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="1" stroke-linecap="square" stroke-linejoin="arcs"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    <span class="side-menu__label">
-                        @lang('sidebar.axes')
-                    </span>
-                    <i class="angle fe fe-chevron-down"></i>
-                </a>
-                <ul class="slide-menu">
-                    <!-- Attributions de processus -->
-                    @canany(['administrate','sd', 'dc'])
-                    <li class="slide">
-                        <a class="side-menu__item" title="@lang('sidebar.att_procs')" 
-                                href="{{route('attprocs.index')}}">
-                            <i class="fas fa-boxes custom_style_icon"></i>
-                            <span class="side-menu__label">
-                                @lang('sidebar.att_procs')
-                            </span>
-                        </a>
-                    </li>
-                    @endcanany
-                    <!-- Ressources Humaines -->
-                    @canany(['administrate','ac','sd', 'dc'])
-                    <li class="slide">
-                        <a class="side-menu__item" title="@lang('sidebar.rhsds')"
-                                href="{{route('rhs.index')}}">
-                            <i class="fas fa-boxes custom_style_icon"></i>
-                            <span class="side-menu__label">
-                                @lang('sidebar.rhsds')
-                            </span>
-                        </a>
-                    </li>
-                    @endcanany
-                    <!-- Budget -->
-                    @canany(['administrate','ac','sd', 'dc'])
-                    <li class="slide">
-                        <a class="side-menu__item"
-                                    href="{{route('budgets.index')}}">
-                            <i class="fas fa-boxes custom_style_icon"></i>
-                            <span class="side-menu__label">
-                                @lang('sidebar.budgets')
-                            </span>
-                        </a>
-                    </li>
-                    @endcanany
-                    <!-- Indicateurs de Performance -->
-                    @canany(['administrate','sd', 'dc'])
-                    <li class="slide">
-                        <a class="side-menu__item" title="@lang('sidebar.indicperfs')"
-                                href="">
-                            <i class="fas fa-boxes custom_style_icon"></i>
-                            <span class="side-menu__label">
-                                @lang('sidebar.indicperfs')
-                            </span>
-                        </a>
-                    </li>
-                     @endcanany
-                </ul>
-            </li>
-            
             <!-- SIDEBAR.USER -->
-            
             <li class="side-item side-item-category">@lang('sidebar.users')</li>
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="">
@@ -291,11 +220,116 @@
                     {{-- <li><a class="slide-item" href="{{route('roles.index')}}">Rôles des utilisateurs</a></li> --}}
                 </ul>
             </li>
-            
-             <!-- Validation -->
-            
-             <li class="side-item side-item-category">@lang('sidebar.validation')</li>
-             <li class="slide">
+            <li class="slide">
+                <a class="side-menu__item" href="{{route('show.session')}}">
+                    <i class="fas fa-users custom_style_icon"></i>
+                    <span class="side-menu__label">
+                    SESSION
+                </span>
+                </a>
+                <a class="side-menu__item" href="{{route('show.requete')}}">
+                    <i class="fas fa-users custom_style_icon"></i>
+                    <span class="side-menu__label">
+                    REQUETE
+                </span>
+                </a>
+            </li>
+        @endcan
+            <!------------------------------------------------------------------------------------------------->
+            <!-- Public -->
+            <li class="side-item side-item-category">@lang('sidebar.public')</li>
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="">
+                    <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="1" stroke-linecap="square" stroke-linejoin="arcs"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span class="side-menu__label">
+                        @lang('sidebar.axes')
+                    </span>
+                    <i class="angle fe fe-chevron-down"></i>
+                </a>
+                <!-- Axes -->
+                <ul class="slide-menu">
+                    <!-- Attributions de processus -->
+                    @canany(['administrate','sd', 'dc'])
+                    <li class="slide">
+                        <a class="side-menu__item" title="@lang('sidebar.att_procs')" 
+                                href="{{route('attprocs.index')}}">
+                            <i class="fas fa-boxes custom_style_icon"></i>
+                            <span class="side-menu__label">
+                                @lang('sidebar.att_procs')
+                            </span>
+                        </a>
+                    </li>
+                    @endcanany
+                    <!-- Ressources Humaines -->
+                    @canany(['administrate','ac','sd', 'dc'])
+                    <li class="slide">
+                        <a class="side-menu__item" title="@lang('sidebar.rhsds')"
+                                href="{{route('rhs.index')}}">
+                            <i class="fas fa-boxes custom_style_icon"></i>
+                            <span class="side-menu__label">
+                                @lang('sidebar.rhsds')
+                            </span>
+                        </a>
+                    </li>
+                    <!-- Budget -->
+                    <li class="slide">
+                        <a class="side-menu__item"
+                                    href="{{route('budgets.index')}}">
+                            <i class="fas fa-boxes custom_style_icon"></i>
+                            <span class="side-menu__label">
+                                @lang('sidebar.budgets')
+                            </span>
+                        </a>
+                    </li>
+                    @endcanany
+                    <!-- Indicateurs de Performance -->
+                    @canany(['administrate','sd', 'dc'])
+                    <li class="slide">
+                        <a class="side-menu__item" title="@lang('sidebar.indicperfs')"
+                                href="">
+                            <i class="fas fa-boxes custom_style_icon"></i>
+                            <span class="side-menu__label">
+                                @lang('sidebar.indicperfs')
+                            </span>
+                        </a>
+                    </li>
+                     @endcanany
+                </ul>
+            </li>
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="">
+                    
+                    <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
+                    <span class="side-menu__label">
+                        @lang('uploads.documents')
+                    </span>
+                    <i class="angle fe fe-chevron-down"></i>
+                </a>
+                <ul class="slide-menu">
+                    <!-- Rapports  -->
+                    <li class="slide">
+                        <a class="side-menu__item" title="@lang('uploads.title')" 
+                                href="{{route('documents.index')}}">
+                            <svg class="fas fa-boxes custom_style_icon" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="3" stroke-linecap="square" stroke-linejoin="arcs"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                            <span class="side-menu__label">
+                                @lang('uploads.title')
+                            </span>
+                        </a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" title="@lang('uploads.title')" 
+                                href="{{route('documents.create')}}">
+                            <svg class="fas fa-boxes custom_style_icon" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="arcs"><path d="M20 11.08V8l-6-6H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h6"/><path d="M14 3v5h5M18 21v-6M15 18h6"/></svg>
+                            <span class="side-menu__label">
+                                @lang('uploads.add')
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- Validation -->
+            <li class="side-item side-item-category">@lang('sidebar.validation')</li>
+            <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="">
                     <svg class="side-menu__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#478ced" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
@@ -306,6 +340,7 @@
                     <i class="angle fe fe-chevron-down"></i>
                 </a>
                  <ul class="slide-menu">
+                    @can('administrate')
                     <li class="slide">
                         <a class="side-menu__item" href="{{route('archives.index')}}">
                             <i class="fas fa-archive custom_style_icon"></i>
@@ -314,6 +349,7 @@
                             </span>
                         </a>
                     </li>
+                    @endcan
                     <li class="slide">
                         <a class="side-menu__item" href="{{route('validation.att_procs')}}">   
                             <i class="fas fa-users custom_style_icon"></i>
@@ -382,22 +418,10 @@
                             </span>
                         </a>
                     </li>
-                    <li class="slide">
-                        <a class="side-menu__item" href="{{route('show.session')}}">
-                            <i class="fas fa-users custom_style_icon"></i>
-                            <span class="side-menu__label">
-                            SESSION
-                        </span>
-                        </a>
-                        <a class="side-menu__item" href="{{route('show.requete')}}">
-                            <i class="fas fa-users custom_style_icon"></i>
-                            <span class="side-menu__label">
-                            REQUETE
-                        </span>
-                        </a>
-                    </li>
-                 </ul>
-             </li>
+                    
+                </ul>
+            </li>
+            
         </ul>
     </div>
 </aside>

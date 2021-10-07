@@ -16,11 +16,7 @@ class ObjectifController extends Controller
     public $class = 'objectifs';
     public function __construct()
     {
-        $this->middleware(['permission:access-objectifs']);
-        $this->middleware(['permission:list-objectifs'])->only('index');
-        $this->middleware(['permission:create-objectifs'])->only(['create', 'store']);
-        $this->middleware(['permission:edit-objectifs'])->only(['edit', 'update']);
-        $this->middleware(['permission:delete-objectifs'])->only('destroy');
+        
     }
     public function index()
     {

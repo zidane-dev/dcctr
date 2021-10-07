@@ -14,6 +14,13 @@ class AxeController extends Controller
 {
     public $class = "axes";
 
+    public function __construct()
+    {
+        $this->middleware(['permission:administrate'])->only(['index', 'create', 'store']);
+        $this->middleware(['permission:edit-baseone'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete-baseone'])->only('destroy');
+    }
+    
     public function get_axe($table){
         switch($table){
             case 1: // attributions

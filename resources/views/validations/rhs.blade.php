@@ -76,7 +76,7 @@
                                     @foreach($datas as $rhsd)
                                         <tr @if($rhsd->REJET == 1) style="background-color: #f5b4b4 !important;}" @endif>
                                             <td class="text-center align-middle">
-                                                @if($rhsd->REJET == 0)
+                                                @if($rhsd->REJET == 0 || Auth::user()->hasRole('dcs'))
                                                     <input type="checkbox" value="{{$rhsd->id}}" class="box1">
                                                 @endif
                                             </td>
@@ -108,7 +108,7 @@
                                                                 <i class="fas fa-caret-down"></i>
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            @can('edit-basethree') 
+                                                            @canany(['edit-basethree', 'view-rejets']) 
                                                                 <a class="dropdown-item" href="{{route('rhs.edit',$rhsd->id)}}">
                                                                     @if ($rhsd->REJET == 1)
                                                                         <i class="fas fa-edit" style="color: #b68c32"></i>
@@ -118,7 +118,7 @@
                                                                         &nbsp;&nbsp;@lang('parametre.edit')
                                                                     @endif
                                                                 </a>
-                                                            @endcan
+                                                            @endcanany
                                                             @can('add-on')
                                                                 <a class="dropdown-item" href="{{route('rhs.storereal',$rhsd->id)}}">
                                                                     <i class="fas fa-plus-circle"></i>
@@ -153,11 +153,13 @@
                     @endif
             </div>
             @can('view-etats')
-                @include('validations.partials.states_summary')
+                    @include('validations.partials.states_summary')
             @endcan
         </div>
     </div>
-
+    @can('delete-basethree')
+        @include('modals.suppr_rh')
+    @endcan
     <!-- Envoi -->
     @can('validate')
         <div class="modal fade" id="update_state" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -191,7 +193,6 @@
             </div>
         </div>
     @endcan
-
     <!-- Rejet -->
     @can('reject')
         <div class="modal fade" id="modal_rejet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -266,7 +267,7 @@
     <!--Internal  Datatable js -->
     <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
 
-    @can('dc')
+    @can('view-select')
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>
         <script>
@@ -280,8 +281,6 @@
                     var title = $(this).text();
                     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
                 }
-                
-        
                 $( 'input', this ).on( 'keyup change', function () {
                     if ( table.column(i).search() !== this.value ) {
                         table
@@ -291,17 +290,19 @@
                     }
                 } );
             } );
+          
             var table = $('#example1').DataTable( {
                 orderCellsTop: true,
                 fixedHeader: true,
-                
-            } );
-            $('#example-a_filter').hide()
+                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ]
+            } ).draw();
+            $('#example1_filter').hide()
         } );
+        
         </script>
     @endcan
-
     
+    @yield('modal_suppr')
 
     <!-- rejet -->
     <script>

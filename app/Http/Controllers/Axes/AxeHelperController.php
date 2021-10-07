@@ -9,6 +9,7 @@ use App\Http\Controllers\User\SessionController;
 use App\Http\Controllers\Validation\UserValidationController;
 use App\Models\Dpci;
 use App\Models\Dr;
+use App\Models\Secteur;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class AxeHelperController extends Controller
                     return new BudgetController();
                 break;
             case 'att_procs':
-                    return new AttProcController(); 
+                    return new AttProcController();
                 break;
             case 'indic_perfs': 
                     // return new IndicPerfController();
@@ -38,17 +39,13 @@ class AxeHelperController extends Controller
                 
         }
     }
-    public function index($table, $request){ // WORKS FOR: BUDGETCONTROLLER,
+    public function index($table, $request){                                        // WORKS FOR: BUDGETCONTROLLER,
         $helper = $this->get_helper($table);
-        $domaine = $this->define_domaine($request);                             // old('province') ? old('province') : session()->domaine_in
-        // dd($domaine);
-        $year = $this->define_year($request);                                   // same for year
-        
-        $data_v = $helper->get_query($domaine, $year);                                    // query for public state
-        
-        $years = $this->get_years_array($data_v);                               // fill the years array
-        $dp = $this->get_domaine_by_id($request->session()->get('domaine_id')); // get the dp
-
+        $domaine = $this->define_domaine($request);                                 // old('province') ? old('province') : session()->domaine_in
+        $year = $this->define_year($request);                                       // same for year
+        $data_v = $helper->get_query($domaine, $year);                              // query for public state
+        $years = $this->get_years_array($data_v);                                   // fill the years array
+        $dp = $this->get_domaine_by_id($request->session()->get('domaine_id'));     // get the dp
         $metabase = new MetabaseController();
         if(Auth::user()->hasPermissionTo('view-select')){
             $frame = $this->load_select_frame($metabase, $helper);
@@ -64,7 +61,7 @@ class AxeHelperController extends Controller
             $frame = $this->load_region_frame($metabase, $helper, $dp->dr_id);
 
         }elseif(Auth::user()->hasPermissionTo('view-province')){
-            $frame = $this->load_province_frame($metabase, $helper, $request->session()->get('domaine_id'));
+            $frame = $this->load_province_frame($metabase, $helper, $dp->id);
         }
         $count = $this->get_count_achieved($table, $data_v);                         // get "achieved / total goals"
 
@@ -148,6 +145,14 @@ class AxeHelperController extends Controller
         $provinces = Dpci::select('id', 'domaine_'.LaravelLocalization::getCurrentLocale().' as name', 'type as t', 'type as ty')->where('dr_id', $region)->get();
         return response()->json(['provinces' => $provinces]);
     }
+    public function get_attributionsBySec(Request $request){ 
+        $secteur_id = $request->secteur_id;
+        $secteur = Secteur::find($secteur_id);
+        $attributions = $secteur->attribution->all();
+        $locale = LaravelLocalization::getCurrentLocale()."";
+        
+        return response()->json(['attributions' => $attributions, 'locale'=>$locale]);
+    }
     public function get_filter_parameters(){
         $provinces = Dpci::select('id', 'domaine_'.LaravelLocalization::getCurrentLocale().' as name', 'type as t', 'type as ty')->get();
         $regions = Dr::select('id','region_'.LaravelLocalization::getCurrentLocale().' as region')->orderBy('region', 'ASC')->get();
@@ -213,5 +218,8 @@ class AxeHelperController extends Controller
             $ecart = $bdg->REALISATION - $bdg->OBJECTIF;
             $bdg->update(['ECART' => $ecart]);
         }
+    }
+    public function get_ecart($realisation, $objectif){ // + objectif atteint, - pas encore
+        return ($realisation - $objectif);
     }
 }

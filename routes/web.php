@@ -25,6 +25,7 @@ Auth::routes(['register' => false]);
 Route::post('/logout', 'HomeController@logout')->name('dashboard.logout');
 
 
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'],function (){
@@ -32,40 +33,51 @@ Route::group(['middleware' => 'auth'],function (){
     'middleware' => ['localeSessionRedirect',
     'localizationRedirect', 
     'localeViewPath']], function(){
-
         ####################### General
         
-        Route::get('/dashboard'             , 'DashboardController@index')      ->name('dashboard.index');
-        Route::get('/logout'                , 'HomeController@logout')          ->name('dashboard.logout');
+        Route::get('/dashboard'                     , 'DashboardController@index')->name('dashboard.index');
+        Route::get('/logout'                        , 'HomeController@logout')    ->name('dashboard.logout');
         
         ####################### Parametres 1 & 2
+        Route::group(['middleware'=>['permission:administrate']], function(){
+            Route::resource('archives'              , 'ArchiveController')->only(['index', 'destroy']);
+            Route::get('archives/atts'              , 'ArchiveController@load_at')->name('archives.at');
+            Route::get('archives/rhs'               , 'ArchiveController@load_rh')->name('archives.rh');
+            Route::get('archives/rms'               , 'ArchiveController@load_bg')->name('archives.bg');
+            Route::post('archives/restore/rh'       , 'Axes\RhsdController@restore')   ->name('archives.rh.restore');
+            
+            // Route::get('assign', 'PermissionController@index')->name('permission.index');
+            
+            Route::group(['namespace' => 'Parametres'], function() {
+                Route::resource('axes'              , 'AxeController'          )->except(['show']);
+                Route::resource('regions'           , 'DrController'           )->except(['show']);
+                Route::resource('indicateurs'       , 'IndicateurController'   )->except(['show']);
+                Route::resource('qualites'          , 'QualiteController'      )->except(['show']);
+                Route::resource('secteurs'          , 'SecteurController'      )->except(['show']);
+                Route::resource('structures'        , 'StructureController'    )->except(['show']);
+                Route::resource('ressources'        , 'RessourceController'    )->except(['show']);
+                Route::resource('unites'            , 'UniteController'        )->except(['show']);
+                Route::resource('attributions'      , 'AttributionController'  )->except(['show']);
+                Route::resource('dpcis'             , 'DpciController'         )->except(['show']);
+                Route::resource('objectifs'         , 'ObjectifController'     )->except(['show']);
+                Route::resource('depenses'          , 'DepenseController'      )->except(['show']);
+            });
 
-        Route::group(['namsepace' => 'Parametres', 'middleware'=>['role:s-a']], function() {
-            Route::resource('axes'              , 'AxeController'          )->except(['show']);
-            Route::resource('regions'           , 'DrController'           )->except(['show']);
-            Route::resource('indicateurs'       , 'IndicateurController'   )->except(['show']);
-            Route::resource('qualites'          , 'QualiteController'      )->except(['show']);
-            Route::resource('secteurs'          , 'SecteurController'      )->except(['show']);
-            Route::resource('structures'        , 'StructureController'    )->except(['show']);
-            Route::resource('ressources'        , 'RessourceController'    )->except(['show']);
-            Route::resource('unites'            , 'UniteController'        )->except(['show']);
-            
-            // Route::resource('typecredits'    , 'TypeCreditController')->except(['show']);
-            
-            Route::resource('attributions'      , 'AttributionController'  )->except(['show']);
-            Route::resource('dpcis'             , 'DpciController'         )->except(['show']);
-            Route::resource('objectifs'         , 'ObjectifController'     )->except(['show']);
-            Route::resource('depenses'          , 'DepenseController'      )->except(['show']);
+            Route::resource('users'                 , 'UserController');
+            Route::get('/rights'                    , 'TestController@index')                    ->name('rights');
+            Route::get('/rightsofrole/{id}'         , 'TestController@assign_to_role')           ->name('rights_role');
+            Route::get('/rightsofuser/{id}'         , 'TestController@assign_to_user')           ->name('rights_user');
+            Route::put('/permissions/update'        , 'TestController@update_permissions')       ->name('rights.update');
         });
-        
+
         ####################### Parametres 3
         Route::group(['prefix' => 'axe', 'namespace'=>'Axes'], function(){
             ###########################   SD / AC
             ############    RH
-            Route::get('index/{year?}'          , 'RhsdController@index'                     )->name('rhs.index');
-            Route::get('realisationrh/{id}'     , 'RhsdController@add_on'                    )->name('rhs.storereal');
-            Route::get('newobjrh/{id}'          , 'RhsdController@edit_goal'                 )->name('edit.rhsgoal');
-            Route::put('newobjrh/{id}/submit'   , 'RhsdController@update_goal'               )->name('update.rhsgoal');
+            Route::get('index/{year?}'          , 'RhsdController@index'      )->name('rhs.index');
+            Route::get('realisationrh/{id}'     , 'RhsdController@add_on'     )->name('rhs.storereal');
+            Route::get('newobjrh/{id}'          , 'RhsdController@edit_goal'  )->name('edit.rhsgoal');
+            Route::put('newobjrh/{id}/submit'   , 'RhsdController@update_goal')->name('update.rhsgoal');
             Route::resource('rhs'               , 'RhsdController');
             ############    ATT PROC
             Route::resource('attprocs'          , 'AttProcController');
@@ -74,16 +86,17 @@ Route::group(['middleware' => 'auth'],function (){
             ############    INDICPERFS
             ##########################   DC
             Route::get('regs'                   , 'AxeHelperController@get_domaineGroupByReg')->name('subReg');
-            Route::get('/dc/index'              , 'AxeHelperController@indexByQuery'         )->name('indexByQuery');
+            Route::get('secs'                   , 'AxeHelperController@get_attributionsBySec')->name('subSec');
+            Route::get('recap'                  , 'AttProcController@store_recap')->name('attprocs.store_recap');
+            Route::get('/dc/index'              , 'AxeHelperController@indexByQuery'       )->name('indexByQuery');
         });
         ####################### Users
        
-        Route::resource('users'                 , 'UserController');
-        Route::get('/rights'                    , 'TestController@index')           ->name('rights');
         
-        ####################### Archives
-        
-        Route::resource('archives'              , 'ArchiveController');
+        ####################### Uploads
+        Route::group(['prefix' => 'uploads', 'namespace'=>'Rapports'], function(){
+            Route::resource('documents', 'ReportController')->only(['index', 'create', 'store', 'destroy']);
+        });
 
         ############################Validation
         
@@ -109,5 +122,6 @@ Route::group(['middleware' => 'auth'],function (){
         Route::get('session', 'TestController@session')->name('show.session');
         Route::get('request', 'TestController@requete')->name('show.requete');
     }); 
+
 }); 
 

@@ -9,7 +9,7 @@
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
     @endsection
     
-@section('title') @lang('sidebar.liste '.$class)  @endsection
+@section('title') @lang('sidebar.liste_'.$class)  @endsection
 
 @include('partials.breadcrumb_index')
 @include('parametres.partials_1.table')

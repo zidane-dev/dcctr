@@ -183,7 +183,9 @@
             @endcan
         </div>
     </div>
-
+    @can('delete-basethree')
+        @include('modals.suppr_bdg')
+    @endcan
     <!-- Envoi -->
     @can('validate')
         <div class="modal fade" id="update_state" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

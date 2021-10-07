@@ -19,23 +19,19 @@
             </div>
         </div>
         <div class="main-dashboard-header-right">
-            <div>
-                <label class="tx-13">Lignes recues</label>
-                <h5>563,275</h5>
+            <div class="text-center">
+                <label class="tx-13">@lang('roles.vos_validations')</label>
+                <h5>{{$data['total']}}</h5>
             </div>
-            <div>
-                <label class="tx-13">Offline Sales</label>
-                <h5>783,675</h5>
-            </div>
+            
         </div>
     </div>
     <!-- /breadcrumb -->
 @endsection
 @section('content')
-    <h1 class="text-center "> Dash - effing - Board </h1>
     <!-- row op -->
     <div class="row row-sm">
-        <div class="col-md-12 col-lg-12 col-xl-7">
+        {{-- <div class="col-md-12 col-lg-12 col-xl-7">
             <div class="card">
                 <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
                     <div class="d-flex justify-content-between">
@@ -69,6 +65,67 @@
                 <span class="d-block mg-b-20 text-muted tx-12">Indicateurs de Performance de toutes les regions du maroc</span>
                 <div class="">
                     <div class="vmap-wrapper ht-180" id="vmap2"></div>
+                </div>
+            </div>
+        </div> --}}
+        <div class="col-6 align-self-center">
+            <div class="card text-center">
+                <label class="main-content-label  my-3">@lang('general.construction')</label>
+                <div class="">
+                    <img width="auto" height="700px" src="{{asset('assets/img/svgicons/construction.svg')}}">
+                </div>
+            </div>
+        </div>
+        <div class="col-6 align-self-center">
+            <div class="card text-center">
+                <div class="card-header">
+                <label class="main-content-label  my-3">Caractérisations de l'utilisateur</label>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Structure</th>
+                                <th>Rôle</th>
+                                <th>Portée</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td>
+                                {{$data['structure']}}
+                            </td>
+                            <td>
+                                {{$data['role']}}
+                            </td>
+                            <td>
+                                {{$data['portee']}}
+                            </td>
+                        </tbody>
+                    </table>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Attributions et Délégations</th>
+                                <th>Ressources Humaines</th>
+                                <th>Ressources Matérielles</th>
+                                <th>Indicateurs de Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td>
+                                {{session()->get('rh_count')}}
+                            </td>
+                            <td>
+                                {{session()->get('bdg_count')}}
+                            </td>
+                            <td>
+                                {{session()->get('attproc_count')}}
+                            </td>
+                            <td>
+                                <span class="font-weight-light font-italic">(@lang('general.construction'))<span>
+                            </td>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

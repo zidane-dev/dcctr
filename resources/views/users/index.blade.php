@@ -27,35 +27,25 @@
       </div>
       @if($data->count() > 0)
       <div class="card-body">
-        <div class="table-responsive">
-          <table id="example1" class="table key-buttons text-md-nowrap">
+        <div class="table-responsive ">
+          <table id="example1" class="table key-buttons text-md-nowrap w-100">
             <thead>
               <tr>
                 <th class="border-bottom-0">#</th>
                 <th class="border-bottom-0">Name</th>
+                <th class="border-bottom-0">Roles</th>
                 <th class="border-bottom-0">Email</th>
-                <th class="border-bottom-0">Type</th>
+                <th width="18%" class="border-bottom-0">Type</th>
                 <th class="border-bottom-0">Domaine</th>
                 <th class="border-bottom-0">@lang('drs.nom')</th>
-                <th class="border-bottom-0">Roles</th>
                 <th class="border-bottom-0" width="150px">@lang('formone.action')</th>
               </tr>
             </thead>
             <tbody>
               @foreach ($data as $key => $user)
                 <tr>
-                  <td>{{ ++$i }}</td>
+                  <td>{{ $loop->iteration }}</td>
                   <td>{{ $user->name }}</td>
-                  <td>{{ $user->email }}</td>
-                  @if(LaravelLocalization::getCurrentLocale() === 'fr')
-                    <td>{{ $user->domaine->type }}</td>
-                    <td>{{ $user->domaine->domaine_fr }}</td>
-                    <td>{{ $user->domaine->region->region_fr}}</td>
-                  @else
-                    <td>{{ $user->domaine->type }}</td>
-                    <td>{{ $user->domaine->domaine_ar }}</td>
-                    <td>{{ $user->domaine->region->region_fr }}</td>
-                  @endif
                   <td>
                     @if(!empty($user->getRoleNames()))
                       @foreach($user->getRoleNames() as $v)
@@ -63,6 +53,39 @@
                       @endforeach
                     @endif
                   </td>
+                  <td>{{ $user->email }}</td>
+                  @if(LaravelLocalization::getCurrentLocale() === 'fr')
+                    <td>
+                      @if(strlen($user->domaine->type) > 25 )
+                        {{\Illuminate\Support\Str::limit($user->domaine->type ,25,'...')}}
+                        <span>
+                          <a href="javascript:void(0);" style="color: #47484a;" class="mx-2" data-toggle="tooltip" title="{{$user->domaine->type}}">
+                            <i class="fas fa-plus-circle" ></i>
+                          </a>
+                        </span>
+                      @else
+                        {{$user->domaine->type}}
+                      @endif
+                    </td>
+                    <td>{{ $user->domaine->domaine_fr }}</td>
+                    <td>{{ $user->domaine->region->region_fr}}</td>
+                  @else
+                    <td>
+                      @if(strlen($user->domaine->type) > 25 )
+                        {{\Illuminate\Support\Str::limit($user->domaine->type ,25,'...')}}
+                        <span>
+                          <a href="javascript:void(0);" style="color: #47484a;" class="mx-2" data-toggle="tooltip" title="{{$user->domaine->type}}">
+                            <i class="fas fa-plus-circle" ></i>
+                          </a>
+                        </span>
+                      @else
+                        {{$user->domaine->type}}
+                      @endif
+                    </td>
+                    <td>{{ $user->domaine->domaine_ar }}</td>
+                    <td>{{ $user->domaine->region->region_fr }}</td>
+                  @endif
+                  
                   <td>
                     <a class="btn btn-sm btn-primary" href="{{ route('users.edit',$user->id) }}">
                       <i class="las la-pen"></i>

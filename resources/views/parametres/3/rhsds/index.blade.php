@@ -10,6 +10,7 @@
     <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 
 @endsection
+
 @section('page-header')
     @include('parametres.3.partials.breadcrumb_index')
 @endsection
@@ -53,7 +54,7 @@
                                     <th class="border-bottom-0">@lang('parametre.nom_objectif')</th>
                                     <th class="border-bottom-0">@lang('parametre.nom_realisation')</th>
                                     <th class="border-bottom-0">@lang('parametre.last_update')</th>
-                                    @canany(['add-on','edit-global-goal','follow-info','delete-rhsds'])
+                                    @canany(['add-on','edit-global-goal','follow-info','delete-basethree'])
                                         <th class="border-bottom-0">@lang('parametre.actions')</th>
                                     @endcanany
                                 </tr>

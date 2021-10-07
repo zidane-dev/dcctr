@@ -34,7 +34,6 @@ class AxeValidationController extends Controller
     public function getTable(){
         return $this->table;
     }
-
     public function get_query($for_counts = 0){ // query back with ETAT, REJET, and ID_DOMAINE.
         if($this->table == null)
             throw new Exception("Table is not set correctly.", 1);
@@ -67,21 +66,18 @@ class AxeValidationController extends Controller
         $query_four = clone $query;
         $query_five = clone $query;
         $query_six = clone $query;
-        
 
         if(Auth::user()->hasPermissionTo('ac')){
             $pf='apf';
             $cs='acs';
             $d ='ad';
         }
-        elseif(Auth::user()->hasAnyPermission(['sd', 'dc'])){
+        elseif(Auth::user()->hasAnyPermission(['sd', 'dc', 'administrate'])){
             $pf='pf';
             $cs='cs';
             $d ='d-p';
         }
         $this->get_bottom_states($query, 'ac');
-        
-        $rows = $query->count();
         $state_o =      $query_o->whereIn('ETAT', $helper->get_supposed_states($pf))
                                 ->whereIn('REJET', $helper->get_reject_states($pf))
                                 ->count(); 
@@ -96,12 +92,17 @@ class AxeValidationController extends Controller
         $state_three =  $query_three->whereIn('ETAT', $helper->get_supposed_states('d-r'))
                                 ->count();
         if(Auth::user()->hasPermissionTo('view-province')){
+            if(Auth::user()->hasPermissionTo('ac')){
+
+            }elseif(Auth::user()->hasPermissionTo('sd'))
+            $rows = $state_o + $state_one + $state_two;
             $rows_count = [ 'states' => [$state_o,
                                          $state_one,
                                          $state_two ],
                             'rows'  =>$rows
                         ];
         } elseif(Auth::user()->hasPermissionTo('view-region')){
+            $rows = $state_o + $state_one + $state_two + $state_three;
             $rows_count = [ 'states' => [$state_o,
                                          $state_one,
                                          $state_two,
@@ -109,12 +110,14 @@ class AxeValidationController extends Controller
                             'rows'  =>$rows
                         ];
         } elseif(Auth::user()->hasPermissionTo('view-select')){
+            $rows = $state_o + $state_one + $state_two + $state_three;
             $state_four =   $query_four->whereIn('ETAT', $helper->get_supposed_states('dcs'))
                                     ->count();
             $state_five =   $query_five->whereIn('ETAT', $helper->get_supposed_states('dcd'))
                                     ->count();
             $state_six =    $query_six->whereIn('ETAT', $helper->get_supposed_states('dd'))
                                     ->count();
+            $rows += $state_four + $state_five + $state_six;
 
             $rows_count = [ 'states' =>
                                         ['state_o'       => $state_o,
@@ -141,11 +144,12 @@ class AxeValidationController extends Controller
         }
     }
     private function get_valid_rows($selected_row){
+        $public = $this->userValidationHelper->get_supposed_states('public');
         $axe = $selected_row->id_axe;
         if($this->getTable() == null)
             throw new Exception("Table is not set correctly.", 1);
         $vr = DB::table($this->getTable())
-                        ->where('ETAT', 6)
+                        ->where('ETAT', $public)
                         ->where('id_domaine', '=', $selected_row->id_domaine)
                         ->where('ANNEE', '=', $selected_row->ANNEE);
         switch($axe) {
@@ -191,8 +195,7 @@ class AxeValidationController extends Controller
                                 'ECART' => $ecart, 
                                 'id_user' => Auth::id()
                             ]);
-                    $request['rhsd_id']=$selected_row->id;
-                    $this->destroy((object)$request);
+                    DB::table($this->getTable())->where('id', $selected_row->id)->delete();
                 }
                 // NOT FIXED !!
                 // Updating the 1st validated row 
@@ -218,7 +221,7 @@ class AxeValidationController extends Controller
             $supposedState = $helper->get_supposed_states();
             $update_state_ids = explode(",", $request->update_state_id);
             $public_state = $helper->get_supposed_states('public');
-            if($newState == $public_state){
+            if($newState == $public_state[0]){
                 $this->realisation_validee($update_state_ids, $newState);
             }
             else{
@@ -267,10 +270,8 @@ class AxeValidationController extends Controller
             DB::table($this->getTable())
                 ->whereIn('ETAT', $supposedState)
                 ->whereIn('id', $update_state_ids)
-                ->where('REJET', 0)
                 ->update([ 
-                    // 'ETAT'      => $newState,
-                    'ETAT'      => 0,
+                    'ETAT'      => $newState,
                     'id_user'   => Auth::id(),
                     'REJET'     => 1,
                     'Motif'     => $request->motif,
@@ -304,15 +305,14 @@ class AxeValidationController extends Controller
         $userRole = $request->session()->get('role');
         $state = $this->userValidationHelper->get_supposed_states($userRole);
         $reject = $this->userValidationHelper->get_reject_states($userRole);
+        $number = DB::table($this->getTable())
+                                    ->select('id')
+                                    ->where('deleted_at', NULL)
+                                    ->whereIn('ETAT', $state)
+                                    ->whereIn('REJET', $reject);
         if($request->session()->has('domaine_in'))
-            $domaines = $request->session()->get('domaine_in');
-        else
-            $domaines = null;
-        
-        $number = DB::table($this->getTable())->select('id')->whereIn('ETAT', $state)->whereIn('REJET', $reject);
-        if($domaines != null)
-            $number = $number->whereIn('id_domaine', $domaines);
-        
+            $number = $number->whereIn('id_domaine', $request->session()->get('domaine_in'));
+
         return $number->count();
     }
 
